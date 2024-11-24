@@ -7,26 +7,31 @@
  "document_type": "Document",
  "engine": "InnoDB",
  "field_order": [
+  "patient",
+  "practitioner",
+  "inpatient_record",
+  "time_of_booking",
+  "column_break_1",
+  "appointment_type",
+  "service_unit",
+  "practitioner_name",
+  "appointment_datetime",
+  "column_break_febx",
+  "status",
   "naming_series",
   "title",
-  "status",
-  "appointment_type",
-  "appointment_for",
-  "column_break_1",
   "company",
-  "practitioner",
-  "practitioner_name",
   "department",
-  "service_unit",
-  "appointment_date",
   "section_patient_details",
-  "patient",
   "patient_name",
-  "inpatient_record",
+  "event",
+  "ref_sales_invoice",
   "column_break_4pp7",
   "patient_sex",
   "patient_age",
+  "appointment_date",
   "section_break_12",
+  "appointment_for",
   "duration",
   "service_request",
   "procedure_template",
@@ -37,24 +42,36 @@
   "get_prescribed_therapies",
   "column_break_17",
   "appointment_time",
-  "appointment_datetime",
   "add_video_conferencing",
-  "event",
   "google_meet_link",
   "section_break_16",
   "mode_of_payment",
-  "billing_item",
-  "invoiced",
   "column_break_2",
+  "billing_item",
   "paid_amount",
-  "ref_sales_invoice",
+  "invoiced",
   "section_break_3",
   "referring_practitioner",
   "position_in_queue",
   "appointment_based_on_check_in",
   "reminded",
   "column_break_36",
-  "notes"
+  "notes",
+  "vitals_tab",
+  "vitals_section",
+  "bp_systolic",
+  "bp_diastolic",
+  "pulse",
+  "bp",
+  "column_break_iwxf",
+  "height",
+  "weight",
+  "bmi",
+  "nutrition_values_section",
+  "temperature",
+  "vital_signs_note",
+  "column_break_yncq",
+  "nutrition_note"
  ],
  "fields": [
   {
@@ -144,6 +161,7 @@
    "read_only_depends_on": "eval:doc.appointment_for!=\"Service Unit\""
   },
   {
+   "collapsible": 1,
    "depends_on": "eval:!doc.__is_local",
    "fieldname": "section_break_12",
    "fieldtype": "Section Break",
@@ -230,8 +248,7 @@
   {
    "fieldname": "appointment_datetime",
    "fieldtype": "Datetime",
-   "hidden": 1,
-   "label": "Appointment Datetime",
+   "label": "Appointment Date time",
    "print_hide": 1,
    "read_only": 1,
    "report_hide": 1,
@@ -286,6 +303,7 @@
   {
    "fieldname": "referring_practitioner",
    "fieldtype": "Link",
+   "hidden": 1,
    "ignore_user_permissions": 1,
    "label": "Referring Practitioner",
    "options": "Healthcare Practitioner"
@@ -331,6 +349,7 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Series",
    "options": "HLC-APP-.YYYY.-",
    "set_only_once": 1
@@ -359,6 +378,7 @@
    "fetch_from": "practitioner.practitioner_name",
    "fieldname": "practitioner_name",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Practitioner Name",
    "read_only": 1
   },
@@ -422,10 +442,98 @@
    "options": "Service Request",
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "column_break_febx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "now",
+   "fieldname": "time_of_booking",
+   "fieldtype": "Datetime",
+   "label": "Time of Booking",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:!doc.inpatient_record",
+   "fieldname": "vitals_tab",
+   "fieldtype": "Tab Break",
+   "label": "Vitals"
+  },
+  {
+   "fieldname": "vitals_section",
+   "fieldtype": "Section Break",
+   "label": "Vitals"
+  },
+  {
+   "description": "Presence of a fever (temp &gt; 38.5 \u00b0C/101.3 \u00b0F or sustained temp &gt; 38 \u00b0C/100.4 \u00b0F)",
+   "fieldname": "temperature",
+   "fieldtype": "Data",
+   "label": "Body Temperature"
+  },
+  {
+   "fieldname": "bp_systolic",
+   "fieldtype": "Data",
+   "label": "Blood Pressure (systolic)"
+  },
+  {
+   "fieldname": "bp_diastolic",
+   "fieldtype": "Data",
+   "label": "Blood Pressure (diastolic)"
+  },
+  {
+   "description": "Normal resting blood pressure in an adult is approximately 120 mmHg systolic, and 80 mmHg diastolic, abbreviated \"120/80 mmHg\"",
+   "fieldname": "bp",
+   "fieldtype": "Data",
+   "label": "Blood Pressure"
+  },
+  {
+   "fieldname": "vital_signs_note",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "column_break_iwxf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "height",
+   "fieldtype": "Float",
+   "label": "Height (In Meter)"
+  },
+  {
+   "fieldname": "weight",
+   "fieldtype": "Float",
+   "label": "Weight (In Kilogram)"
+  },
+  {
+   "fieldname": "bmi",
+   "fieldtype": "Float",
+   "label": "BMI"
+  },
+  {
+   "fieldname": "nutrition_note",
+   "fieldtype": "Small Text",
+   "label": "Nutritional Notes"
+  },
+  {
+   "description": "Adults' pulse rate is anywhere between 50 and 80 beats per minute.",
+   "fieldname": "pulse",
+   "fieldtype": "Data",
+   "label": "Heart Rate / Pulse"
+  },
+  {
+   "fieldname": "nutrition_values_section",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "column_break_yncq",
+   "fieldtype": "Column Break"
   }
  ],
  "links": [],
- "modified": "2024-11-20 08:21:29.729408",
+ "modified": "2024-11-25 03:40:00.577003",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Appointment",

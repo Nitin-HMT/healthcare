@@ -11,28 +11,37 @@
  "engine": "InnoDB",
  "field_order": [
   "basic_info",
-  "naming_series",
   "first_name",
   "middle_name",
   "last_name",
-  "patient_name",
-  "sex",
-  "blood_group",
   "dob",
   "age_html",
   "image",
   "column_break_14",
-  "status",
-  "uid",
-  "inpatient_status",
-  "report_preference",
+  "sex",
+  "blood_group",
   "mobile",
-  "phone",
   "email",
   "invite_user",
   "user_id",
   "column_break_ouzg",
+  "status",
+  "patient_name",
+  "report_preference",
+  "phone",
   "inpatient_record",
+  "inpatient_status",
+  "naming_series",
+  "uid",
+  "more_info",
+  "patient_details",
+  "address_and_contact_tab",
+  "address_contacts",
+  "address_html",
+  "column_break_22",
+  "contact_html",
+  "sb_relation",
+  "patient_relation",
   "customer_details_section",
   "customer",
   "customer_group",
@@ -41,16 +50,6 @@
   "default_currency",
   "default_price_list",
   "language",
-  "more_info",
-  "patient_details",
-  "dashboard_tab",
-  "address_and_contact_tab",
-  "address_contacts",
-  "address_html",
-  "column_break_22",
-  "contact_html",
-  "sb_relation",
-  "patient_relation",
   "medical_history_tab",
   "personal_and_social_history",
   "occupation",
@@ -69,7 +68,8 @@
   "alcohol_current_use",
   "column_break_32",
   "surrounding_factors",
-  "other_risk_factors"
+  "other_risk_factors",
+  "dashboard_tab"
  ],
  "fields": [
   {
@@ -99,6 +99,7 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Series",
    "options": "HLC-PAT-.YYYY.-",
    "print_hide": 1,
@@ -177,7 +178,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "description": "If \"Link Customer to Patient\" is checked in Healthcare Settings and an existing Customer is not selected then, a Customer will be created for this Patient for recording transactions in Accounts module.",
    "fieldname": "customer",
    "fieldtype": "Link",
    "ignore_user_permissions": 1,
@@ -189,6 +189,7 @@
   {
    "fieldname": "report_preference",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Report Preference",
    "options": "\nEmail\nPrint"
   },
@@ -200,7 +201,9 @@
    "in_standard_filter": 1,
    "label": "Mobile",
    "no_copy": 1,
-   "options": "Phone"
+   "options": "Phone",
+   "reqd": 1,
+   "unique": 1
   },
   {
    "bold": 1,
@@ -215,6 +218,7 @@
   {
    "fieldname": "phone",
    "fieldtype": "Data",
+   "hidden": 1,
    "in_filter": 1,
    "label": "Phone",
    "no_copy": 1,
@@ -343,6 +347,7 @@
    "no_copy": 1
   },
   {
+   "collapsible": 1,
    "collapsible_depends_on": "patient_details",
    "fieldname": "more_info",
    "fieldtype": "Section Break",
@@ -361,6 +366,7 @@
   {
    "fieldname": "default_currency",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Billing Currency",
    "options": "Currency"
   },
@@ -393,12 +399,14 @@
   {
    "fieldname": "customer_group",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Customer Group",
    "options": "Customer Group"
   },
   {
    "fieldname": "territory",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Territory",
    "options": "Territory"
   },
@@ -409,12 +417,14 @@
   {
    "fieldname": "default_price_list",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Default Price List",
    "options": "Price List"
   },
   {
    "fieldname": "language",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Print Language",
    "options": "Language"
   },
@@ -448,6 +458,7 @@
    "default": "1",
    "fieldname": "invite_user",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Invite as User",
    "no_copy": 1,
    "read_only_depends_on": "eval: doc.user_id"
@@ -455,6 +466,7 @@
   {
    "fieldname": "user_id",
    "fieldtype": "Read Only",
+   "hidden": 1,
    "label": "User ID",
    "no_copy": 1,
    "options": "User"
@@ -464,6 +476,7 @@
    "bold": 1,
    "fieldname": "uid",
    "fieldtype": "Data",
+   "hidden": 1,
    "in_standard_filter": 1,
    "label": "Identification Number (UID)",
    "unique": 1
@@ -494,10 +507,11 @@
  "image_field": "image",
  "links": [],
  "max_attachments": 50,
- "modified": "2024-11-24 20:34:14.853739",
+ "modified": "2024-11-25 02:15:23.272094",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
@@ -551,8 +565,10 @@
  ],
  "quick_entry": 1,
  "restrict_to_domain": "Healthcare",
- "search_fields": "patient_name,mobile,email,phone,uid",
+ "search_fields": "patient_name,mobile,email",
  "show_name_in_global_search": 1,
+ "show_preview_popup": 1,
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "ASC",
  "states": [],

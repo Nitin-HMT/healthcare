@@ -2,25 +2,29 @@
  "actions": [],
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "naming_series:",
+ "autoname": "format:{salutation} {first_name} {last_name}",
  "creation": "2016-02-23 11:20:53.565119",
  "doctype": "DocType",
  "document_type": "Setup",
  "engine": "InnoDB",
  "field_order": [
+  "detail_tab",
   "basic_details_section",
-  "naming_series",
+  "salutation",
   "first_name",
   "middle_name",
   "last_name",
   "practitioner_name",
-  "gender",
-  "image",
   "column_break_7",
-  "status",
   "mobile_phone",
   "residence_phone",
   "office_phone",
+  "gender",
+  "column_break_awaa",
+  "status",
+  "naming_series",
+  "image",
+  "employee_details_tab",
   "employee_and_user_details_section",
   "practitioner_type",
   "employee",
@@ -30,6 +34,7 @@
   "column_break_17",
   "user_id",
   "hospital",
+  "consultancy_details_tab",
   "appointments",
   "practitioner_schedules",
   "google_calendar",
@@ -42,6 +47,7 @@
   "account_details",
   "default_currency",
   "accounts",
+  "contacts_tab",
   "address_and_contacts_section",
   "address_html",
   "column_break_19",
@@ -52,7 +58,8 @@
   "email_id",
   "column_break_26",
   "practitioner_primary_address",
-  "primary_address"
+  "primary_address",
+  "dashboard_tab"
  ],
  "fields": [
   {
@@ -72,7 +79,8 @@
    "fieldname": "last_name",
    "fieldtype": "Data",
    "label": "Last Name",
-   "no_copy": 1
+   "no_copy": 1,
+   "reqd": 1
   },
   {
    "fieldname": "image",
@@ -87,6 +95,7 @@
    "fieldname": "employee",
    "fieldtype": "Link",
    "label": "Employee",
+   "mandatory_depends_on": "eval: doc.practitioner_type == \"Internal\"",
    "options": "Employee"
   },
   {
@@ -128,7 +137,9 @@
    "fieldname": "mobile_phone",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Mobile"
+   "label": "Mobile",
+   "reqd": 1,
+   "unique": 1
   },
   {
    "fieldname": "residence_phone",
@@ -142,7 +153,6 @@
    "label": "Phone (Office)"
   },
   {
-   "collapsible": 1,
    "fieldname": "appointments",
    "fieldtype": "Section Break",
    "label": "Appointments"
@@ -154,7 +164,6 @@
    "options": "Practitioner Service Unit Schedule"
   },
   {
-   "collapsible": 1,
    "fieldname": "charges",
    "fieldtype": "Section Break",
    "label": "Charges"
@@ -247,6 +256,7 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Series",
    "no_copy": 1,
    "options": "HLC-PRAC-.YYYY.-",
@@ -293,6 +303,7 @@
   {
    "fieldname": "google_calendar",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Google Calendar",
    "options": "Google Calendar"
   },
@@ -353,15 +364,52 @@
    "fieldtype": "Link",
    "label": "Supplier",
    "options": "Supplier"
+  },
+  {
+   "fieldname": "column_break_awaa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "employee_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Employee Details"
+  },
+  {
+   "fieldname": "consultancy_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Consultancy Details"
+  },
+  {
+   "fieldname": "contacts_tab",
+   "fieldtype": "Tab Break",
+   "label": "Address"
+  },
+  {
+   "fieldname": "salutation",
+   "fieldtype": "Link",
+   "label": "Salutation",
+   "options": "Salutation",
+   "reqd": 1
+  },
+  {
+   "fieldname": "detail_tab",
+   "fieldtype": "Tab Break",
+   "label": "Detail"
+  },
+  {
+   "fieldname": "dashboard_tab",
+   "fieldtype": "Tab Break",
+   "label": "Dashboard",
+   "show_dashboard": 1
   }
  ],
  "image_field": "image",
  "links": [],
- "modified": "2023-03-04 18:33:25.753648",
+ "modified": "2024-11-25 00:56:59.489666",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Healthcare Practitioner",
- "naming_rule": "By \"Naming Series\" field",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
@@ -402,10 +450,10 @@
    "write": 1
   }
  ],
- "quick_entry": 1,
  "restrict_to_domain": "Healthcare",
  "search_fields": "practitioner_name, mobile_phone, office_phone",
  "show_name_in_global_search": 1,
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

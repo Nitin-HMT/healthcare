@@ -3,17 +3,16 @@
  "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:schedule_name",
- "beta": 0,
  "creation": "2017-05-03 17:28:03.926787",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "disabled",
+  "schedule_name",
   "column_break_2",
+  "disabled",
   "allow_video_conferencing",
   "schedule_details_section",
-  "schedule_name",
   "time_slots"
  ],
  "fields": [
@@ -52,11 +51,12 @@
    "default": "0",
    "fieldname": "allow_video_conferencing",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Allow Video Conferencing"
   }
  ],
  "links": [],
- "modified": "2022-06-15 07:46:41.154742",
+ "modified": "2024-11-25 01:08:04.596699",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Practitioner Schedule",
