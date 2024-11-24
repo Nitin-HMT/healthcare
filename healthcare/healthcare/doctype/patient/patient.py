@@ -75,6 +75,7 @@ class Patient(Document):
 	def set_full_name(self):
 		self.patient_name = " ".join(
 			[name for name in [self.first_name, self.middle_name, self.last_name] if name]
+			#test
 		)
 
 	def set_missing_customer_details(self):

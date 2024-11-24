@@ -24,7 +24,6 @@
   "column_break_14",
   "status",
   "uid",
-  "inpatient_record",
   "inpatient_status",
   "report_preference",
   "mobile",
@@ -32,6 +31,8 @@
   "email",
   "invite_user",
   "user_id",
+  "column_break_ouzg",
+  "inpatient_record",
   "customer_details_section",
   "customer",
   "customer_group",
@@ -483,13 +484,17 @@
    "fieldname": "medical_history_tab",
    "fieldtype": "Tab Break",
    "label": "Medical History"
+  },
+  {
+   "fieldname": "column_break_ouzg",
+   "fieldtype": "Column Break"
   }
  ],
  "icon": "fa fa-user",
  "image_field": "image",
  "links": [],
  "max_attachments": 50,
- "modified": "2023-01-13 17:48:59.069268",
+ "modified": "2024-11-24 20:34:14.853739",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient",
