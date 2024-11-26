@@ -1,18 +1,19 @@
 {
  "actions": [],
  "allow_import": 1,
- "autoname": "naming_series:",
+ "autoname": "format: APNT-{MM}-{YY}-{####}",
  "creation": "2017-05-04 11:52:40.941507",
  "doctype": "DocType",
  "document_type": "Document",
  "engine": "InnoDB",
  "field_order": [
-  "patient",
+  "appointment_type",
   "practitioner",
   "inpatient_record",
+  "date_of_payment",
   "time_of_booking",
   "column_break_1",
-  "appointment_type",
+  "patient",
   "service_unit",
   "practitioner_name",
   "appointment_datetime",
@@ -67,11 +68,11 @@
   "height",
   "weight",
   "bmi",
+  "nutrition_note",
   "nutrition_values_section",
   "temperature",
-  "vital_signs_note",
   "column_break_yncq",
-  "nutrition_note"
+  "vital_signs_note"
  ],
  "fields": [
   {
@@ -303,7 +304,6 @@
   {
    "fieldname": "referring_practitioner",
    "fieldtype": "Link",
-   "hidden": 1,
    "ignore_user_permissions": 1,
    "label": "Referring Practitioner",
    "options": "Healthcare Practitioner"
@@ -406,12 +406,14 @@
    "default": "0",
    "fieldname": "appointment_based_on_check_in",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Appointment Based On Check In",
    "read_only": 1
   },
   {
    "fieldname": "position_in_queue",
    "fieldtype": "Int",
+   "hidden": 1,
    "label": "Position In Queue",
    "non_negative": 1,
    "read_only": 1
@@ -448,14 +450,14 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "now",
+   "fetch_from": "ref_sales_invoice.posting_time",
    "fieldname": "time_of_booking",
-   "fieldtype": "Datetime",
-   "label": "Time of Booking",
-   "reqd": 1
+   "fieldtype": "Time",
+   "label": "Time of Payment",
+   "read_only": 1
   },
   {
-   "depends_on": "eval:!doc.inpatient_record",
+   "depends_on": "eval:!doc.inpatient_record && doc.ref_sales_invoice",
    "fieldname": "vitals_tab",
    "fieldtype": "Tab Break",
    "label": "Vitals"
@@ -469,28 +471,33 @@
    "description": "Presence of a fever (temp &gt; 38.5 \u00b0C/101.3 \u00b0F or sustained temp &gt; 38 \u00b0C/100.4 \u00b0F)",
    "fieldname": "temperature",
    "fieldtype": "Data",
-   "label": "Body Temperature"
+   "label": "Body Temperature",
+   "read_only_depends_on": "eval: doc.status !== \"Open\";"
   },
   {
    "fieldname": "bp_systolic",
    "fieldtype": "Data",
-   "label": "Blood Pressure (systolic)"
+   "label": "Blood Pressure (systolic)",
+   "read_only_depends_on": "eval: doc.status !== \"Open\" && doc.status !== \"Scheduled\";"
   },
   {
    "fieldname": "bp_diastolic",
    "fieldtype": "Data",
-   "label": "Blood Pressure (diastolic)"
+   "label": "Blood Pressure (diastolic)",
+   "read_only_depends_on": "eval: doc.status !== \"Open\" && doc.status !== \"Scheduled\";"
   },
   {
    "description": "Normal resting blood pressure in an adult is approximately 120 mmHg systolic, and 80 mmHg diastolic, abbreviated \"120/80 mmHg\"",
    "fieldname": "bp",
    "fieldtype": "Data",
-   "label": "Blood Pressure"
+   "label": "Blood Pressure",
+   "read_only": 1
   },
   {
    "fieldname": "vital_signs_note",
    "fieldtype": "Small Text",
-   "label": "Notes"
+   "label": "Notes",
+   "read_only_depends_on": "eval: doc.status !== \"Open\";"
   },
   {
    "fieldname": "column_break_iwxf",
@@ -499,45 +506,58 @@
   {
    "fieldname": "height",
    "fieldtype": "Float",
-   "label": "Height (In Meter)"
+   "label": "Height (In Meter)",
+   "read_only_depends_on": "eval: doc.status !== \"Open\" && doc.status !== \"Scheduled\";"
   },
   {
    "fieldname": "weight",
    "fieldtype": "Float",
-   "label": "Weight (In Kilogram)"
+   "label": "Weight (In Kilogram)",
+   "read_only_depends_on": "eval: doc.status !== \"Open\" && doc.status !== \"Scheduled\";"
   },
   {
    "fieldname": "bmi",
    "fieldtype": "Float",
-   "label": "BMI"
+   "label": "BMI",
+   "read_only": 1
   },
   {
    "fieldname": "nutrition_note",
    "fieldtype": "Small Text",
-   "label": "Nutritional Notes"
+   "label": "Nutritional Notes",
+   "read_only": 1
   },
   {
    "description": "Adults' pulse rate is anywhere between 50 and 80 beats per minute.",
    "fieldname": "pulse",
    "fieldtype": "Data",
-   "label": "Heart Rate / Pulse"
+   "label": "Heart Rate / Pulse",
+   "read_only_depends_on": "eval: doc.status !== \"Open\" && doc.status !== \"Scheduled\";"
   },
   {
+   "collapsible": 1,
    "fieldname": "nutrition_values_section",
    "fieldtype": "Section Break",
-   "label": "Notes"
+   "label": "Extra Notes about Vitals"
   },
   {
    "fieldname": "column_break_yncq",
    "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "ref_sales_invoice.posting_date",
+   "fieldname": "date_of_payment",
+   "fieldtype": "Date",
+   "label": "Date of Payment",
+   "read_only": 1
   }
  ],
  "links": [],
- "modified": "2024-11-25 03:40:00.577003",
+ "modified": "2024-11-26 16:33:08.932083",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Appointment",
- "naming_rule": "By \"Naming Series\" field",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

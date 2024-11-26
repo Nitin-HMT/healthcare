@@ -24,6 +24,9 @@
   "status",
   "naming_series",
   "image",
+  "portfolio",
+  "registration_no",
+  "qualifications",
   "employee_details_tab",
   "employee_and_user_details_section",
   "practitioner_type",
@@ -401,11 +404,26 @@
    "fieldtype": "Tab Break",
    "label": "Dashboard",
    "show_dashboard": 1
+  },
+  {
+   "fieldname": "portfolio",
+   "fieldtype": "Data",
+   "label": "Portfolio"
+  },
+  {
+   "fieldname": "registration_no",
+   "fieldtype": "Data",
+   "label": "Registration No"
+  },
+  {
+   "fieldname": "qualifications",
+   "fieldtype": "Small Text",
+   "label": "Qualifications"
   }
  ],
  "image_field": "image",
  "links": [],
- "modified": "2024-11-25 00:56:59.489666",
+ "modified": "2024-11-26 18:05:34.026990",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Healthcare Practitioner",

@@ -62,8 +62,9 @@ class PatientAppointment(Document):
 
 	def set_title(self):
 		if self.practitioner:
-			self.title = _("{0} with {1}").format(
-				self.patient_name or self.patient, self.practitioner_name or self.practitioner
+			appointment_dat = getdate(self.appointment_date).strftime('%d-%m-%Y')
+			self.title = _("{0} on {1}").format(
+				self.patient_name or self.patient, appointment_dat
 			)
 		else:
 			self.title = _("{0} at {1}").format(

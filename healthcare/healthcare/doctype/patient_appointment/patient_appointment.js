@@ -70,25 +70,29 @@ frappe.ui.form.on('Patient Appointment', {
 			if (frm.doc.appointment_for) {
 				frm.trigger('appointment_for');
 			}
-		} else {
+		} 
+		// Nitin -- disabled this to check if possible
+		/*else {
 			frm.page.set_primary_action(__('Save'), () => frm.save());
-		}
-
-		if (frm.doc.patient) {
+		} */
+		//-------Nitin -- commented it out from appointments as not needed here for now
+		/*if (frm.doc.patient) {
 			frm.add_custom_button(__('Patient History'), function() {
 				frappe.route_options = { 'patient': frm.doc.patient };
 				frappe.set_route('patient_history');
 			}, __('View'));
-		}
+		}*/
 
 		if (["Open", "Checked In", "Confirmed"].includes(frm.doc.status) || (frm.doc.status == "Scheduled" && !frm.doc.__islocal)) {
+			// add mew status here
 			frm.add_custom_button(__('Cancel'), function() {
 				update_status(frm, 'Cancelled');
 			});
-			frm.add_custom_button(__('Reschedule'), function() {
-				check_and_set_availability(frm);
-			});
-
+			if (frm.doc.status != "Confirmed"){
+				frm.add_custom_button(__('Reschedule'), function() {
+					check_and_set_availability(frm);
+				});
+			}
 			if (frm.doc.procedure_template) {
 				frm.add_custom_button(__('Clinical Procedure'), function() {
 					frappe.model.open_mapped_doc({
@@ -103,39 +107,44 @@ frappe.ui.form.on('Patient Appointment', {
 						frm: frm,
 					})
 				}, 'Create');
-			} else {
-				frm.add_custom_button(__('Patient Encounter'), function() {
+			} 
+			else if (frm.doc.status == "Confirmed" && !frm.doc.__islocal){
+				//------ NITIN  --- change name of patient encounter and make it a primary button, disable save
+				frm.page.set_primary_action(__('Patient Interaction'), function() {
 					frappe.model.open_mapped_doc({
 						method: 'healthcare.healthcare.doctype.patient_appointment.patient_appointment.make_encounter',
 						frm: frm,
 					});
-				}, __('Create'));
+				});
 			}
-
+			// ---------Nitin -- disable vitals for now
+			/*
 			frm.add_custom_button(__('Vital Signs'), function() {
 				create_vital_signs(frm);
-			}, __('Create'));
-
+			}, __('Create')); */
+			// ---------------- Nitin -- Changed from confirm to 
 			if (["Open", "Scheduled"].includes(frm.doc.status)) {
-				frm.add_custom_button(__("Confirm"), function() {
+				frm.disable_save();
+				frm.page.set_primary_action(__("Vitals Done"), function() {
 					frm.set_value("status", "Confirmed");
 					frm.save();
-				}, __("Status"));
+				});
 			}
 		}
-
-		if (!frm.doc.__islocal && ["Open", "Confirmed"].includes(frm.doc.status) && frm.doc.appointment_based_on_check_in) {
+		// ------ Nitin -- disabled this also for now as not fully developed
+		/*if (!frm.doc.__islocal && ["Open", "Confirmed"].includes(frm.doc.status) && frm.doc.appointment_based_on_check_in) {
 			frm.add_custom_button(__("Check In"), () => {
 				frm.set_value("status", "Checked In");
 				frm.save();
 			});
-		}
+		} */
 
 		frm.trigger("make_invoice_button");
 	},
 
 	make_invoice_button: function (frm) {
 		// add button to invoice when show_payment_popup enabled
+		// Nitin --- cancellation and revision of payment... see why the fee validity is not working
 		if (!frm.is_new() && !frm.doc.invoiced && frm.doc.status != "Cancelled") {
 			frappe.db.get_single_value("Healthcare Settings", "show_payment_popup").then(async val => {
 				let fee_validity = (await frappe.call(
@@ -143,7 +152,7 @@ frappe.ui.form.on('Patient Appointment', {
 					{ "appointment_name": frm.doc.name, "date": frm.doc.appointment_date , "ignore_status": true })).message;
 
 				if (val && !fee_validity.length) {
-					frm.add_custom_button(__("Make Payment"), function () {
+					frm.page.set_primary_action(__("Make Payment"), function () {
 						make_payment(frm, val);
 					});
 				}
@@ -290,7 +299,31 @@ frappe.ui.form.on('Patient Appointment', {
 			}
 		});
 	},
+	
+	height: function(frm) {
+		if (frm.doc.height && frm.doc.weight) {
+			calculate_bmi(frm);
+		}
+	},
 
+	weight: function(frm) {
+		if (frm.doc.height && frm.doc.weight) {
+			calculate_bmi(frm);
+		}
+	},
+
+	bp_systolic: function(frm) {
+		if (frm.doc.bp_systolic && frm.doc.bp_diastolic) {
+			set_bp(frm);
+		}
+	},
+
+	bp_diastolic: function(frm) {
+		if (frm.doc.bp_systolic && frm.doc.bp_diastolic) {
+			set_bp(frm);
+		}
+	},
+	
 	therapy_plan: function(frm) {
 		frm.trigger('set_therapy_type_filter');
 	},
@@ -324,6 +357,7 @@ frappe.ui.form.on('Patient Appointment', {
 	},
 
 	toggle_payment_fields: function(frm) {
+		// ------ NITIN-- DONT UNDERSTAND THIS, NEED TO CHECK FURTHER
 		frappe.call({
 			method: 'healthcare.healthcare.doctype.patient_appointment.patient_appointment.check_payment_reqd',
 			args: { 'patient': frm.doc.patient },
@@ -1080,4 +1114,28 @@ let show_message = function(d, message, field) {
 	field.df.description = `<div style="color:red;
 		padding:5px 5px 5px 5px">${message}</div>`
 	field.refresh();
+};
+
+let calculate_bmi = function(frm){
+	// Reference https://en.wikipedia.org/wiki/Body_mass_index
+	// bmi = weight (in Kg) / height * height (in Meter)
+	let bmi = (frm.doc.weight / (frm.doc.height * frm.doc.height)).toFixed(2);
+	let bmi_note = null;
+
+	if (bmi<18.5) {
+		bmi_note = __('Underweight');
+	} else if (bmi>=18.5 && bmi<25) {
+		bmi_note = __('Normal');
+	} else if (bmi>=25 && bmi<30) {
+		bmi_note = __('Overweight');
+	} else if (bmi>=30) {
+		bmi_note = __('Obese');
+	}
+	frappe.model.set_value(frm.doctype,frm.docname, 'bmi', bmi);
+	frappe.model.set_value(frm.doctype,frm.docname, 'nutrition_note', bmi_note);
+};
+
+let set_bp = function(frm){
+	let bp = frm.doc.bp_systolic+ '/' + frm.doc.bp_diastolic + ' mmHg';
+	frappe.model.set_value(frm.doctype,frm.docname, 'bp', bp);
 };

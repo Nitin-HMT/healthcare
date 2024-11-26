@@ -361,7 +361,7 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "\nOpen\nOrdered\nCompleted\nCancelled",
+   "options": "\nOpen\nOrdered\nCompleted\nCancelled\nConfirmed",
    "read_only": 1
   },
   {
@@ -400,7 +400,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2023-11-07 18:03:12.793649",
+ "modified": "2024-11-26 16:18:21.240489",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",
