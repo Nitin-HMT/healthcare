@@ -157,7 +157,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "collapsible": 1,
    "collapsible_depends_on": "!doc.__islocal",
    "fieldname": "item_details",
    "fieldtype": "Section Break",
@@ -216,7 +215,7 @@
   }
  ],
  "links": [],
- "modified": "2024-11-29 01:23:45.129561",
+ "modified": "2024-11-29 02:52:58.880771",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Medication",

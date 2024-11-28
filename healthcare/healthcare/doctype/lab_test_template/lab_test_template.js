@@ -3,7 +3,6 @@
 
 frappe.ui.form.on('Lab Test Template', {
 	lab_test_name: function(frm) {
-		if (!frm.doc.lab_test_code)
 			frm.set_value('lab_test_code', frm.doc.lab_test_name);
 		if (!frm.doc.lab_test_description)
 			frm.set_value('lab_test_description', frm.doc.lab_test_name);

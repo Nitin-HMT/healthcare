@@ -87,12 +87,10 @@
    "search_index": 1
   },
   {
-   "allow_in_quick_entry": 1,
    "fieldname": "lab_test_code",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Item Code",
-   "mandatory_depends_on": "eval:!doc.link_existing_item",
    "no_copy": 1,
    "read_only_depends_on": "eval:!doc.__islocal"
   },
@@ -422,7 +420,7 @@
   }
  ],
  "links": [],
- "modified": "2024-11-27 19:18:24.044736",
+ "modified": "2024-11-29 02:51:15.925277",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Lab Test Template",
