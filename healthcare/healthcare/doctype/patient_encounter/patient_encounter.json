@@ -9,27 +9,54 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "naming_series",
-  "title",
-  "appointment",
-  "appointment_type",
-  "patient",
-  "patient_name",
-  "patient_sex",
-  "patient_age",
-  "inpatient_record",
-  "inpatient_status",
-  "column_break_6",
-  "company",
-  "status",
+  "practitioner_details_section",
+  "practitioner",
+  "column_break_jzxt",
+  "practitioner_name",
+  "column_break_umgu",
+  "medical_department",
+  "invoiced",
+  "section_break_kway",
   "encounter_date",
   "encounter_time",
-  "practitioner",
-  "practitioner_name",
-  "medical_department",
+  "naming_series",
+  "title",
+  "appointment_type",
+  "column_break_6",
+  "appointment",
+  "amended_from",
+  "status",
+  "company",
   "google_meet_link",
-  "invoiced",
   "submit_orders_on_save",
+  "patient_details_section",
+  "patient",
+  "patient_name",
+  "column_break_fjyz",
+  "patient_sex",
+  "inpatient_record",
+  "column_break_ruyn",
+  "patient_age",
+  "inpatient_status",
+  "codification",
+  "codification_table",
+  "rehabilitation_section",
+  "therapy_plan",
+  "therapies",
+  "observation_tab",
+  "vitals_section",
+  "column_break_malg",
+  "bp",
+  "pulse",
+  "spo2",
+  "column_break_mnvw",
+  "height",
+  "weight",
+  "temperature",
+  "column_break_yyjn",
+  "bmi",
+  "nutrition_note",
+  "vital_signs_note",
   "sb_symptoms",
   "symptoms",
   "symptoms_in_print",
@@ -37,26 +64,30 @@
   "physical_examination",
   "diagnosis",
   "diagnosis_in_print",
-  "codification",
-  "codification_table",
+  "section_break_lgqm",
+  "further_description",
+  "advise_tab",
+  "sb_test_prescription",
+  "investigations_column",
+  "lab_test_prescription",
+  "investigations",
+  "procedures_column",
+  "procedure_prescription",
   "sb_drug_prescription",
   "drug_prescription",
-  "sb_test_prescription",
-  "lab_test_prescription",
-  "sb_procedures",
-  "procedure_prescription",
-  "rehabilitation_section",
-  "therapy_plan",
-  "therapies",
   "section_break_33",
+  "column_break_jbew",
+  "refer_to",
+  "follow_up",
+  "next_follow_up_date",
+  "column_break_hczn",
   "encounter_comment",
-  "sb_refs",
-  "amended_from",
   "encounter_details_tab",
   "order_history_html",
   "encounter_details",
   "notes_tab",
-  "clinical_notes"
+  "clinical_notes",
+  "dashboard_tab"
  ],
  "fields": [
   {
@@ -70,6 +101,7 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Series",
    "no_copy": 1,
    "options": "HLC-ENC-.YYYY.-",
@@ -81,6 +113,7 @@
    "ignore_user_permissions": 1,
    "label": "Appointment",
    "options": "Patient Appointment",
+   "read_only": 1,
    "search_index": 1,
    "set_only_once": 1
   },
@@ -97,6 +130,7 @@
   {
    "fieldname": "patient_name",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Patient Name",
    "read_only": 1
   },
@@ -116,7 +150,8 @@
   {
    "fieldname": "company",
    "fieldtype": "Link",
-   "label": "Company",
+   "hidden": 1,
+   "label": "Clinic",
    "options": "Company"
   },
   {
@@ -128,23 +163,24 @@
    "fieldtype": "Link",
    "in_standard_filter": 1,
    "label": "Healthcare Practitioner",
+   "link_filters": "[[\"Healthcare Practitioner\",\"status\",\"=\",\"Active\"]]",
    "options": "Healthcare Practitioner",
    "reqd": 1
   },
   {
-   "default": "Today",
+   "default": "now",
    "fieldname": "encounter_date",
-   "fieldtype": "Date",
+   "fieldtype": "Datetime",
    "in_list_view": 1,
-   "label": "Encounter Date",
+   "label": "Interaction Date",
    "reqd": 1
   },
   {
    "default": "Now",
    "fieldname": "encounter_time",
    "fieldtype": "Time",
-   "label": "Encounter Time",
-   "reqd": 1
+   "hidden": 1,
+   "label": "Encounter Time"
   },
   {
    "default": "0",
@@ -163,7 +199,7 @@
    "fieldname": "symptoms",
    "fieldtype": "Table MultiSelect",
    "ignore_xss_filter": 1,
-   "label": "Symptoms",
+   "label": "Complaints & Observations",
    "no_copy": 1,
    "options": "Patient Encounter Symptom"
   },
@@ -172,6 +208,7 @@
    "depends_on": "eval: doc.symptoms != ''",
    "fieldname": "symptoms_in_print",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "In print",
    "no_copy": 1,
    "print_hide": 1,
@@ -194,6 +231,7 @@
    "depends_on": "eval: doc.diagnosis != ''",
    "fieldname": "diagnosis_in_print",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "In print",
    "no_copy": 1,
    "print_hide": 1,
@@ -203,6 +241,7 @@
    "collapsible": 1,
    "fieldname": "codification",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Medical Coding"
   },
   {
@@ -224,28 +263,24 @@
   },
   {
    "fieldname": "sb_test_prescription",
-   "fieldtype": "Section Break",
-   "label": "Investigations"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "lab_test_prescription",
    "fieldtype": "Table",
-   "label": "Lab Tests",
+   "hidden": 1,
+   "label": "test",
    "options": "Lab Prescription"
-  },
-  {
-   "fieldname": "sb_procedures",
-   "fieldtype": "Section Break",
-   "label": "Procedures"
   },
   {
    "fieldname": "procedure_prescription",
    "fieldtype": "Table",
-   "label": "Clinical Procedures",
+   "label": "t",
    "no_copy": 1,
    "options": "Procedure Prescription"
   },
   {
+   "description": "This is a Pvt Note to self, Will not be included in print",
    "fieldname": "encounter_comment",
    "fieldtype": "Small Text",
    "ignore_xss_filter": 1,
@@ -262,8 +297,10 @@
    "read_only": 1
   },
   {
+   "collapsible": 1,
    "fieldname": "rehabilitation_section",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Rehabilitation"
   },
   {
@@ -287,6 +324,7 @@
   {
    "fieldname": "appointment_type",
    "fieldtype": "Link",
+   "hidden": 1,
    "ignore_user_permissions": 1,
    "label": "Appointment Type",
    "no_copy": 1,
@@ -313,10 +351,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "sb_refs",
-   "fieldtype": "Section Break"
-  },
-  {
    "fetch_from": "practitioner.practitioner_name",
    "fieldname": "practitioner_name",
    "fieldtype": "Data",
@@ -338,12 +372,14 @@
    "depends_on": "eval:doc.patient",
    "fieldname": "get_applicable_treatment_plans",
    "fieldtype": "Button",
+   "hidden": 1,
    "label": "Get Applicable Treatment Plans"
   },
   {
    "fetch_from": "appointment.google_meet_link",
    "fieldname": "google_meet_link",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Google Meet Link",
    "read_only": 1
   },
@@ -351,6 +387,7 @@
    "depends_on": "eval:!doc.__islocal && doc.docstatus == 0;",
    "fieldname": "encounter_details_tab",
    "fieldtype": "Tab Break",
+   "hidden": 1,
    "label": "Encounter Details"
   },
   {
@@ -360,6 +397,7 @@
   {
    "fieldname": "status",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Status",
    "options": "\nOpen\nOrdered\nCompleted\nCancelled\nConfirmed",
    "read_only": 1
@@ -369,12 +407,14 @@
    "depends_on": "eval:!doc.__islocal;",
    "fieldname": "submit_orders_on_save",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Submit Orders on Save"
   },
   {
    "depends_on": "eval:!doc.__islocal && doc.docstatus == 0;",
    "fieldname": "notes_tab",
    "fieldtype": "Tab Break",
+   "hidden": 1,
    "label": "Notes"
   },
   {
@@ -387,6 +427,188 @@
    "fieldname": "order_history_html",
    "fieldtype": "HTML",
    "label": "Order History"
+  },
+  {
+   "fieldname": "patient_details_section",
+   "fieldtype": "Section Break",
+   "label": "Patient Details"
+  },
+  {
+   "fieldname": "column_break_fjyz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ruyn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "practitioner_details_section",
+   "fieldtype": "Section Break",
+   "label": "Practitioner Details"
+  },
+  {
+   "fieldname": "column_break_jzxt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_umgu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "appointment.bp",
+   "fieldname": "bp",
+   "fieldtype": "Data",
+   "label": "Blood Pressure",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "appointment.pulse",
+   "fieldname": "pulse",
+   "fieldtype": "Data",
+   "label": "Heart Rate / Pulse",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "appointment.spo2",
+   "fieldname": "spo2",
+   "fieldtype": "Data",
+   "label": "SpO<sub>2</sub>",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "appointment.temperature",
+   "fieldname": "temperature",
+   "fieldtype": "Data",
+   "label": "Body Temperature",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "appointment.nutrition_note",
+   "fieldname": "nutrition_note",
+   "fieldtype": "Data",
+   "label": "BMI Notes",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "appointment.height",
+   "fieldname": "height",
+   "fieldtype": "Float",
+   "label": "Height (In Meter)",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "appointment.weight",
+   "fieldname": "weight",
+   "fieldtype": "Float",
+   "label": "Weight (In Kilogram)",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "appointment.bmi",
+   "fieldname": "bmi",
+   "fieldtype": "Float",
+   "label": "BMI",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "appointment.vital_signs_note",
+   "fieldname": "vital_signs_note",
+   "fieldtype": "Small Text",
+   "label": "Notes",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_kway",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:!doc.inpatient_record",
+   "fieldname": "vitals_section",
+   "fieldtype": "Section Break",
+   "label": "Vitals"
+  },
+  {
+   "fieldname": "column_break_malg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_mnvw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_yyjn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "investigations_column",
+   "fieldtype": "Column Break",
+   "label": "Investigations"
+  },
+  {
+   "fieldname": "procedures_column",
+   "fieldtype": "Column Break",
+   "label": "Clinical Procedures"
+  },
+  {
+   "fieldname": "column_break_hczn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "refer_to",
+   "fieldtype": "Link",
+   "label": "Refer To",
+   "options": "Referring Doctor"
+  },
+  {
+   "fieldname": "section_break_lgqm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "further_description",
+   "fieldtype": "Small Text",
+   "label": "Further Description of Symptoms, Diagnosis & History"
+  },
+  {
+   "description": "In Days",
+   "fieldname": "follow_up",
+   "fieldtype": "Int",
+   "label": "Follow Up",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "next_follow_up_date",
+   "fieldtype": "Date",
+   "label": "Next Follow Up Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "dashboard_tab",
+   "fieldtype": "Tab Break",
+   "hidden": 1,
+   "label": "Dashboard",
+   "show_dashboard": 1
+  },
+  {
+   "fieldname": "investigations",
+   "fieldtype": "Table MultiSelect",
+   "label": "t",
+   "options": "Lab Prescription"
+  },
+  {
+   "fieldname": "column_break_jbew",
+   "fieldtype": "Column Break",
+   "hidden": 1
+  },
+  {
+   "fieldname": "observation_tab",
+   "fieldtype": "Tab Break",
+   "label": "Observation"
+  },
+  {
+   "fieldname": "advise_tab",
+   "fieldtype": "Tab Break",
+   "label": "Advise"
   }
  ],
  "is_submittable": 1,
@@ -400,7 +622,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2024-11-26 16:18:21.240489",
+ "modified": "2024-11-29 02:01:12.039146",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",
@@ -420,6 +642,27 @@
    "role": "Physician",
    "share": 1,
    "submit": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Reception",
+   "share": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Doctor",
+   "share": 1,
    "write": 1
   }
  ],

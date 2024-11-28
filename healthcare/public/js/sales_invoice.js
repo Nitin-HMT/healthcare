@@ -1,6 +1,6 @@
 // Healthcare
 frappe.ui.form.on('Sales Invoice', {
-	refresh(frm) {
+	/*refresh(frm) {
 		if (frm.doc.docstatus === 0 && !frm.doc.is_return) {
 			frm.add_custom_button(__('Healthcare Services'), function() {
 				frappe.db.get_value("Patient", frm.doc.patient, "customer")
@@ -38,7 +38,7 @@ frappe.ui.form.on('Sales Invoice', {
 				})
 			},__('Get Items From'));
 		}
-	},
+	}, */
 
 	patient(frm) {
 		if (frm.doc.patient) {

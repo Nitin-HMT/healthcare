@@ -39,6 +39,7 @@
   {
    "fieldname": "national_drug_code",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "National Drug Code",
    "no_copy": 1
   },
@@ -97,12 +98,14 @@
   {
    "fieldname": "default_interval",
    "fieldtype": "Int",
+   "hidden": 1,
    "label": "Default Interval",
    "mandatory_depends_on": "dosage_by_interval"
   },
   {
    "fieldname": "default_interval_uom",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Default Interval UOM",
    "mandatory_depends_on": "dosage_by_interval",
    "options": "Hour\nDay"
@@ -137,6 +140,7 @@
   {
    "fieldname": "abbr",
    "fieldtype": "Data",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Abbr",
    "no_copy": 1
@@ -145,7 +149,8 @@
    "fieldname": "dosage_form",
    "fieldtype": "Link",
    "label": "Dosage Form",
-   "options": "Dosage Form"
+   "options": "Dosage Form",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_16",
@@ -154,7 +159,6 @@
   {
    "collapsible": 1,
    "collapsible_depends_on": "!doc.__islocal",
-   "description": "Properties of the linked Item, you may further configure Batch Number and Expiry, Serial Number, Shelf Life etc. in the Item master",
    "fieldname": "item_details",
    "fieldtype": "Section Break",
    "label": "Linked Item"
@@ -195,6 +199,7 @@
    "collapsible": 1,
    "fieldname": "medical_coding_section",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Medical Coding"
   },
   {
@@ -206,11 +211,12 @@
   {
    "collapsible": 1,
    "fieldname": "section_break_sbkz",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "hidden": 1
   }
  ],
  "links": [],
- "modified": "2024-06-10 14:14:55.849697",
+ "modified": "2024-11-29 01:23:45.129561",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Medication",
@@ -242,7 +248,7 @@
    "write": 1
   }
  ],
- "search_fields": "abbr, national_drug_code, generic_name",
+ "search_fields": "generic_name, strength, strength_uom, dosage_form, medication_class, default_prescription_dosage, default_prescription_duration",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

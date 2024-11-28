@@ -49,7 +49,7 @@ frappe.ui.form.on('Patient Encounter', {
 		refresh_field('drug_prescription');
 		refresh_field('lab_test_prescription');
 
-		if (!frm.doc.__islocal) {
+		/*if (!frm.doc.__islocal) {
 			if (frm.doc.docstatus === 1) {
 				if(!['Discharge Scheduled', 'Admission Scheduled', 'Admitted', 'Treatment Counselling Created'].includes(frm.doc.inpatient_status)) {
 					frm.add_custom_button(__('Schedule Admission'), function() {
@@ -118,7 +118,7 @@ frappe.ui.form.on('Patient Encounter', {
 			frm.add_custom_button(__('Nursing Tasks'), function() {
 				create_nursing_tasks(frm);
 			},__('Create'));
-		}
+		} */
 
 		frm.set_query('patient', function() {
 			return {

@@ -65,6 +65,7 @@
  ],
  "fields": [
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "lab_test_name",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -86,6 +87,7 @@
    "search_index": 1
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "lab_test_code",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -95,12 +97,14 @@
    "read_only_depends_on": "eval:!doc.__islocal"
   },
   {
+   "default": "Laboratory",
    "fieldname": "lab_test_group",
    "fieldtype": "Link",
    "ignore_user_permissions": 1,
    "in_standard_filter": 1,
    "label": "Item Group",
    "options": "Item Group",
+   "read_only": 1,
    "read_only_depends_on": "eval:doc.link_existing_item",
    "reqd": 1,
    "search_index": 1
@@ -108,11 +112,11 @@
   {
    "fieldname": "department",
    "fieldtype": "Link",
+   "hidden": 1,
    "ignore_user_permissions": 1,
    "in_standard_filter": 1,
    "label": "Department",
-   "options": "Medical Department",
-   "reqd": 1
+   "options": "Medical Department"
   },
   {
    "fieldname": "column_break_3",
@@ -136,6 +140,7 @@
    "search_index": 1
   },
   {
+   "default": "1",
    "depends_on": "eval:doc.is_billable && (!doc.link_existing_item || !doc.__islocal)",
    "description": "This value is updated in the Default Sales Price List.",
    "fieldname": "lab_test_rate",
@@ -325,11 +330,13 @@
    "collapsible": 1,
    "fieldname": "codification",
    "fieldtype": "Tab Break",
+   "hidden": 1,
    "label": "Medical Coding"
   },
   {
    "fieldname": "nursing_checklist_template",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Nursing Checklist Template",
    "options": "Nursing Checklist Template"
   },
@@ -349,11 +356,13 @@
    "depends_on": "eval: doc.__islocal",
    "fieldname": "link_existing_item",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Link existing Item"
   },
   {
    "fieldname": "worksheet_legend_tab",
    "fieldtype": "Tab Break",
+   "hidden": 1,
    "label": "Worksheet & Legend"
   },
   {
@@ -364,12 +373,14 @@
   {
    "fieldname": "result_format_tab",
    "fieldtype": "Tab Break",
+   "hidden": 1,
    "label": "Result Format"
   },
   {
    "depends_on": "eval:doc.lab_test_template_type != 'Imaging'",
    "fieldname": "sample_collection_tab",
    "fieldtype": "Tab Break",
+   "hidden": 1,
    "label": "Sample Collection"
   },
   {
@@ -411,7 +422,7 @@
   }
  ],
  "links": [],
- "modified": "2023-11-03 15:28:04.801812",
+ "modified": "2024-11-27 19:18:24.044736",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Lab Test Template",
@@ -440,6 +451,7 @@
    "share": 1
   }
  ],
+ "quick_entry": 1,
  "restrict_to_domain": "Healthcare",
  "search_fields": "lab_test_code,lab_test_name,lab_test_template_type",
  "sort_field": "modified",

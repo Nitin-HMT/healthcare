@@ -27,7 +27,6 @@
    "unique": 1
   },
   {
-   "allow_in_quick_entry": 1,
    "fieldname": "estimated_duration",
    "fieldtype": "Duration",
    "hide_seconds": 1,
@@ -39,19 +38,19 @@
    "fieldtype": "Column Break"
   },
   {
-  "fieldname": "codification_table",
-  "fieldtype": "Table",
-  "label": "Medical Codes",
-  "options": "Codification Table"
- },
- {
-  "fieldname": "codification",
-  "fieldtype": "Section Break",
-  "label": "Medical Coding"
- }
+   "fieldname": "codification_table",
+   "fieldtype": "Table",
+   "label": "Medical Codes",
+   "options": "Codification Table"
+  },
+  {
+   "fieldname": "codification",
+   "fieldtype": "Section Break",
+   "label": "Medical Coding"
+  }
  ],
  "links": [],
- "modified": "2021-03-14 20:34:07.440600",
+ "modified": "2024-11-27 18:39:44.195576",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Diagnosis",

@@ -65,6 +65,7 @@
   "pulse",
   "bp",
   "column_break_iwxf",
+  "spo2",
   "height",
   "weight",
   "bmi",
@@ -305,8 +306,8 @@
    "fieldname": "referring_practitioner",
    "fieldtype": "Link",
    "ignore_user_permissions": 1,
-   "label": "Referring Practitioner",
-   "options": "Healthcare Practitioner"
+   "label": "Referring Doctor",
+   "options": "Referring Doctor"
   },
   {
    "default": "0",
@@ -550,10 +551,17 @@
    "fieldtype": "Date",
    "label": "Date of Payment",
    "read_only": 1
+  },
+  {
+   "description": "%",
+   "fieldname": "spo2",
+   "fieldtype": "Data",
+   "label": "SpO<sub>2</sub>",
+   "read_only_depends_on": "eval: doc.status !== \"Open\" && doc.status !== \"Scheduled\";"
   }
  ],
  "links": [],
- "modified": "2024-11-26 16:33:08.932083",
+ "modified": "2024-11-29 01:58:17.208299",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Appointment",
@@ -593,6 +601,27 @@
    "read": 1,
    "report": 1,
    "role": "Nursing User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Reception",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Doctor",
    "share": 1,
    "write": 1
   }

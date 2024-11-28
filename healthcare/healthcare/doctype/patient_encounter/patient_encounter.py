@@ -9,7 +9,8 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 from frappe.model.mapper import get_mapped_doc
-from frappe.utils import add_days, getdate
+from frappe.utils import add_days, getdate, now
+from datetime import datetime
 
 from healthcare.healthcare.utils import get_medical_codes
 
@@ -33,8 +34,8 @@ class PatientEncounter(Document):
 	def on_submit(self):
 		if self.therapies:
 			create_therapy_plan(self)
-		self.make_service_request()
-		self.make_medication_request()
+		# self.make_service_request()
+		# self.make_medication_request()
 		# to save service_request name in prescription
 		self.save("Update")
 		self.db_set("status", "Completed")
@@ -56,9 +57,13 @@ class PatientEncounter(Document):
 			delete_ip_medication_order(self)
 
 	def set_title(self):
-		self.title = _("{0} with {1}").format(
-			self.patient_name or self.patient, self.practitioner_name or self.practitioner
+		appointment_dat = datetime.now().strftime('%d-%m-%Y  %H:%M')
+		#x=strftime('%Y-%m-%d %H:%M:%S')
+		self.title = _("{0} on {1}").format(
+			self.patient_name or self.patient, appointment_dat
 		)[:100]
+		if self.follow_up>0:
+			self.next_follow_up_date = add_days(datetime.now(), days=self.follow_up)
 
 	@staticmethod
 	@frappe.whitelist()
@@ -484,7 +489,7 @@ def get_medications_query(doctype, txt, searchfield, start, page_len, filters):
 			actual_qty = frappe.db.get_value(
 				"Bin", {"warehouse": default_warehouse, "item_code": d.get("item")}, "actual_qty"
 			)
-			display_list.append("<br>Actual Qty : " + (str(actual_qty) if actual_qty else "0"))
+			#display_list.append("<br>Actual Qty : " + (str(actual_qty) if actual_qty else "NAN"))
 		data_list.append(display_list)
 	res = tuple(tuple(sub) for sub in data_list)
 	return res
@@ -492,7 +497,7 @@ def get_medications_query(doctype, txt, searchfield, start, page_len, filters):
 
 @frappe.whitelist()
 def get_medications(medication):
-	return frappe.get_all("Medication Linked Item", {"parent": medication}, ["item"])
+	return frappe.get_all("Medication Linked Item", {"parent": medication, "default": 1}, ["item"])
 
 
 @frappe.whitelist()
