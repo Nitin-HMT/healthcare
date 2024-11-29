@@ -78,7 +78,7 @@
   }
  ],
  "links": [],
- "modified": "2023-06-10 13:43:27.137414",
+ "modified": "2024-11-29 15:09:40.800840",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Appointment Type",
@@ -108,6 +108,17 @@
    "role": "Physician",
    "share": 1,
    "write": 1
+  },
+  {
+   "read": 1,
+   "role": "OPD Doctor",
+   "select": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "OPD Reception",
+   "select": 1
   }
  ],
  "quick_entry": 1,

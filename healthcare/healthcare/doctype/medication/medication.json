@@ -215,7 +215,7 @@
   }
  ],
  "links": [],
- "modified": "2024-11-29 02:52:58.880771",
+ "modified": "2024-11-29 16:01:42.615333",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Medication",
@@ -244,6 +244,22 @@
    "report": 1,
    "role": "Healthcare Administrator",
    "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Doctor",
+   "select": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Reception",
+   "select": 1,
    "write": 1
   }
  ],

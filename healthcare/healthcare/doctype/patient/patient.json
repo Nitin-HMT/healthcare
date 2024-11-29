@@ -507,7 +507,7 @@
  "image_field": "image",
  "links": [],
  "max_attachments": 50,
- "modified": "2024-11-25 02:15:23.272094",
+ "modified": "2024-11-29 15:01:48.658088",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient",
@@ -560,6 +560,22 @@
    "report": 1,
    "role": "Nursing User",
    "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Reception",
+   "select": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Doctor",
+   "select": 1,
    "write": 1
   }
  ],

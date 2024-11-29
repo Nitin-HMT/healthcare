@@ -1,8 +1,25 @@
 {
  "app": "healthcare",
- "charts": [],
- "content": "[{\"id\":\"51rZwUtwSU\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">OPD</span>\",\"col\":12}}]",
- "creation": "2024-11-29 01:41:14.903992",
+ "charts": [
+  {
+   "chart_name": "Medication",
+   "label": "Prescribed Medicines"
+  },
+  {
+   "chart_name": "Patient Appointments",
+   "label": "Patient Appointments"
+  },
+  {
+   "chart_name": "Diagnoses",
+   "label": "Diagnoses"
+  },
+  {
+   "chart_name": "Symptoms",
+   "label": "Symptoms"
+  }
+ ],
+ "content": "[{\"id\":\"Pxv75-eWrm\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Doctor's Dashboard<br></span>\",\"col\":12}},{\"id\":\"gX51TDF943\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Awaiting Consult\",\"col\":8}},{\"id\":\"U7c2EMFIDt\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Payment Pending Patients\",\"col\":4}},{\"id\":\"Xrk3bwEg8X\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Patients Waiting\",\"col\":4}},{\"id\":\"7eC-eEWQDn\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Completed Consultations\",\"col\":4}},{\"id\":\"wg9Y2V5YQM\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Revenue Today\",\"col\":4}},{\"id\":\"RUJsApH5k7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Appointment\",\"col\":5}},{\"id\":\"ydWrGnhAAQ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Prescription\",\"col\":4}},{\"id\":\"Yn3BsRscRJ\",\"type\":\"card\",\"data\":{\"card_name\":\"Doctor's Master\",\"col\":4}},{\"id\":\"2nfeyzRjPN\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Statistics <br></b></span>\",\"col\":12}},{\"id\":\"LLT5yJDyes\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Patients\",\"col\":4}},{\"id\":\"rSH9CvRXaB\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Patient Appointments\",\"col\":8}},{\"id\":\"cFALYerIic\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Diagnoses\",\"col\":6}},{\"id\":\"iMSWFLTZO-\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Symptoms\",\"col\":6}},{\"id\":\"hP9A_KCB7u\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Prescribed Medicines\",\"col\":12}}]",
+ "creation": "2024-11-29 13:43:39.902614",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -14,20 +31,205 @@
  "is_hidden": 0,
  "label": "OPD Doctor",
  "link_type": "DocType",
- "links": [],
- "modified": "2024-11-29 01:46:11.852746",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Doctor's Master",
+   "link_count": 12,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Patient",
+   "link_count": 0,
+   "link_to": "Patient",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Doctor's Profile",
+   "link_count": 0,
+   "link_to": "Healthcare Practitioner",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Symptoms DB",
+   "link_count": 0,
+   "link_to": "Complaint",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Diagnosis DB",
+   "link_count": 0,
+   "link_to": "Diagnosis",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Medication DB",
+   "link_count": 0,
+   "link_to": "Medication",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Medication Class DB",
+   "link_count": 0,
+   "link_to": "Medication Class",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Manufacturer DB",
+   "link_count": 0,
+   "link_to": "Manufacturer",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Dosage List",
+   "link_count": 0,
+   "link_to": "Prescription Dosage",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Duration List",
+   "link_count": 0,
+   "link_to": "Prescription Duration",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Lab Test DB",
+   "link_count": 0,
+   "link_to": "Lab Test Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Clinical Procedure DB",
+   "link_count": 0,
+   "link_to": "Clinical Procedure Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Referal Doctor DB",
+   "link_count": 0,
+   "link_to": "Referring Doctor",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2024-11-29 14:36:24.403908",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "OPD Doctor",
- "number_cards": [],
+ "number_cards": [
+  {
+   "label": "Total Patients",
+   "number_card_name": "Total Patients"
+  },
+  {
+   "label": "Patients Waiting",
+   "number_card_name": "Patients Awaiting Consultation"
+  },
+  {
+   "label": "Completed Consultations",
+   "number_card_name": "Patients Done with Consultation Today"
+  },
+  {
+   "label": "Revenue Today",
+   "number_card_name": "Total Collection Today"
+  }
+ ],
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
- "quick_lists": [],
+ "quick_lists": [
+  {
+   "document_type": "Patient Appointment",
+   "label": "Awaiting Consult",
+   "quick_list_filter": "[[\"Patient Appointment\",\"status\",\"=\",\"Confirmed\",false],[\"Patient Appointment\",\"appointment_datetime\",\"Timespan\",\"today\",false]]"
+  },
+  {
+   "document_type": "Patient Appointment",
+   "label": "Payment Pending Patients",
+   "quick_list_filter": "[[\"Patient Appointment\",\"appointment_datetime\",\"Timespan\",\"today\",false],[\"Patient Appointment\",\"ref_sales_invoice\",\"like\",null,false],[\"Patient Appointment\",\"status\",\"!=\",\"Cancelled\",false]]"
+  }
+ ],
  "restrict_to_domain": "Healthcare",
- "roles": [],
- "sequence_id": 23.0,
- "shortcuts": [],
+ "roles": [
+  {
+   "role": "OPD Doctor"
+  },
+  {
+   "role": "Healthcare Administrator"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 25.0,
+ "shortcuts": [
+  {
+   "color": "Pink",
+   "doc_view": "List",
+   "label": "Patient Appointment",
+   "link_to": "Patient Appointment",
+   "stats_filter": "[[\"Patient Appointment\",\"status\",\"=\",\"Confirmed\",false],[\"Patient Appointment\",\"appointment_datetime\",\"Timespan\",\"today\",false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Patient Prescription",
+   "link_to": "Patient Encounter",
+   "stats_filter": "[[\"Patient Encounter\",\"encounter_date\",\"Timespan\",\"today\",false]]",
+   "type": "DocType"
+  }
+ ],
  "title": "OPD Doctor",
  "type": "Workspace"
 }

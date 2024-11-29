@@ -19,7 +19,7 @@
   }
  ],
  "links": [],
- "modified": "2023-03-24 21:12:01.434571",
+ "modified": "2024-11-29 16:02:55.583746",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Medication Class",
@@ -36,6 +36,22 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Doctor",
+   "select": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Reception",
+   "select": 1,
    "write": 1
   }
  ],

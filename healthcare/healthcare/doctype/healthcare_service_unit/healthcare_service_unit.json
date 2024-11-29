@@ -243,7 +243,7 @@
  ],
  "is_tree": 1,
  "links": [],
- "modified": "2023-04-20 11:43:38.575796",
+ "modified": "2024-11-29 15:12:31.050163",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Healthcare Service Unit",
@@ -281,6 +281,16 @@
    "role": "Physician",
    "share": 1,
    "write": 1
+  },
+  {
+   "read": 1,
+   "role": "OPD Doctor",
+   "select": 1
+  },
+  {
+   "read": 1,
+   "role": "OPD Reception",
+   "select": 1
   }
  ],
  "quick_entry": 1,

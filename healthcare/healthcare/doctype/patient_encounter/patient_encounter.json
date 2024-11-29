@@ -622,7 +622,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2024-11-29 02:01:12.039146",
+ "modified": "2024-11-29 16:17:15.192443",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",
@@ -645,24 +645,24 @@
    "write": 1
   },
   {
-   "email": 1,
-   "export": 1,
    "print": 1,
    "read": 1,
    "report": 1,
    "role": "OPD Reception",
-   "share": 1
+   "select": 1
   },
   {
+   "amend": 1,
+   "cancel": 1,
    "create": 1,
    "email": 1,
-   "export": 1,
    "if_owner": 1,
    "print": 1,
    "read": 1,
    "report": 1,
    "role": "OPD Doctor",
-   "share": 1,
+   "select": 1,
+   "submit": 1,
    "write": 1
   }
  ],

@@ -1,0 +1,22 @@
+{
+ "aggregate_function_based_on": "base_rounded_total",
+ "creation": "2024-11-29 13:07:29.034672",
+ "docstatus": 0,
+ "doctype": "Number Card",
+ "document_type": "Sales Invoice",
+ "filters_json": "[[\"Sales Invoice\",\"docstatus\",\"=\",\"1\",false],[\"Sales Invoice\",\"posting_date\",\"Timespan\",\"today\",false]]",
+ "function": "Sum",
+ "idx": 1,
+ "is_public": 0,
+ "is_standard": 1,
+ "label": "Total Collection Today",
+ "modified": "2024-11-29 14:49:29.480779",
+ "modified_by": "Administrator",
+ "module": "Healthcare",
+ "name": "Total Collection Today",
+ "owner": "Administrator",
+ "report_function": "Sum",
+ "show_percentage_stats": 0,
+ "stats_time_interval": "Monthly",
+ "type": "Document Type"
+}

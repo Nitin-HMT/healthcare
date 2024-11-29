@@ -26,7 +26,9 @@
   "column_break_11",
   "rate",
   "description",
-  "change_in_item"
+  "change_in_item",
+  "is_ot",
+  "medical_department"
  ],
  "fields": [
   {
@@ -205,7 +207,7 @@
   }
  ],
  "links": [],
- "modified": "2024-04-29 18:59:16.479821",
+ "modified": "2024-11-29 15:13:23.023673",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Healthcare Service Unit Type",
@@ -223,6 +225,16 @@
    "role": "Healthcare Administrator",
    "share": 1,
    "write": 1
+  },
+  {
+   "read": 1,
+   "role": "OPD Doctor",
+   "select": 1
+  },
+  {
+   "read": 1,
+   "role": "OPD Reception",
+   "select": 1
   }
  ],
  "restrict_to_domain": "Healthcare",

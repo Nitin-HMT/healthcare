@@ -18,7 +18,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-27 18:33:47.530598",
+ "modified": "2024-11-29 15:28:28.334956",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Referring Doctor",
@@ -35,6 +35,22 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Doctor",
+   "select": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Reception",
+   "select": 1,
    "write": 1
   }
  ],

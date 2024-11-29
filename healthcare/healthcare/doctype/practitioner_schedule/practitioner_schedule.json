@@ -56,7 +56,7 @@
   }
  ],
  "links": [],
- "modified": "2024-11-25 01:08:04.596699",
+ "modified": "2024-11-29 15:11:02.720860",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Practitioner Schedule",
@@ -73,6 +73,20 @@
    "report": 1,
    "role": "Healthcare Administrator",
    "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "OPD Doctor",
+   "select": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "OPD Reception",
+   "select": 1,
    "write": 1
   }
  ],

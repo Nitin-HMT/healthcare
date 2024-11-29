@@ -423,7 +423,7 @@
  ],
  "image_field": "image",
  "links": [],
- "modified": "2024-11-26 18:05:34.026990",
+ "modified": "2024-11-29 15:14:42.406865",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Healthcare Practitioner",
@@ -465,6 +465,19 @@
    "role": "Nursing User",
    "select": 1,
    "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "OPD Doctor",
+   "select": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "OPD Reception",
+   "select": 1,
    "write": 1
   }
  ],

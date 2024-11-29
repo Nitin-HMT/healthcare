@@ -50,10 +50,11 @@
   }
  ],
  "links": [],
- "modified": "2024-11-27 18:39:44.195576",
+ "modified": "2024-11-29 16:00:40.789782",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Diagnosis",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
@@ -78,6 +79,22 @@
    "report": 1,
    "role": "Physician",
    "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Doctor",
+   "select": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Reception",
+   "select": 1,
    "write": 1
   }
  ],
