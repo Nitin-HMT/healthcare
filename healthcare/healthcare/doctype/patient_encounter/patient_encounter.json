@@ -622,7 +622,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2024-11-29 16:17:15.192443",
+ "modified": "2024-11-30 02:09:21.651444",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",
