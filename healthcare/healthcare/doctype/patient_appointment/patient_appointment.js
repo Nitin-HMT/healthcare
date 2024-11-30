@@ -108,9 +108,9 @@ frappe.ui.form.on('Patient Appointment', {
 					})
 				}, 'Create');
 			} 
-			else if (frm.doc.status == "Confirmed" && !frm.doc.__islocal){
+			else if (frm.doc.status == "Confirmed" && !frm.doc.__islocal && frappe.user.has_role('OPD Doctor')){
 				//------ NITIN  --- change name of patient encounter and make it a primary button, disable save
-				frm.page.set_primary_action(__('Patient Interaction'), function() {
+				frm.page.set_primary_action(__('Patient Prescription'), function() {
 					frappe.model.open_mapped_doc({
 						method: 'healthcare.healthcare.doctype.patient_appointment.patient_appointment.make_encounter',
 						frm: frm,
