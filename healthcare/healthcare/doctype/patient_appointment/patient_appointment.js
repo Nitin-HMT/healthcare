@@ -87,11 +87,11 @@ frappe.ui.form.on('Patient Appointment', {
 			// add mew status here
 			frm.add_custom_button(__('Cancel'), function() {
 				update_status(frm, 'Cancelled');
-			});
+			}).css({'background-color': '#eb6060'});
 			if (frm.doc.status != "Confirmed"){
 				frm.add_custom_button(__('Reschedule'), function() {
 					check_and_set_availability(frm);
-				});
+				}).css({'background-color': '#f2daa2'});
 			}
 			if (frm.doc.procedure_template) {
 				frm.add_custom_button(__('Clinical Procedure'), function() {
@@ -118,16 +118,28 @@ frappe.ui.form.on('Patient Appointment', {
 				});
 			}
 			// ---------Nitin -- disable vitals for now
-			/*
-			frm.add_custom_button(__('Vital Signs'), function() {
+			
+			/*frm.add_custom_button(__('Vital Signs'), function() {
 				create_vital_signs(frm);
-			}, __('Create')); */
+			}, __('Create'));*/
 			// ---------------- Nitin -- Changed from confirm to 
 			if (["Open", "Scheduled"].includes(frm.doc.status)) {
 				frm.disable_save();
-				frm.page.set_primary_action(__("Vitals Done"), function() {
+				frm.page.set_primary_action(__("Vitals Done"), async function() {
+					
+					if(!frm.doc.bp){
+						frappe.throw(__('Plesse Enter Blood Pressure to procees'));
+					}
+					else{
+						if (frm.is_dirty()) {
+							await frm.save();
+						}
+					create_vital_signs(frm);
 					frm.set_value("status", "Confirmed");
-					frm.save();
+					await frm.save();
+					//await frm.refresh(); 
+					await frm.reload_doc();
+					}
 				});
 			}
 		}
@@ -150,11 +162,16 @@ frappe.ui.form.on('Patient Appointment', {
 				let fee_validity = (await frappe.call(
 					"healthcare.healthcare.doctype.fee_validity.fee_validity.get_fee_validity",
 					{ "appointment_name": frm.doc.name, "date": frm.doc.appointment_date , "ignore_status": true })).message;
-
+					//msgprint("x:"+ fee_validity[0])
 				if (val && !fee_validity.length) {
-					frm.page.set_primary_action(__("Make Payment"), function () {
+					frm.add_custom_button(__("Make Payment"), function () {
 						make_payment(frm, val);
-					});
+					}).css({'color':'#374a29','font-weight': 'bold','background-color': '#e0f5d0'});
+				}
+				else{
+					frm.set_value('fee_valid', 1);
+					frm.set_value('paid_amount', 0);
+					frm.set_intro("Free Follow-up Visit","green");
 				}
 			});
         }
@@ -243,6 +260,9 @@ frappe.ui.form.on('Patient Appointment', {
 					let age = null;
 					if (data.message.dob) {
 						age = calculate_age(data.message.dob);
+					}
+					else{
+						age= data.message.aged + " Years";
 					}
 					frappe.model.set_value(frm.doctype, frm.docname, 'patient_age', age);
 				}
@@ -872,12 +892,23 @@ let create_vital_signs = function(frm) {
 	if (!frm.doc.patient) {
 		frappe.throw(__('Please select patient'));
 	}
-	frappe.route_options = {
+	frappe.call({
+		method: 'healthcare.healthcare.doctype.patient_appointment.patient_appointment.set_vitals',
+		args: {
+			appointment_pt: frm.doc.name
+		},
+		callback: function(data) {
+			if (!data.exc) {
+				frm.reload_doc();
+			}
+		}
+	});
+	/*frappe.route_options = {
 		'patient': frm.doc.patient,
 		'appointment': frm.doc.name,
 		'company': frm.doc.company
 	};
-	frappe.new_doc('Vital Signs');
+	frappe.new_doc('Vital Signs');*/
 };
 
 let update_status = function(frm, status) {

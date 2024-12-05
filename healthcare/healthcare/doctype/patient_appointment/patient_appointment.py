@@ -456,10 +456,42 @@ def create_sales_invoice(appointment_doc, discount_percentage=0, discount_amount
 			"invoiced": 1,
 			"ref_sales_invoice": sales_invoice.name,
 			"paid_amount": paid_amount,
+			"date_of_payment": sales_invoice.posting_date,
+			"time_of_payment": sales_invoice.posting_time,
 		},
 	)
 	appointment_doc.notify_update()
-
+@frappe.whitelist()
+def set_vitals(appointment_pt):
+	appointment_docs = frappe.get_doc("Patient Appointment", appointment_pt)
+	vital_signs = frappe.new_doc("Vital Signs")
+	vital_signs.patient = appointment_docs.patient
+	vital_signs.appointment = appointment_docs.name
+	vital_signs.company = appointment_docs.company
+	vital_signs.bp_systolic = appointment_docs.bp_systolic
+	vital_signs.bp_diastolic = appointment_docs.bp_diastolic
+	vital_signs.pulse = appointment_docs.pulse
+	vital_signs.bp = appointment_docs.bp
+	vital_signs.height = appointment_docs.height
+	vital_signs.weight = appointment_docs.weight
+	vital_signs.bmi = appointment_docs.bmi
+	vital_signs.spo2 = appointment_docs.spo2
+	vital_signs.nutrition_note = appointment_docs.nutrition_note
+	vital_signs.temperature = appointment_docs.temperature
+	vital_signs.vital_signs_note = appointment_docs.vital_signs_note
+	#vital_signs.set_missing_values(for_validate=True)
+	vital_signs.flags.ignore_mandatory = True
+	vital_signs.save(ignore_permissions=True)
+	vital_signs.submit()
+	frappe.msgprint(_("Vital Sign {0} created").format(vital_signs.name), alert=True)
+	frappe.db.set_value(
+		"Patient Appointment",
+		appointment_docs.name,
+		{
+			"vital_sign": vital_signs.name,
+		},
+	)
+	appointment_docs.notify_update()
 
 @frappe.whitelist()
 def update_fee_validity(appointment):

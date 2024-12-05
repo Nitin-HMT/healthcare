@@ -48,6 +48,19 @@ frappe.ui.form.on('Patient Encounter', {
 
 		refresh_field('drug_prescription');
 		refresh_field('lab_test_prescription');
+		if(frm.doc.free_followup_visit){
+			frm.set_intro("Free Follow-up Visit","green");
+		}
+		if (!frm.doc.__islocal) {
+		frm.add_custom_button(__('Patient History'), function() {
+			if (frm.doc.patient) {
+				frappe.route_options = {'patient': frm.doc.patient};
+				frappe.set_route('patient_history');
+			} else {
+				frappe.msgprint(__('Please select Patient'));
+			}
+		}).css({'color':'#184754','background-color': '#8ed9ed'});
+		}
 
 		/*if (!frm.doc.__islocal) {
 			if (frm.doc.docstatus === 1) {

@@ -16,6 +16,7 @@
   "last_name",
   "dob",
   "age_html",
+  "aged",
   "image",
   "column_break_14",
   "sex",
@@ -501,13 +502,19 @@
   {
    "fieldname": "column_break_ouzg",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "aged",
+   "fieldtype": "Data",
+   "label": "Age",
+   "non_negative": 1
   }
  ],
  "icon": "fa fa-user",
  "image_field": "image",
  "links": [],
  "max_attachments": 50,
- "modified": "2024-11-29 15:01:48.658088",
+ "modified": "2024-12-05 00:30:43.567919",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient",

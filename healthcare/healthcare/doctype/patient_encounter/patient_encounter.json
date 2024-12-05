@@ -11,8 +11,10 @@
  "field_order": [
   "practitioner_details_section",
   "practitioner",
+  "vital_sign",
   "column_break_jzxt",
   "practitioner_name",
+  "free_followup_visit",
   "column_break_umgu",
   "medical_department",
   "invoiced",
@@ -70,11 +72,13 @@
   "sb_test_prescription",
   "investigations_column",
   "lab_test_prescription",
-  "investigations",
+  "section_break_aafq",
   "procedures_column",
   "procedure_prescription",
   "sb_drug_prescription",
+  "opd_medication",
   "drug_prescription",
+  "further_advice",
   "section_break_33",
   "column_break_jbew",
   "refer_to",
@@ -258,7 +262,8 @@
   {
    "fieldname": "drug_prescription",
    "fieldtype": "Table",
-   "label": "Drug Prescription",
+   "hidden": 1,
+   "label": "IPD Drug Prescription",
    "options": "Drug Prescription"
   },
   {
@@ -268,14 +273,13 @@
   {
    "fieldname": "lab_test_prescription",
    "fieldtype": "Table",
-   "hidden": 1,
-   "label": "test",
+   "label": "Investigations",
    "options": "Lab Prescription"
   },
   {
    "fieldname": "procedure_prescription",
    "fieldtype": "Table",
-   "label": "t",
+   "label": "Clinical Procedure",
    "no_copy": 1,
    "options": "Procedure Prescription"
   },
@@ -284,7 +288,7 @@
    "fieldname": "encounter_comment",
    "fieldtype": "Small Text",
    "ignore_xss_filter": 1,
-   "label": "Review Details",
+   "label": "Doctors Pvt Notes",
    "no_copy": 1
   },
   {
@@ -456,63 +460,63 @@
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "appointment.bp",
+   "fetch_from": "vital_sign.bp",
    "fieldname": "bp",
    "fieldtype": "Data",
    "label": "Blood Pressure",
    "read_only": 1
   },
   {
-   "fetch_from": "appointment.pulse",
+   "fetch_from": "vital_sign.pulse",
    "fieldname": "pulse",
    "fieldtype": "Data",
    "label": "Heart Rate / Pulse",
    "read_only": 1
   },
   {
-   "fetch_from": "appointment.spo2",
+   "fetch_from": "vital_sign.spo2",
    "fieldname": "spo2",
    "fieldtype": "Data",
    "label": "SpO<sub>2</sub>",
    "read_only": 1
   },
   {
-   "fetch_from": "appointment.temperature",
+   "fetch_from": "vital_sign.temperature",
    "fieldname": "temperature",
    "fieldtype": "Data",
    "label": "Body Temperature",
    "read_only": 1
   },
   {
-   "fetch_from": "appointment.nutrition_note",
+   "fetch_from": "vital_sign.vital_signs_note",
    "fieldname": "nutrition_note",
    "fieldtype": "Data",
    "label": "BMI Notes",
    "read_only": 1
   },
   {
-   "fetch_from": "appointment.height",
+   "fetch_from": "vital_sign.height",
    "fieldname": "height",
    "fieldtype": "Float",
    "label": "Height (In Meter)",
    "read_only": 1
   },
   {
-   "fetch_from": "appointment.weight",
+   "fetch_from": "vital_sign.weight",
    "fieldname": "weight",
    "fieldtype": "Float",
    "label": "Weight (In Kilogram)",
    "read_only": 1
   },
   {
-   "fetch_from": "appointment.bmi",
+   "fetch_from": "vital_sign.bmi",
    "fieldname": "bmi",
    "fieldtype": "Float",
    "label": "BMI",
    "read_only": 1
   },
   {
-   "fetch_from": "appointment.vital_signs_note",
+   "fetch_from": "vital_sign.nutrition_note",
    "fieldname": "vital_signs_note",
    "fieldtype": "Small Text",
    "label": "Notes",
@@ -542,13 +546,11 @@
   },
   {
    "fieldname": "investigations_column",
-   "fieldtype": "Column Break",
-   "label": "Investigations"
+   "fieldtype": "Column Break"
   },
   {
    "fieldname": "procedures_column",
-   "fieldtype": "Column Break",
-   "label": "Clinical Procedures"
+   "fieldtype": "Column Break"
   },
   {
    "fieldname": "column_break_hczn",
@@ -585,15 +587,8 @@
   {
    "fieldname": "dashboard_tab",
    "fieldtype": "Tab Break",
-   "hidden": 1,
    "label": "Dashboard",
    "show_dashboard": 1
-  },
-  {
-   "fieldname": "investigations",
-   "fieldtype": "Table MultiSelect",
-   "label": "t",
-   "options": "Lab Prescription"
   },
   {
    "fieldname": "column_break_jbew",
@@ -609,6 +604,36 @@
    "fieldname": "advise_tab",
    "fieldtype": "Tab Break",
    "label": "Advise"
+  },
+  {
+   "fetch_from": "appointment.vital_sign",
+   "fieldname": "vital_sign",
+   "fieldtype": "Link",
+   "label": "Vital Sign",
+   "options": "Vital Signs"
+  },
+  {
+   "default": "0",
+   "fetch_from": "appointment.fee_valid",
+   "fieldname": "free_followup_visit",
+   "fieldtype": "Check",
+   "label": "Free Followup Visit",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_aafq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "further_advice",
+   "fieldtype": "Small Text",
+   "label": "Further Advice"
+  },
+  {
+   "fieldname": "opd_medication",
+   "fieldtype": "Table",
+   "label": "OPD Medication",
+   "options": "OPD Drug Prescription"
   }
  ],
  "is_submittable": 1,
@@ -622,7 +647,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2024-11-30 02:09:21.651444",
+ "modified": "2024-12-05 22:12:13.193435",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",

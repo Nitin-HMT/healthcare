@@ -26,6 +26,7 @@
   "tongue",
   "abdomen",
   "column_break_8",
+  "spo2",
   "reflexes",
   "bp_systolic",
   "bp_diastolic",
@@ -252,11 +253,17 @@
    "no_copy": 1,
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "spo2",
+   "fieldtype": "Int",
+   "label": "SpO<sub>2</sub>",
+   "non_negative": 1
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-07 12:14:26.166928",
+ "modified": "2024-12-04 13:22:02.367014",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Vital Signs",

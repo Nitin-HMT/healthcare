@@ -184,7 +184,7 @@
    "type": "Link"
   }
  ],
- "modified": "2024-11-29 14:21:22.558518",
+ "modified": "2024-12-04 20:54:53.028432",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "OPD Reception",
@@ -208,13 +208,13 @@
  "quick_lists": [
   {
    "document_type": "Patient Appointment",
-   "label": "Booked But Vitals not Taken",
-   "quick_list_filter": "[[\"Patient Appointment\",\"status\",\"=\",\"Open\",false],[\"Patient Appointment\",\"appointment_datetime\",\"Timespan\",\"today\",false]]"
+   "label": "Payment Pending Patients",
+   "quick_list_filter": "[[\"Patient Appointment\",\"appointment_datetime\",\"Timespan\",\"today\",false],[\"Patient Appointment\",\"ref_sales_invoice\",\"like\",null,false],[\"Patient Appointment\",\"status\",\"not in\",[\"Cancelled\",null],false]]"
   },
   {
    "document_type": "Patient Appointment",
-   "label": "Payment Pending Patients",
-   "quick_list_filter": "[[\"Patient Appointment\",\"appointment_datetime\",\"Timespan\",\"today\",false],[\"Patient Appointment\",\"ref_sales_invoice\",\"like\",null,false],[\"Patient Appointment\",\"status\",\"!=\",\"Cancelled\",false]]"
+   "label": "Booked But Vitals not Taken",
+   "quick_list_filter": "[[\"Patient Appointment\",\"vital_sign\",\"not like\",null,false],[\"Patient Appointment\",\"appointment_datetime\",\"Timespan\",\"today\",false],[\"Patient Appointment\",\"status\",\"not in\",[\"Cancelled\",\"Closed\",\"Confirmed\",null],false]]"
   },
   {
    "document_type": "Patient Appointment",
@@ -241,7 +241,7 @@
    "doc_view": "List",
    "label": "Patient Appointment List",
    "link_to": "Patient Appointment",
-   "stats_filter": "[[\"Patient Appointment\",\"status\",\"not in\",[\"Cancelled\",\"Closed\",null],false]]",
+   "stats_filter": "[[\"Patient Appointment\",\"status\",\"not in\",[\"Cancelled\",\"Closed\",\"No Show\",null],false]]",
    "type": "DocType"
   },
   {

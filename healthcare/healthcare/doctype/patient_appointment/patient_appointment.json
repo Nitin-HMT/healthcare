@@ -11,7 +11,7 @@
   "practitioner",
   "inpatient_record",
   "date_of_payment",
-  "time_of_booking",
+  "time_of_payment",
   "column_break_1",
   "patient",
   "service_unit",
@@ -27,6 +27,7 @@
   "patient_name",
   "event",
   "ref_sales_invoice",
+  "fee_valid",
   "column_break_4pp7",
   "patient_sex",
   "patient_age",
@@ -64,6 +65,7 @@
   "bp_diastolic",
   "pulse",
   "bp",
+  "vital_sign",
   "column_break_iwxf",
   "spo2",
   "height",
@@ -80,6 +82,7 @@
    "fetch_from": "patient.inpatient_record",
    "fieldname": "inpatient_record",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Inpatient Record",
    "options": "Inpatient Record",
    "read_only": 1
@@ -186,7 +189,6 @@
    "fieldname": "department",
    "fieldtype": "Link",
    "ignore_user_permissions": 1,
-   "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Department",
    "mandatory_depends_on": "eval:doc.appointment_for==\"Department\"",
@@ -251,6 +253,7 @@
   {
    "fieldname": "appointment_datetime",
    "fieldtype": "Datetime",
+   "in_list_view": 1,
    "label": "Appointment Date time",
    "print_hide": 1,
    "read_only": 1,
@@ -342,6 +345,7 @@
    "set_only_once": 1
   },
   {
+   "depends_on": "eval:!doc.fee_valid",
    "fieldname": "ref_sales_invoice",
    "fieldtype": "Link",
    "label": "Reference Sales Invoice",
@@ -452,17 +456,10 @@
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "ref_sales_invoice.posting_time",
-   "fieldname": "time_of_booking",
-   "fieldtype": "Time",
-   "label": "Time of Payment",
-   "read_only": 1
-  },
-  {
-   "depends_on": "eval:!doc.inpatient_record && doc.ref_sales_invoice",
+   "depends_on": "eval:!doc.inpatient_record && (doc.ref_sales_invoice || doc.fee_valid)",
    "fieldname": "vitals_tab",
    "fieldtype": "Tab Break",
-   "label": "Vitals"
+   "label": "Vitals & Labs"
   },
   {
    "fieldname": "vitals_section",
@@ -547,6 +544,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "depends_on": "eval:!doc.fee_valid",
    "fetch_from": "ref_sales_invoice.posting_date",
    "fieldname": "date_of_payment",
    "fieldtype": "Date",
@@ -559,10 +557,31 @@
    "fieldtype": "Data",
    "label": "SpO<sub>2</sub>",
    "read_only_depends_on": "eval: doc.status !== \"Open\" && doc.status !== \"Scheduled\";"
+  },
+  {
+   "fieldname": "vital_sign",
+   "fieldtype": "Link",
+   "label": "Vital Sign",
+   "options": "Vital Signs",
+   "read_only": 1
+  },
+  {
+   "fieldname": "time_of_payment",
+   "fieldtype": "Time",
+   "label": "Time",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.fee_valid",
+   "fieldname": "fee_valid",
+   "fieldtype": "Check",
+   "label": "Fee Valid",
+   "read_only": 1
   }
  ],
  "links": [],
- "modified": "2024-11-29 15:25:51.489404",
+ "modified": "2024-12-05 19:28:58.855259",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Appointment",
@@ -630,7 +649,7 @@
  "restrict_to_domain": "Healthcare",
  "search_fields": "patient, practitioner, department, appointment_date, appointment_time",
  "show_name_in_global_search": 1,
- "sort_field": "modified",
+ "sort_field": "time_of_payment",
  "sort_order": "DESC",
  "states": [],
  "title_field": "title",

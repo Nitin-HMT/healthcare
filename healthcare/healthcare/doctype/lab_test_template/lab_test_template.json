@@ -108,9 +108,9 @@
    "search_index": 1
   },
   {
+   "default": "Diagnostic",
    "fieldname": "department",
    "fieldtype": "Link",
-   "hidden": 1,
    "ignore_user_permissions": 1,
    "in_standard_filter": 1,
    "label": "Department",
@@ -371,7 +371,6 @@
   {
    "fieldname": "result_format_tab",
    "fieldtype": "Tab Break",
-   "hidden": 1,
    "label": "Result Format"
   },
   {
@@ -420,7 +419,7 @@
   }
  ],
  "links": [],
- "modified": "2024-11-29 16:08:55.212544",
+ "modified": "2024-12-04 13:18:59.724294",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Lab Test Template",

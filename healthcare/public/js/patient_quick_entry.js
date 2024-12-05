@@ -59,9 +59,9 @@ frappe.ui.form.PatientQuickEntryForm = class PatientQuickEntryForm extends frapp
 				fieldtype: 'Column Break'
 			},
 			{
-				label: __('Birth Date'),
-				fieldname: 'dob',
-				fieldtype: 'Date'
+				label: __('Age'),
+				fieldname: 'aged',
+				fieldtype: 'Data'
 			},
 			{
 				label: __('Mobile Number'),
@@ -93,6 +93,11 @@ frappe.ui.form.PatientQuickEntryForm = class PatientQuickEntryForm extends frapp
 			{
 				fieldtype: 'Column Break'
 			},
+			/*{
+				label: __('Birth Date'),
+				fieldname: 'dob',
+				fieldtype: 'Date'
+			},*/
 			{
 				fieldtype: 'Section Break',
 				label: __('Primary Address'),
