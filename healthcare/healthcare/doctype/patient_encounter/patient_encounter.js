@@ -3,7 +3,7 @@
 
 frappe.ui.form.on('Patient Encounter', {
 	onload: function(frm) {
-		msgprint("onload"+frm.doc.pat_hist_string);
+		//msgprint("onload"+frm.doc.pat_hist_string);
 		if (!frm.doc.__islocal && frm.doc.docstatus === 1 &&
 			frm.doc.inpatient_status == 'Admission Scheduled') {
 				frappe.db.get_value('Inpatient Record', frm.doc.inpatient_record,
@@ -28,7 +28,7 @@ frappe.ui.form.on('Patient Encounter', {
 	},
 
 	setup: function(frm) {
-		msgprint("setup"+frm.doc.pat_hist_string);
+		//msgprint("setup"+frm.doc.pat_hist_string);
 		frm.get_field('therapies').grid.editable_fields = [
 			{fieldname: 'therapy_type', columns: 8},
 			{fieldname: 'no_of_sessions', columns: 2}

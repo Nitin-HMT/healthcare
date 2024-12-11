@@ -26,6 +26,9 @@ class PatientEncounter(Document):
 			self.make_service_request()
 			self.make_medication_request()
 			self.status = "Ordered"
+	
+	def before_submit(self):
+		self.pat_hist_string = post_patient_history(self)
 
 	def on_update(self):
 		if self.appointment:
@@ -37,7 +40,6 @@ class PatientEncounter(Document):
 		# self.make_service_request()
 		# self.make_medication_request()
 		# to save service_request name in prescription
-		self.pat_hist_string = post_patient_history(self)
 		self.save("Update")
 		self.db_set("status", "Completed")
 		hist_pat= frappe.get_doc("Patient", self.patient)

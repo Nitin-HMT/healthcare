@@ -3,13 +3,15 @@
 
 frappe.ui.form.on('Lab Test Template', {
 	lab_test_name: function(frm) {
-			x= frm.doc.co_abbr+"-"+frm.doc.lab_test_name
+			
+			x= frm.doc.lab_test_name+"-"+frm.doc.co_abbr
 			frm.set_value('lab_test_code', x);
 		if (!frm.doc.lab_test_description)
 			frm.set_value('lab_test_description', frm.doc.lab_test_name);
 	},
 	refresh : function(frm) {
 		// Restrict Special, Grouped type templates in Child Test Groups
+		refresh_field('co_abbr');
 		frm.set_query('lab_test_template', 'lab_test_groups', function() {
 			return {
 				filters: {

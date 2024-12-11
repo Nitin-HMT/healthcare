@@ -35,7 +35,8 @@
   },
   {
    "fieldname": "column_break_2",
-   "fieldtype": "Column Break"
+   "fieldtype": "Column Break",
+   "hidden": 1
   },
   {
    "fieldname": "codification_table",
@@ -46,11 +47,12 @@
   {
    "fieldname": "codification",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Medical Coding"
   }
  ],
  "links": [],
- "modified": "2024-11-29 16:00:40.789782",
+ "modified": "2024-12-11 22:52:22.064668",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Diagnosis",

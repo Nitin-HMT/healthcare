@@ -3,7 +3,7 @@
 
 frappe.ui.form.on('Clinical Procedure Template', {
 	template: function (frm) {
-		x= frm.doc.co_abbr+"-"+frm.doc.template
+		x= frm.doc.template+"-"+frm.doc.co_abbr
 		frm.set_value('item_code', x);
 		if (!frm.doc.description)
 			frm.set_value('description', frm.doc.template);

@@ -20,6 +20,8 @@
   "residence_phone",
   "office_phone",
   "gender",
+  "company",
+  "co_abbr",
   "column_break_awaa",
   "status",
   "naming_series",
@@ -419,11 +421,24 @@
    "fieldname": "qualifications",
    "fieldtype": "Small Text",
    "label": "Qualifications"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fetch_from": "company.abbr",
+   "fieldname": "co_abbr",
+   "fieldtype": "Data",
+   "label": "co_abbr",
+   "read_only": 1
   }
  ],
  "image_field": "image",
  "links": [],
- "modified": "2024-11-29 15:14:42.406865",
+ "modified": "2024-12-11 18:28:21.165473",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Healthcare Practitioner",
