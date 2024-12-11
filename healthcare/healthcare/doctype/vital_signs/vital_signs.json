@@ -2,7 +2,7 @@
  "actions": [],
  "allow_copy": 1,
  "allow_import": 1,
- "autoname": "naming_series:",
+ "autoname": "format:{co_abbr}-VTS-{YYYY}-{#####}",
  "creation": "2017-02-02 11:00:24.853005",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -19,25 +19,26 @@
   "company",
   "signs_date",
   "signs_time",
+  "co_abbr",
   "sb_vs",
-  "temperature",
+  "bp_systolic",
+  "bp_diastolic",
+  "bp",
   "pulse",
   "respiratory_rate",
   "tongue",
   "abdomen",
+  "reflexes",
   "column_break_8",
   "spo2",
-  "reflexes",
-  "bp_systolic",
-  "bp_diastolic",
-  "bp",
-  "vital_signs_note",
-  "sb_nutrition_values",
   "height",
   "weight",
   "bmi",
-  "column_break_14",
   "nutrition_note",
+  "sb_nutrition_values",
+  "temperature",
+  "column_break_14",
+  "vital_signs_note",
   "sb_references",
   "amended_from"
  ],
@@ -46,6 +47,7 @@
    "fetch_from": "patient.inpatient_record",
    "fieldname": "inpatient_record",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Inpatient Record",
    "options": "Inpatient Record",
    "read_only": 1
@@ -79,6 +81,7 @@
   {
    "fieldname": "encounter",
    "fieldtype": "Link",
+   "hidden": 1,
    "in_filter": 1,
    "label": "Patient Encounter",
    "options": "Patient Encounter",
@@ -128,6 +131,7 @@
    "description": "Normal reference range for an adult is 16\u201320 breaths/minute (RCP 2012)",
    "fieldname": "respiratory_rate",
    "fieldtype": "Data",
+   "hidden": 1,
    "ignore_xss_filter": 1,
    "in_list_view": 1,
    "label": "Respiratory rate"
@@ -135,12 +139,14 @@
   {
    "fieldname": "tongue",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Tongue",
    "options": "\nCoated\nVery Coated\nNormal\nFurry\nCuts"
   },
   {
    "fieldname": "abdomen",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Abdomen",
    "options": "\nNormal\nBloated\nFull\nFluid\nConstipated"
   },
@@ -151,6 +157,7 @@
   {
    "fieldname": "reflexes",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Reflexes",
    "options": "\nNormal\nHyper\nVery Hyper\nOne Sided"
   },
@@ -182,9 +189,10 @@
    "label": "Notes"
   },
   {
+   "collapsible": 1,
    "fieldname": "sb_nutrition_values",
    "fieldtype": "Section Break",
-   "label": "Nutrition Values"
+   "label": "Extras"
   },
   {
    "fieldname": "height",
@@ -214,12 +222,12 @@
    "fieldname": "nutrition_note",
    "fieldtype": "Small Text",
    "ignore_xss_filter": 1,
-   "label": "Notes"
+   "label": "Nutrition Notes"
   },
   {
    "fieldname": "company",
    "fieldtype": "Link",
-   "label": "Company",
+   "label": "Clinic",
    "options": "Company"
   },
   {
@@ -259,15 +267,22 @@
    "fieldtype": "Int",
    "label": "SpO<sub>2</sub>",
    "non_negative": 1
+  },
+  {
+   "fetch_from": "company.abbr",
+   "fieldname": "co_abbr",
+   "fieldtype": "Data",
+   "label": "co_abbr",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-04 13:22:02.367014",
+ "modified": "2024-12-08 00:25:28.948848",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Vital Signs",
- "naming_rule": "By \"Naming Series\" field",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
@@ -296,6 +311,22 @@
    "role": "Nursing User",
    "share": 1,
    "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Doctor",
+   "select": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Reception",
+   "select": 1,
    "write": 1
   }
  ],

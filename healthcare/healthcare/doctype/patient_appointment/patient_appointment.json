@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_import": 1,
- "autoname": "format: APNT-{MM}-{YY}-{####}",
+ "autoname": "format: {co_abbr}-APNT-{MM}{YY}-{####}",
  "creation": "2017-05-04 11:52:40.941507",
  "doctype": "DocType",
  "document_type": "Document",
@@ -23,6 +23,7 @@
   "title",
   "company",
   "department",
+  "co_abbr",
   "section_patient_details",
   "patient_name",
   "event",
@@ -288,7 +289,7 @@
    "fieldname": "company",
    "fieldtype": "Link",
    "in_standard_filter": 1,
-   "label": "Company",
+   "label": "Clinic",
    "no_copy": 1,
    "options": "Company",
    "reqd": 1,
@@ -456,7 +457,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval:!doc.inpatient_record && (doc.ref_sales_invoice || doc.fee_valid)",
+   "depends_on": "eval:!doc.inpatient_record",
    "fieldname": "vitals_tab",
    "fieldtype": "Tab Break",
    "label": "Vitals & Labs"
@@ -578,10 +579,17 @@
    "fieldtype": "Check",
    "label": "Fee Valid",
    "read_only": 1
+  },
+  {
+   "fetch_from": "company.abbr",
+   "fieldname": "co_abbr",
+   "fieldtype": "Data",
+   "label": "co_abbr",
+   "read_only": 1
   }
  ],
  "links": [],
- "modified": "2024-12-05 19:28:58.855259",
+ "modified": "2024-12-08 00:17:56.288723",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Appointment",

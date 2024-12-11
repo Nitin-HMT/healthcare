@@ -2,7 +2,7 @@
  "actions": [],
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "field:template",
+ "autoname": "format:{co_abbr}-{template}",
  "creation": "2017-10-05 14:59:55.438359",
  "description": "Procedure Template",
  "doctype": "DocType",
@@ -17,6 +17,8 @@
   "disabled",
   "pre_op_nursing_checklist_template",
   "post_op_nursing_checklist_template",
+  "clinic",
+  "co_abbr",
   "billing_section",
   "column_break_ea5h",
   "link_existing_item",
@@ -267,14 +269,28 @@
    "fieldtype": "Tab Break",
    "hidden": 1,
    "label": "Service Request Defaults"
+  },
+  {
+   "fieldname": "clinic",
+   "fieldtype": "Link",
+   "label": "Clinic",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "clinic.abbr",
+   "fieldname": "co_abbr",
+   "fieldtype": "Data",
+   "label": "co_abbr",
+   "read_only": 1
   }
  ],
  "links": [],
- "modified": "2024-12-04 13:20:15.225084",
+ "modified": "2024-12-08 00:42:41.861093",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Clinical Procedure Template",
- "naming_rule": "By fieldname",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
@@ -339,6 +355,7 @@
  ],
  "restrict_to_domain": "Healthcare",
  "search_fields": "template",
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

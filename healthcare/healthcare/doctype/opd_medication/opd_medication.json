@@ -46,36 +46,36 @@
   {
    "fieldname": "uom",
    "fieldtype": "Link",
-   "label": "UOM",
+   "label": "Strength UOM",
    "options": "UOM"
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "dosage_form",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Dosage Form",
-   "options": "Dosage Form",
-   "reqd": 1
+   "options": "Dosage Form"
   },
   {
    "fieldname": "section_break_sgbn",
    "fieldtype": "Section Break"
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "default_duration",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Default Duration",
-   "options": "Prescription Duration",
-   "reqd": 1
+   "options": "Prescription Duration"
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "default_dosage",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Default Dosage",
-   "options": "Prescription Dosage",
-   "reqd": 1
+   "options": "Prescription Dosage"
   },
   {
    "fieldname": "clinic",
@@ -100,7 +100,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-05 22:51:44.722616",
+ "modified": "2024-12-06 01:36:59.043081",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "OPD Medication",
@@ -117,6 +117,22 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Doctor",
+   "select": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Reception",
+   "select": 1,
    "write": 1
   }
  ],

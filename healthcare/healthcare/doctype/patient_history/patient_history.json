@@ -1,0 +1,76 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-06 01:10:31.247313",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "history_type",
+  "history_doctype",
+  "column_break_rkbw",
+  "details",
+  "column_break_xzqd",
+  "duration",
+  "comments"
+ ],
+ "fields": [
+  {
+   "fieldname": "details",
+   "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
+   "label": "Details",
+   "options": "history_doctype",
+   "reqd": 1
+  },
+  {
+   "fieldname": "history_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "History Type",
+   "options": "Patient History Type",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "history_type.doctype_link",
+   "fieldname": "history_doctype",
+   "fieldtype": "Link",
+   "label": "History Doctype",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_rkbw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_xzqd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Since",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "comments",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Comments"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-12-08 14:18:53.720097",
+ "modified_by": "Administrator",
+ "module": "Healthcare",
+ "name": "Patient History",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,5 +1,5 @@
 // Copyright (c) 2016, ESS LLP and contributors
-// For license information, please see license.txt
+// For license information, please see license.txt;
 {% include 'healthcare/regional/india/abdm/js/patient.js' %}
 
 frappe.ui.form.on('Patient', {
@@ -35,7 +35,7 @@ frappe.ui.form.on('Patient', {
 			frm.add_custom_button(__('Patient History'), function() {
 				frappe.route_options = {'patient': frm.doc.name};
 				frappe.set_route('patient_history');
-			}, __('View'));
+			}).css({'color':'#184754','background-color': '#8ed9ed'});
 		}
 
 		frappe.dynamic_link = {doc: frm.doc, fieldname: 'name', doctype: 'Patient'};

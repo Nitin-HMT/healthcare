@@ -3,7 +3,7 @@
  "allow_copy": 1,
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "field:lab_test_name",
+ "autoname": "format:{co_abbr}-{lab_test_name}",
  "creation": "2016-03-29 17:35:36.761223",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -13,6 +13,8 @@
   "column_break_3",
   "disabled",
   "nursing_checklist_template",
+  "company",
+  "co_abbr",
   "billing_section",
   "column_break_hih3",
   "link_existing_item",
@@ -114,7 +116,8 @@
    "ignore_user_permissions": 1,
    "in_standard_filter": 1,
    "label": "Department",
-   "options": "Medical Department"
+   "options": "Medical Department",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_3",
@@ -416,14 +419,28 @@
   {
    "fieldname": "column_break_buub",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Clinic",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "company.abbr",
+   "fieldname": "co_abbr",
+   "fieldtype": "Data",
+   "label": "co_abbr",
+   "read_only": 1
   }
  ],
  "links": [],
- "modified": "2024-12-04 13:18:59.724294",
+ "modified": "2024-12-08 00:38:04.192135",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Lab Test Template",
- "naming_rule": "By fieldname",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
@@ -467,6 +484,7 @@
  "quick_entry": 1,
  "restrict_to_domain": "Healthcare",
  "search_fields": "lab_test_code,lab_test_name,lab_test_template_type",
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

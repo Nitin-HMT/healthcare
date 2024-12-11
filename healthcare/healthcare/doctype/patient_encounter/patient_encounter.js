@@ -3,6 +3,7 @@
 
 frappe.ui.form.on('Patient Encounter', {
 	onload: function(frm) {
+		msgprint("onload"+frm.doc.pat_hist_string);
 		if (!frm.doc.__islocal && frm.doc.docstatus === 1 &&
 			frm.doc.inpatient_status == 'Admission Scheduled') {
 				frappe.db.get_value('Inpatient Record', frm.doc.inpatient_record,
@@ -27,6 +28,7 @@ frappe.ui.form.on('Patient Encounter', {
 	},
 
 	setup: function(frm) {
+		msgprint("setup"+frm.doc.pat_hist_string);
 		frm.get_field('therapies').grid.editable_fields = [
 			{fieldname: 'therapy_type', columns: 8},
 			{fieldname: 'no_of_sessions', columns: 2}
@@ -45,7 +47,7 @@ frappe.ui.form.on('Patient Encounter', {
 	},
 
 	refresh: function(frm) {
-
+		//msgprint("refresh"+frm.doc.pat_hist_string);
 		refresh_field('drug_prescription');
 		refresh_field('lab_test_prescription');
 		if(frm.doc.free_followup_visit){
@@ -197,6 +199,74 @@ frappe.ui.form.on('Patient Encounter', {
 				};
 			});
 		}
+		/*if(frm.doc.pat_hist_string){
+			msgprint("x"+frm.doc.pat_hist_string);
+			hist=frm.doc.pat_hist_string.replaceAll(/'/g, '"');
+			hist_str = hist.replaceAll('None', ' ');
+			//msgprint("x"+hist_str);
+			//hist_dict = JSON.parse('{"allergy": [], "medicine": [], "ped": ["HTN+>>2012>> ", "DM2>>2015>> "], "surgery": []}');
+			hist_dict = JSON.parse(hist_str);
+			console.log(hist_dict);
+			allergy_arr= hist_dict.allergy;
+			medicine_arr = hist_dict.medicine;
+			ped_arr = hist_dict.ped;
+			surgery_arr = hist_dict.surgery;
+
+			if(ped_arr){
+				ped_arr.forEach(arr_item =>{
+					//a=xxx>>since>>comments
+					x= arr_item.split(">>");
+					//msgprint(x[0]);
+					let hist_item = frappe.model.add_child(frm.doc,'patient_history');
+					hist_item.history_type = "PED";
+					hist_item.history_doctype = "Diagnosis";
+					hist_item.details = x[0];
+					hist_item.duration = x[1];
+					hist_item.comments = x[2];
+					console.log(hist_item);
+					
+				});
+			}
+			if(medicine_arr){
+				medicine_arr.forEach(arr_item =>{
+					//a=xxx>>since>>comments
+					x= arr_item.split(">>");
+					let hist_item = frappe.model.add_child(frm.doc,'patient_history');
+					hist_item.history_type = "Medication";
+					hist_item.history_doctype = "OPD Medication";
+					hist_item.details = x[0];
+					hist_item.duration = x[1];
+					hist_item.comments = x[2];	
+				});
+			}
+			if(allergy_arr){
+				allergy_arr.forEach(arr_item =>{
+					//a=xxx>>since>>comments
+					x= arr_item.split(">>");
+					let hist_item = frappe.model.add_child(frm.doc,'patient_history');
+					hist_item.history_type = "Allergy";
+					hist_item.history_doctype = "Patient Allergy";
+					hist_item.details = x[0];
+					hist_item.duration = x[1];
+					hist_item.comments = x[2];	
+				});
+			}
+			if(surgery_arr){
+				surgery_arr.forEach(arr_item =>{
+					//a=xxx>>since>>comments
+					x= arr_item.split(">>");
+					let hist_item = frappe.model.add_child(frm.doc,'patient_history');
+					hist_item.history_type = "Surgical History";
+					hist_item.history_doctype = "Clinical Procedure Template";
+					hist_item.details = x[0];
+					hist_item.duration = x[1];
+					hist_item.comments = x[2];	
+				});
+			}
+			frm.set_value('pat_hist_string', "");
+			msgprint("y"+frm.doc.pat_hist_string);
+			//frm.save();
+		} */
 		var table_list =  ["drug_prescription", "lab_test_prescription", "procedure_prescription", "therapies"]
 		apply_code_sm_filter_to_child(frm, "priority", table_list, "Priority")
 		apply_code_sm_filter_to_child(frm, "intent", table_list, "Intent")

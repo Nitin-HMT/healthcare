@@ -3,7 +3,7 @@
  "allow_events_in_timeline": 1,
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "naming_series:",
+ "autoname": "format:{co_abbr}{gen_abbr}{YY}{####}",
  "creation": "2017-01-23 14:03:49.084370",
  "description": "Patient",
  "doctype": "DocType",
@@ -25,6 +25,9 @@
   "email",
   "invite_user",
   "user_id",
+  "company",
+  "co_abbr",
+  "gen_abbr",
   "column_break_ouzg",
   "status",
   "patient_name",
@@ -54,6 +57,7 @@
   "medical_history_tab",
   "personal_and_social_history",
   "occupation",
+  "pat_hist",
   "column_break_25",
   "marital_status",
   "allergy_medical_and_surgical_history",
@@ -203,8 +207,7 @@
    "label": "Mobile",
    "no_copy": 1,
    "options": "Phone",
-   "reqd": 1,
-   "unique": 1
+   "reqd": 1
   },
   {
    "bold": 1,
@@ -246,14 +249,16 @@
    "fieldtype": "Small Text",
    "ignore_xss_filter": 1,
    "label": "Allergies",
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "medication",
    "fieldtype": "Small Text",
    "ignore_xss_filter": 1,
    "label": "Medication",
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_20",
@@ -264,14 +269,16 @@
    "fieldtype": "Small Text",
    "ignore_xss_filter": 1,
    "label": "Medical History",
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "surgical_history",
    "fieldtype": "Small Text",
    "ignore_xss_filter": 1,
    "label": "Surgical History",
-   "no_copy": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "personal_and_social_history",
@@ -299,6 +306,7 @@
   {
    "fieldname": "risk_factors",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Risk Factors"
   },
   {
@@ -508,17 +516,46 @@
    "fieldtype": "Data",
    "label": "Age",
    "non_negative": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "company.abbr",
+   "fieldname": "co_abbr",
+   "fieldtype": "Data",
+   "label": "co_abbr",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "sex.abbr",
+   "fieldname": "gen_abbr",
+   "fieldtype": "Data",
+   "label": "Gen_Abbr",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "pat_hist",
+   "fieldtype": "Small Text",
+   "hidden": 1,
+   "label": "pat_hist",
+   "read_only": 1
   }
  ],
  "icon": "fa fa-user",
  "image_field": "image",
  "links": [],
  "max_attachments": 50,
- "modified": "2024-12-05 00:30:43.567919",
+ "modified": "2024-12-07 23:14:22.088244",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient",
- "naming_rule": "By \"Naming Series\" field",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

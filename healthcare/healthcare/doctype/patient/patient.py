@@ -32,6 +32,8 @@ class Patient(Document):
 		self.load_dashboard_info()
 
 	def validate(self):
+		if self.pat_hist:
+			Update_history(self)
 		self.set_full_name()
 		self.flags.is_new_doc = self.is_new()
 		self.flags.existing_customer = self.is_new() and bool(self.customer)
@@ -353,3 +355,40 @@ def get_patient_detail(patient):
 		vital_sign[0].pop("inpatient_record")
 		details.update(vital_sign[0])
 	return details
+
+@frappe.whitelist()
+def Update_history(doc):
+	history_str = doc.pat_hist.replace('None', '*')
+	hist_dict = eval(history_str)
+	allergies = hist_dict.get("allergy")
+	medicine = hist_dict.get("medicine")
+	ped = hist_dict.get("ped")
+	surgery = hist_dict.get("surgery")
+	allergy_str=""
+	medicine_str=""
+	ped_str=""
+	surgery_str=""
+	if allergies:
+		for p in allergies:
+			#a=xxx>>since>>comments
+			x= p.split(">>")
+			allergy_str += f"{x[0]}, {x[1]}, {x[2]} | "
+	if medicine:
+		for p in medicine:
+			#a=xxx>>since>>comments
+			x= p.split(">>")
+			medicine_str += f"{x[0]}, {x[1]}, {x[2]} | "
+	if ped:
+		for p in ped:
+			#a=xxx>>since>>comments
+			x= p.split(">>")
+			ped_str += f"{x[0]}, {x[1]}, {x[2]} | "
+	if surgery:
+		for p in surgery:
+			#a=xxx>>since>>comments
+			x= p.split(">>")
+			surgery_str += f"{x[0]}, {x[1]}, {x[2]} | "
+	doc.medication = medicine_str
+	doc.medical_history = ped_str
+	doc.allergies = allergy_str
+	doc.surgical_history = surgery_str

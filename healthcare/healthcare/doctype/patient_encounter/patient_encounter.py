@@ -37,9 +37,13 @@ class PatientEncounter(Document):
 		# self.make_service_request()
 		# self.make_medication_request()
 		# to save service_request name in prescription
+		self.pat_hist_string = post_patient_history(self)
 		self.save("Update")
 		self.db_set("status", "Completed")
-
+		hist_pat= frappe.get_doc("Patient", self.patient)
+		hist_pat.pat_hist = self.pat_hist_string
+		hist_pat.save()
+		
 	def before_cancel(self):
 		orders = frappe.get_all("Service Request", {"order_group": self.name})
 		for order in orders:
@@ -544,3 +548,26 @@ def get_encounter_details(doc):
 	)
 
 	return medication_requests, service_requests, clinical_notes
+
+@frappe.whitelist()
+def post_patient_history(doc):
+    final_history = {}
+    allergy_hist =[]
+    medic_hist =[]
+    ped_hist =[]
+    surg_hist =[]
+    for history in doc.patient_history:
+        formatted_hist = f"{history.details}>>{history.duration}>>{history.comments}"
+        if history.history_type == "Allergy":
+            allergy_hist.append(formatted_hist)
+        if history.history_type == "Medication":
+            medic_hist.append(formatted_hist)
+        if history.history_type == "PED":
+            ped_hist.append(formatted_hist)
+        if history.history_type == "Surgical History":
+            surg_hist.append(formatted_hist)
+    final_history['allergy']= allergy_hist
+    final_history['medicine']= medic_hist
+    final_history['ped']= ped_hist
+    final_history['surgery']= surg_hist
+    return str(final_history)

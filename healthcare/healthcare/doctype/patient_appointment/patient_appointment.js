@@ -128,7 +128,7 @@ frappe.ui.form.on('Patient Appointment', {
 				frm.page.set_primary_action(__("Vitals Done"), async function() {
 					
 					if(!frm.doc.bp){
-						frappe.throw(__('Plesse Enter Blood Pressure to procees'));
+						msgprint(__('Please Enter Blood Pressure to proceed'));
 					}
 					else{
 						if (frm.is_dirty()) {

@@ -2,7 +2,7 @@
  "actions": [],
  "allow_copy": 1,
  "allow_import": 1,
- "autoname": "naming_series:",
+ "autoname": "format:{co_abbr}-APP-{MM}{YY}-{###}",
  "creation": "2016-04-21 10:53:44.637684",
  "doctype": "DocType",
  "document_type": "Document",
@@ -15,9 +15,11 @@
   "column_break_jzxt",
   "practitioner_name",
   "free_followup_visit",
+  "company",
   "column_break_umgu",
   "medical_department",
   "invoiced",
+  "co_abbr",
   "section_break_kway",
   "encounter_date",
   "encounter_time",
@@ -28,7 +30,6 @@
   "appointment",
   "amended_from",
   "status",
-  "company",
   "google_meet_link",
   "submit_orders_on_save",
   "patient_details_section",
@@ -59,6 +60,9 @@
   "bmi",
   "nutrition_note",
   "vital_signs_note",
+  "history_section",
+  "patient_history",
+  "pat_hist_string",
   "sb_symptoms",
   "symptoms",
   "symptoms_in_print",
@@ -154,9 +158,9 @@
   {
    "fieldname": "company",
    "fieldtype": "Link",
-   "hidden": 1,
    "label": "Clinic",
-   "options": "Company"
+   "options": "Company",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_6",
@@ -268,7 +272,8 @@
   },
   {
    "fieldname": "sb_test_prescription",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Lab Examination"
   },
   {
    "fieldname": "lab_test_prescription",
@@ -516,7 +521,7 @@
    "read_only": 1
   },
   {
-   "fetch_from": "vital_sign.nutrition_note",
+   "fetch_from": "vital_sign.vital_signs_note",
    "fieldname": "vital_signs_note",
    "fieldtype": "Small Text",
    "label": "Notes",
@@ -527,6 +532,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "collapsible_depends_on": "eval:doc.bp",
    "depends_on": "eval:!doc.inpatient_record",
    "fieldname": "vitals_section",
    "fieldtype": "Section Break",
@@ -634,6 +640,29 @@
    "fieldtype": "Table",
    "label": "OPD Medication",
    "options": "OPD Drug Prescription"
+  },
+  {
+   "fieldname": "history_section",
+   "fieldtype": "Section Break",
+   "label": "History"
+  },
+  {
+   "fieldname": "patient_history",
+   "fieldtype": "Table",
+   "label": "Patient History",
+   "options": "Patient History"
+  },
+  {
+   "fieldname": "pat_hist_string",
+   "fieldtype": "Small Text",
+   "label": "Pat_hist_string"
+  },
+  {
+   "fetch_from": "company.abbr",
+   "fieldname": "co_abbr",
+   "fieldtype": "Data",
+   "label": "co_abbr",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
@@ -647,11 +676,11 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2024-12-05 22:12:13.193435",
+ "modified": "2024-12-09 14:53:38.638887",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",
- "naming_rule": "By \"Naming Series\" field",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
