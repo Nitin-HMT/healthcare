@@ -137,17 +137,37 @@ frappe.ui.form.on('Patient Encounter', {
 
 		frm.set_query('patient', function() {
 			return {
-				filters: {'status': 'Active'}
+				filters: {'status': 'Active', 'company': frm.doc.company}
+			};
+		});
+		frm.set_query('practitioner', function() {
+			return {
+				filters: {'status': 'Active', 'company': frm.doc.company}
 			};
 		});
 
 		frm.set_query('lab_test_code', 'lab_test_prescription', function() {
 			return {
 				filters: {
-					is_billable: 1
+					is_billable: 1, 'company': frm.doc.company
 				}
 			};
 		});
+		frm.set_query('procedure', 'procedure_prescription', function() {
+			return {
+				filters: {
+					'clinic': frm.doc.company, disabled: 0
+				}
+			};
+		});
+		frm.set_query('medicine', 'opd_medication', function() {
+			return {
+				filters: {
+					'clinic': frm.doc.company, enabled: 1
+				}
+			};
+		});
+
 
 		frm.set_query('appointment', function() {
 			return {
@@ -176,6 +196,11 @@ frappe.ui.form.on('Patient Encounter', {
 				}
 			};
 		})
+		frm.set_query('refer_to', function() {
+			return {
+				filters: { 'company': frm.doc.company }
+			};
+		});
 
 		frm.set_df_property('patient', 'read_only', frm.doc.appointment ? 1 : 0);
 
@@ -608,10 +633,11 @@ let create_nursing_tasks = function(frm) {
 				}
 			});
 
-			d.hide();		frm.set_query('lab_test_code', 'lab_test_prescription', function() {
+			d.hide();		
+			frm.set_query('lab_test_code', 'lab_test_prescription', function() {
 				return {
 					filters: {
-						is_billable: 1
+						is_billable: 1, 'company': frm.doc.company
 					}
 				};
 			});

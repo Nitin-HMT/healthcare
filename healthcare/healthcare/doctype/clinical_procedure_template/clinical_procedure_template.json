@@ -2,7 +2,7 @@
  "actions": [],
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "format:{co_abbr}-{template}",
+ "autoname": "format:{template}-{co_abbr}",
  "creation": "2017-10-05 14:59:55.438359",
  "description": "Procedure Template",
  "doctype": "DocType",
@@ -73,6 +73,7 @@
    "in_standard_filter": 1,
    "label": "Item Group",
    "options": "Item Group",
+   "read_only": 1,
    "read_only_depends_on": "eval:doc.link_existing_item",
    "reqd": 1
   },
@@ -275,7 +276,7 @@
    "fieldtype": "Link",
    "label": "Clinic",
    "options": "Company",
-   "reqd": 1
+   "read_only": 1
   },
   {
    "fetch_from": "clinic.abbr",
@@ -286,7 +287,7 @@
   }
  ],
  "links": [],
- "modified": "2024-12-08 00:42:41.861093",
+ "modified": "2024-12-12 18:20:58.464512",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Clinical Procedure Template",

@@ -1,28 +1,61 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "prompt",
+ "autoname": "format:{doctor_name}-{co_abbr}",
  "creation": "2024-11-27 01:08:07.008431",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "speciality"
+  "doctor_name",
+  "more_information",
+  "column_break_ajxn",
+  "company",
+  "co_abbr"
  ],
  "fields": [
   {
-   "fieldname": "speciality",
+   "allow_in_quick_entry": 1,
+   "description": "You can add information such as Speciallity, Hospitals or Phone Numbers etc",
+   "fieldname": "more_information",
+   "fieldtype": "Small Text",
+   "label": "More Information"
+  },
+  {
+   "fieldname": "company",
    "fieldtype": "Link",
-   "label": "Speciality",
-   "options": "Medical Department"
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "doctor_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Doctor Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ajxn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "company.abbr",
+   "fieldname": "co_abbr",
+   "fieldtype": "Data",
+   "label": "co_abbr",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-29 15:28:28.334956",
+ "modified": "2024-12-12 17:15:26.706660",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Referring Doctor",
- "naming_rule": "Set by user",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
@@ -55,7 +88,10 @@
   }
  ],
  "quick_entry": 1,
+ "search_fields": "doctor_name",
+ "show_title_field_in_link": 1,
  "sort_field": "creation",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "doctor_name"
 }

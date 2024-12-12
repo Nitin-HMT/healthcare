@@ -19,11 +19,21 @@ frappe.ui.form.on('Patient Appointment', {
 	refresh: function(frm) {
 		frm.set_query('patient', function() {
 			return {
-				filters: { 'status': 'Active' }
+				filters: { 'status': 'Active','company': frm.doc.company }
+			};
+		});
+		frm.set_query('referring_practitioner', function() {
+			return {
+				filters: { 'company': frm.doc.company }
+			};
+		});
+		frm.set_query('practitioner', function() {
+			return {
+				filters: { 'status': 'Active', 'company': frm.doc.company }
 			};
 		});
 
-		frm.set_query('practitioner', function() {
+		/*frm.set_query('practitioner', function() {
 			if (frm.doc.department) {
 				return {
 					filters: {
@@ -31,7 +41,7 @@ frappe.ui.form.on('Patient Appointment', {
 					}
 				};
 			}
-		});
+		});*/
 
 		frm.set_query('service_unit', function() {
 			return {

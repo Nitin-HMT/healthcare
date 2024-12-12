@@ -171,7 +171,6 @@
    "fieldtype": "Link",
    "in_standard_filter": 1,
    "label": "Healthcare Practitioner",
-   "link_filters": "[[\"Healthcare Practitioner\",\"status\",\"=\",\"Active\"]]",
    "options": "Healthcare Practitioner",
    "reqd": 1
   },
@@ -616,7 +615,8 @@
    "fieldname": "vital_sign",
    "fieldtype": "Link",
    "label": "Vital Sign",
-   "options": "Vital Signs"
+   "options": "Vital Signs",
+   "read_only": 1
   },
   {
    "default": "0",
@@ -653,6 +653,7 @@
    "options": "Patient History"
   },
   {
+   "fetch_from": "patient.pat_hist",
    "fieldname": "pat_hist_string",
    "fieldtype": "Small Text",
    "label": "Pat_hist_string"
@@ -661,6 +662,7 @@
    "fetch_from": "company.abbr",
    "fieldname": "co_abbr",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "co_abbr",
    "read_only": 1
   }
@@ -676,7 +678,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2024-12-09 14:53:38.638887",
+ "modified": "2024-12-12 18:14:09.269766",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",

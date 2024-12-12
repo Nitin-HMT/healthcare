@@ -3,7 +3,7 @@
  "allow_copy": 1,
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "format:{co_abbr}-{lab_test_name}",
+ "autoname": "format:{lab_test_name}-{co_abbr}",
  "creation": "2016-03-29 17:35:36.761223",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -117,6 +117,7 @@
    "in_standard_filter": 1,
    "label": "Department",
    "options": "Medical Department",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -138,6 +139,7 @@
    "fieldname": "is_billable",
    "fieldtype": "Check",
    "label": "Is Billable",
+   "read_only": 1,
    "search_index": 1
   },
   {
@@ -148,7 +150,8 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Rate",
-   "mandatory_depends_on": "eval:doc.is_billable && !doc.link_existing_item"
+   "mandatory_depends_on": "eval:doc.is_billable && !doc.link_existing_item",
+   "read_only": 1
   },
   {
    "depends_on": "eval:doc.lab_test_template_type == 'Single'",
@@ -425,10 +428,11 @@
    "fieldtype": "Link",
    "label": "Clinic",
    "options": "Company",
-   "reqd": 1
+   "read_only": 1
   },
   {
    "fetch_from": "company.abbr",
+   "fetch_if_empty": 1,
    "fieldname": "co_abbr",
    "fieldtype": "Data",
    "label": "co_abbr",
@@ -436,7 +440,7 @@
   }
  ],
  "links": [],
- "modified": "2024-12-11 23:37:39.639240",
+ "modified": "2024-12-12 18:17:31.366841",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Lab Test Template",
@@ -481,7 +485,6 @@
    "write": 1
   }
  ],
- "quick_entry": 1,
  "restrict_to_domain": "Healthcare",
  "search_fields": "lab_test_code,lab_test_name,lab_test_template_type",
  "show_title_field_in_link": 1,
