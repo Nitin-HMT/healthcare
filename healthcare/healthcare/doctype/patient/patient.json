@@ -231,6 +231,7 @@
   {
    "fieldname": "sb_relation",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Patient Relation"
   },
   {
@@ -283,6 +284,7 @@
   {
    "fieldname": "personal_and_social_history",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Personal and Social History"
   },
   {
@@ -528,6 +530,7 @@
    "fetch_from": "company.abbr",
    "fieldname": "co_abbr",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "co_abbr",
    "read_only": 1
   },
@@ -535,9 +538,9 @@
    "fetch_from": "sex.abbr",
    "fieldname": "gen_abbr",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Gen_Abbr",
-   "read_only": 1,
-   "reqd": 1
+   "read_only": 1
   },
   {
    "fieldname": "pat_hist",
@@ -551,7 +554,7 @@
  "image_field": "image",
  "links": [],
  "max_attachments": 50,
- "modified": "2024-12-07 23:14:22.088244",
+ "modified": "2024-12-12 23:48:19.940407",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient",

@@ -188,7 +188,8 @@
   },
   {
    "fieldname": "column_break_18",
-   "fieldtype": "Column Break"
+   "fieldtype": "Column Break",
+   "hidden": 1
   },
   {
    "fieldname": "inpatient_visit_charge_item",
@@ -228,6 +229,7 @@
    "collapsible": 1,
    "fieldname": "account_details",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Account Details"
   },
   {
@@ -387,6 +389,7 @@
   {
    "fieldname": "contacts_tab",
    "fieldtype": "Tab Break",
+   "hidden": 1,
    "label": "Address"
   },
   {
@@ -404,6 +407,7 @@
   {
    "fieldname": "dashboard_tab",
    "fieldtype": "Tab Break",
+   "hidden": 1,
    "label": "Dashboard",
    "show_dashboard": 1
   },
@@ -425,20 +429,22 @@
   {
    "fieldname": "company",
    "fieldtype": "Link",
-   "label": "Company",
-   "options": "Company"
+   "label": "Clinic",
+   "options": "Company",
+   "read_only": 1
   },
   {
    "fetch_from": "company.abbr",
    "fieldname": "co_abbr",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "co_abbr",
    "read_only": 1
   }
  ],
  "image_field": "image",
  "links": [],
- "modified": "2024-12-11 18:28:21.165473",
+ "modified": "2024-12-13 00:02:42.141135",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Healthcare Practitioner",

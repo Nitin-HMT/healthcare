@@ -87,9 +87,9 @@
    "fetch_from": "clinic.abbr",
    "fieldname": "clinic_abbr",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Clinic Abbr",
-   "read_only": 1,
-   "reqd": 1
+   "read_only": 1
   },
   {
    "default": "1",
@@ -100,7 +100,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-12 17:47:52.260651",
+ "modified": "2024-12-12 23:44:43.874098",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "OPD Medication",

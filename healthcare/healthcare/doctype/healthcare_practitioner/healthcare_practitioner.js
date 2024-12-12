@@ -79,11 +79,27 @@ frappe.ui.form.on('Healthcare Practitioner', {
 			frappe.contacts.clear_address_and_contact(frm);
 		}
 
+		frm.set_query('op_consulting_charge_item', function(doc) {
+			return {
+				filters: {
+					'company': frm.doc.company
+				}
+			}
+		})
+
 		frm.set_query('service_unit', 'practitioner_schedules', function(){
 			return {
 				filters: {
 					'is_group': false,
-					'allow_appointments': true
+					'allow_appointments': true,
+					'company': frm.doc.company
+				}
+			};
+		});
+		frm.set_query('schedule', 'practitioner_schedules', function(){
+			return {
+				filters: {
+					'company': frm.doc.company
 				}
 			};
 		});

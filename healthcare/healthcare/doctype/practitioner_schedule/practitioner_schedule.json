@@ -9,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "schedule_name",
+  "company",
   "column_break_2",
   "disabled",
   "allow_video_conferencing",
@@ -53,10 +54,17 @@
    "fieldtype": "Check",
    "hidden": 1,
    "label": "Allow Video Conferencing"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
   }
  ],
  "links": [],
- "modified": "2024-11-29 15:11:02.720860",
+ "modified": "2024-12-13 00:26:20.288578",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Practitioner Schedule",

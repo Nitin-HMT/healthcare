@@ -43,7 +43,7 @@ class LabTestTemplate(Document):
 
 		self.validate_conversion_factor()
 		self.enable_disable_item()
-		self.lab_test_code= self.lab_test_name
+		self.lab_test_code= self.lab_test_name+"-"+self.co_abbr
 
 	def on_update(self):
 		# If change_in_item update Item and Price List

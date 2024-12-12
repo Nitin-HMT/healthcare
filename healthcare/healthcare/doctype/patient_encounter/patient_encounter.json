@@ -647,6 +647,7 @@
    "label": "History"
   },
   {
+   "description": "Entries in this section will be added to permanent history of the patient",
    "fieldname": "patient_history",
    "fieldtype": "Table",
    "label": "Patient History",
@@ -678,7 +679,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2024-12-12 18:14:09.269766",
+ "modified": "2024-12-13 00:30:12.628018",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",
