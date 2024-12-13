@@ -430,8 +430,7 @@
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Clinic",
-   "options": "Company",
-   "read_only": 1
+   "options": "Company"
   },
   {
    "fetch_from": "company.abbr",
@@ -444,7 +443,7 @@
  ],
  "image_field": "image",
  "links": [],
- "modified": "2024-12-13 00:02:42.141135",
+ "modified": "2024-12-14 00:39:05.617508",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Healthcare Practitioner",
