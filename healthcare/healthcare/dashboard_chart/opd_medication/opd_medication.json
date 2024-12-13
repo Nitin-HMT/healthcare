@@ -1,0 +1,44 @@
+{
+ "based_on": "",
+ "chart_name": "OPD Medication",
+ "chart_type": "Group By",
+ "color": "#5d6b0c",
+ "creation": "2024-12-13 02:09:04.283666",
+ "docstatus": 0,
+ "doctype": "Dashboard Chart",
+ "document_type": "OPD Drug Prescription",
+ "dynamic_filters_json": "[]",
+ "filters_json": "[]",
+ "group_by_based_on": "medicine",
+ "group_by_type": "Count",
+ "idx": 0,
+ "is_public": 0,
+ "is_standard": 1,
+ "last_synced_on": "2024-12-13 02:06:10.434148",
+ "modified": "2024-12-13 02:09:22.205150",
+ "modified_by": "Administrator",
+ "module": "Healthcare",
+ "name": "OPD Medication",
+ "number_of_groups": 0,
+ "owner": "Administrator",
+ "parent_document_type": "Patient Encounter",
+ "roles": [
+  {
+   "role": "OPD Doctor"
+  },
+  {
+   "role": "Healthcare Administrator"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "source": "",
+ "time_interval": "Yearly",
+ "timeseries": 0,
+ "timespan": "Last Year",
+ "type": "Bar",
+ "use_report_chart": 0,
+ "value_based_on": "",
+ "y_axis": []
+}

@@ -3,7 +3,7 @@
 
 frappe.ui.form.on('Patient Encounter', {
 	onload: function(frm) {
-		//msgprint("onload"+frm.doc.pat_hist_string);
+		//msgprint("onload");
 		if (!frm.doc.__islocal && frm.doc.docstatus === 1 &&
 			frm.doc.inpatient_status == 'Admission Scheduled') {
 				frappe.db.get_value('Inpatient Record', frm.doc.inpatient_record,
@@ -28,7 +28,7 @@ frappe.ui.form.on('Patient Encounter', {
 	},
 
 	setup: function(frm) {
-		//msgprint("setup"+frm.doc.pat_hist_string);
+//		msgprint("setup");
 		frm.get_field('therapies').grid.editable_fields = [
 			{fieldname: 'therapy_type', columns: 8},
 			{fieldname: 'no_of_sessions', columns: 2}
@@ -224,14 +224,15 @@ frappe.ui.form.on('Patient Encounter', {
 				};
 			});
 		}
-		/*if(frm.doc.pat_hist_string){
-			msgprint("x"+frm.doc.pat_hist_string);
+		//msgprint("x"+frm.doc.pat_hist_string+ "X"+frm.doc.patient_history.length );
+		if(frm.doc.pat_hist_string && (frm.doc.patient_history.length<1)){
+			//msgprint("x"+frm.doc.pat_hist_string+ "X"+frm.doc.patient_history );
 			hist=frm.doc.pat_hist_string.replaceAll(/'/g, '"');
 			hist_str = hist.replaceAll('None', ' ');
 			//msgprint("x"+hist_str);
 			//hist_dict = JSON.parse('{"allergy": [], "medicine": [], "ped": ["HTN+>>2012>> ", "DM2>>2015>> "], "surgery": []}');
 			hist_dict = JSON.parse(hist_str);
-			console.log(hist_dict);
+			//console.log(hist_dict);
 			allergy_arr= hist_dict.allergy;
 			medicine_arr = hist_dict.medicine;
 			ped_arr = hist_dict.ped;
@@ -248,7 +249,7 @@ frappe.ui.form.on('Patient Encounter', {
 					hist_item.details = x[0];
 					hist_item.duration = x[1];
 					hist_item.comments = x[2];
-					console.log(hist_item);
+					//console.log(frm.doc.patient_history.length);
 					
 				});
 			}
@@ -288,10 +289,10 @@ frappe.ui.form.on('Patient Encounter', {
 					hist_item.comments = x[2];	
 				});
 			}
-			frm.set_value('pat_hist_string', "");
-			msgprint("y"+frm.doc.pat_hist_string);
-			//frm.save();
-		} */
+			//frm.set_value('pat_hist_string', "");
+			//msgprint("y"+frm.doc.pat_hist_string);
+			frm.save();
+		}
 		var table_list =  ["drug_prescription", "lab_test_prescription", "procedure_prescription", "therapies"]
 		apply_code_sm_filter_to_child(frm, "priority", table_list, "Priority")
 		apply_code_sm_filter_to_child(frm, "intent", table_list, "Intent")

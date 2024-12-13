@@ -2,23 +2,15 @@
  "app": "healthcare",
  "charts": [
   {
-   "chart_name": "Medication",
-   "label": "Prescribed Medicines"
+   "chart_name": "OPD Medication",
+   "label": "OPD Medication"
   },
   {
    "chart_name": "Patient Appointments",
    "label": "Patient Appointments"
-  },
-  {
-   "chart_name": "Diagnoses",
-   "label": "Diagnoses"
-  },
-  {
-   "chart_name": "Symptoms",
-   "label": "Symptoms"
   }
  ],
- "content": "[{\"id\":\"Pxv75-eWrm\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Doctor's Dashboard<br></span>\",\"col\":12}},{\"id\":\"gX51TDF943\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Awaiting Consult\",\"col\":8}},{\"id\":\"U7c2EMFIDt\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Payment Pending Patients\",\"col\":4}},{\"id\":\"Xrk3bwEg8X\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Patients Waiting\",\"col\":4}},{\"id\":\"7eC-eEWQDn\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Completed Consultations\",\"col\":4}},{\"id\":\"wg9Y2V5YQM\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Revenue Today\",\"col\":4}},{\"id\":\"RUJsApH5k7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Appointment\",\"col\":5}},{\"id\":\"ydWrGnhAAQ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Prescription\",\"col\":4}},{\"id\":\"Yn3BsRscRJ\",\"type\":\"card\",\"data\":{\"card_name\":\"Doctor's Master\",\"col\":4}},{\"id\":\"2nfeyzRjPN\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Statistics <br></b></span>\",\"col\":12}},{\"id\":\"LLT5yJDyes\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Patients\",\"col\":4}},{\"id\":\"rSH9CvRXaB\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Patient Appointments\",\"col\":8}},{\"id\":\"cFALYerIic\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Diagnoses\",\"col\":6}},{\"id\":\"iMSWFLTZO-\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Symptoms\",\"col\":6}},{\"id\":\"hP9A_KCB7u\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Prescribed Medicines\",\"col\":12}}]",
+ "content": "[{\"id\":\"Pxv75-eWrm\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Doctor's Dashboard<br></span>\",\"col\":12}},{\"id\":\"gX51TDF943\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Awaiting Consult\",\"col\":8}},{\"id\":\"U7c2EMFIDt\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Payment Pending Patients\",\"col\":4}},{\"id\":\"Xrk3bwEg8X\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Patients Waiting\",\"col\":4}},{\"id\":\"7eC-eEWQDn\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Completed Consultations\",\"col\":4}},{\"id\":\"wg9Y2V5YQM\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Revenue Today\",\"col\":4}},{\"id\":\"RUJsApH5k7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Appointment\",\"col\":5}},{\"id\":\"ydWrGnhAAQ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Prescription\",\"col\":4}},{\"id\":\"Yn3BsRscRJ\",\"type\":\"card\",\"data\":{\"card_name\":\"Doctor's Master\",\"col\":4}},{\"id\":\"2nfeyzRjPN\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Statistics <br></b></span>\",\"col\":12}},{\"id\":\"LLT5yJDyes\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Patients\",\"col\":4}},{\"id\":\"rSH9CvRXaB\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Patient Appointments\",\"col\":8}},{\"id\":\"hP9A_KCB7u\",\"type\":\"chart\",\"data\":{\"chart_name\":\"OPD Medication\",\"col\":12}}]",
  "creation": "2024-11-29 13:43:39.902614",
  "custom_blocks": [],
  "docstatus": 0,
@@ -36,7 +28,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Doctor's Master",
-   "link_count": 12,
+   "link_count": 10,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -84,29 +76,9 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Medication DB",
+   "label": "OPD Medication DB",
    "link_count": 0,
-   "link_to": "Medication",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Medication Class DB",
-   "link_count": 0,
-   "link_to": "Medication Class",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Manufacturer DB",
-   "link_count": 0,
-   "link_to": "Manufacturer",
+   "link_to": "OPD Medication",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -162,7 +134,7 @@
    "type": "Link"
   }
  ],
- "modified": "2024-11-29 14:36:24.403908",
+ "modified": "2024-12-13 02:10:05.822562",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "OPD Doctor",

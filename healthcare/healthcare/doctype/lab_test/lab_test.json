@@ -13,22 +13,19 @@
   "lab_test_name",
   "lab_test_group",
   "department",
-  "column_break_26",
-  "company",
   "status",
-  "date",
-  "time",
-  "submitted_date",
+  "column_break_ugcq",
   "result_date",
-  "approved_date",
-  "expected_result_date",
-  "expected_result_time",
-  "printed_on",
-  "sb_first",
+  "time",
+  "company",
+  "co_abbr",
+  "column_break_ofmo",
   "patient",
   "patient_name",
-  "patient_age",
   "patient_sex",
+  "patient_age",
+  "aged",
+  "sb_first",
   "inpatient_record",
   "report_preference",
   "email",
@@ -43,6 +40,13 @@
   "employee_designation",
   "user",
   "sample",
+  "column_break_26",
+  "date",
+  "submitted_date",
+  "approved_date",
+  "expected_result_date",
+  "expected_result_time",
+  "printed_on",
   "sb_normal",
   "lab_test_html",
   "normal_test_items",
@@ -68,6 +72,8 @@
   "more_information_section",
   "service_request",
   "invoiced",
+  "column_break_yrdk",
+  "amended_from",
   "section_break_50",
   "email_sent",
   "sms_sent",
@@ -76,14 +82,15 @@
   "imaging_toggle",
   "descriptive_toggle",
   "sensitivity_toggle",
-  "amended_from",
-  "prescription"
+  "prescription",
+  "dashboard_tab"
  ],
  "fields": [
   {
    "fetch_from": "patient.inpatient_record",
    "fieldname": "inpatient_record",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Inpatient Record",
    "options": "Inpatient Record",
    "read_only": 1
@@ -98,7 +105,7 @@
    "reqd": 1
   },
   {
-   "default": "0",
+   "default": "1",
    "fieldname": "invoiced",
    "fieldtype": "Check",
    "label": "Invoiced",
@@ -121,6 +128,7 @@
    "fetch_from": "patient.patient_name",
    "fieldname": "patient_name",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Patient Name",
    "print_hide": 1,
    "read_only": 1,
@@ -129,6 +137,7 @@
   {
    "fieldname": "patient_age",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Age",
    "print_hide": 1,
    "read_only": 1,
@@ -148,6 +157,7 @@
   {
    "fieldname": "practitioner",
    "fieldtype": "Link",
+   "hidden": 1,
    "ignore_user_permissions": 1,
    "in_list_view": 1,
    "label": "Requesting Practitioner",
@@ -228,6 +238,7 @@
   {
    "fieldname": "sample",
    "fieldtype": "Link",
+   "hidden": 1,
    "ignore_user_permissions": 1,
    "in_filter": 1,
    "label": "Sample ID",
@@ -255,7 +266,6 @@
    "fieldname": "result_date",
    "fieldtype": "Date",
    "label": "Result Date",
-   "read_only": 1,
    "search_index": 1
   },
   {
@@ -268,6 +278,7 @@
   {
    "fieldname": "employee",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Employee (Lab Technician)",
    "no_copy": 1,
    "options": "Employee",
@@ -278,6 +289,7 @@
    "fetch_from": "employee.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Lab Technician Name",
    "no_copy": 1,
    "print_hide": 1,
@@ -288,6 +300,7 @@
    "fetch_from": "employee.designation",
    "fieldname": "employee_designation",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Lab Technician Designation",
    "no_copy": 1,
    "print_hide": 1,
@@ -308,6 +321,7 @@
    "fetch_from": "patient.report_preference",
    "fieldname": "report_preference",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Report Preference",
    "print_hide": 1,
    "read_only": 1,
@@ -315,7 +329,8 @@
   },
   {
    "fieldname": "sb_first",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "hidden": 1
   },
   {
    "fieldname": "lab_test_name",
@@ -388,6 +403,7 @@
    "collapsible": 1,
    "fieldname": "sb_comments",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Comments"
   },
   {
@@ -401,6 +417,7 @@
    "collapsible": 1,
    "fieldname": "sb_customresult",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Custom Result"
   },
   {
@@ -473,12 +490,14 @@
   },
   {
    "fieldname": "column_break_26",
-   "fieldtype": "Column Break"
+   "fieldtype": "Column Break",
+   "hidden": 1
   },
   {
    "fetch_from": "practitioner.department",
    "fieldname": "requesting_department",
    "fieldtype": "Link",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Requesting Department",
    "options": "Medical Department",
@@ -488,6 +507,7 @@
    "fetch_from": "practitioner.practitioner_name",
    "fieldname": "practitioner_name",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Requesting Practitioner",
    "read_only": 1
   },
@@ -495,6 +515,7 @@
    "collapsible": 1,
    "fieldname": "result_legend_section",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Result Legend Print"
   },
   {
@@ -512,7 +533,8 @@
   },
   {
    "fieldname": "section_break_50",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "hidden": 1
   },
   {
    "fieldname": "worksheet_instructions",
@@ -524,6 +546,7 @@
    "collapsible": 1,
    "fieldname": "worksheet_section",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Worksheet Print"
   },
   {
@@ -585,6 +608,7 @@
    "allow_in_quick_entry": 1,
    "fieldname": "time",
    "fieldtype": "Time",
+   "hidden": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Time"
@@ -599,6 +623,7 @@
    "collapsible": 1,
    "fieldname": "medical_coding_section",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Medical Coding"
   },
   {
@@ -610,6 +635,7 @@
   {
    "fieldname": "service_unit",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Service Unit",
    "options": "Healthcare Service Unit"
   },
@@ -623,6 +649,40 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "column_break_ugcq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ofmo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_yrdk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "patient.aged",
+   "fieldname": "aged",
+   "fieldtype": "Data",
+   "label": "Age",
+   "read_only": 1
+  },
+  {
+   "fieldname": "dashboard_tab",
+   "fieldtype": "Tab Break",
+   "hidden": 1,
+   "label": "Dashboard",
+   "show_dashboard": 1
+  },
+  {
+   "fetch_from": "company.abbr",
+   "fieldname": "co_abbr",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "co_abbr",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
@@ -632,7 +692,7 @@
    "link_fieldname": "reference_name"
   }
  ],
- "modified": "2023-06-21 00:31:52.282467",
+ "modified": "2024-12-13 23:09:10.622151",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Lab Test",

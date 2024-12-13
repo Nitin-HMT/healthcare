@@ -57,11 +57,11 @@ class PatientHistory {
 	make_patient_profile() {
 		this.page.set_title(__('Patient History'));
 		this.main_section.empty().append(frappe.render_template('patient_history'));
-		this.setup_filters();
+		//this.setup_filters();
 		this.setup_documents();
 		this.show_patient_info();
 		this.setup_buttons();
-		this.show_patient_vital_charts('bp', 'mmHg', 'Blood Pressure');
+		//this.show_patient_vital_charts('bp', 'mmHg', 'Blood Pressure');
 	}
 
 	setup_filters() {
@@ -278,10 +278,10 @@ class PatientHistory {
 				if (data.surgical_history) details +=  `<br><b> ${__('Surgical history')} : </b> ${data.surgical_history.replace(/\n/g, ", ")}`;
 				if (data.surrounding_factors) details +=  `<br><br><b> ${__('Occupational hazards')} : </b> ${data.surrounding_factors.replace(/\n/g, ", ")}`;
 				if (data.other_risk_factors) details += `<br><b> ${__('Other risk factors')} : </b> ${data.other_risk_factors.replace(/\n/g, ", ")}`;
-				if (data.patient_details) details += `<br><br><b> ${__('More info')} : </b> ${data.patient_details.replace(/\n/g, ", ")}`;
+				if (data.patient_details) details += `<br><br><p style="color:#9e1321;"> <b>${__('More info')} :</b>  ${data.patient_details.replace(/\n/g, ", ")} </p>`;
 
 				if (details) {
-					details = `<div style='font-size:13px;' align='left'>` + details + `</div>`;
+					details = `<div style='font-size:13px; background-color:#f2f3fa;' align='left'>` + details + `</div>`;
 				}
 
 				me.sidebar.find('.patient-details').html(details);

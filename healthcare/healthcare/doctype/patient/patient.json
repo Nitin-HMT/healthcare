@@ -545,7 +545,6 @@
   {
    "fieldname": "pat_hist",
    "fieldtype": "Small Text",
-   "hidden": 1,
    "label": "pat_hist",
    "read_only": 1
   }
@@ -554,7 +553,7 @@
  "image_field": "image",
  "links": [],
  "max_attachments": 50,
- "modified": "2024-12-12 23:48:19.940407",
+ "modified": "2024-12-13 18:20:59.820031",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient",

@@ -26,6 +26,7 @@
   "naming_series",
   "title",
   "appointment_type",
+  "referred_doctor",
   "column_break_6",
   "appointment",
   "amended_from",
@@ -654,9 +655,11 @@
    "options": "Patient History"
   },
   {
+   "allow_on_submit": 1,
    "fetch_from": "patient.pat_hist",
    "fieldname": "pat_hist_string",
    "fieldtype": "Small Text",
+   "hidden": 1,
    "label": "Pat_hist_string"
   },
   {
@@ -665,6 +668,14 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "co_abbr",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "appointment.referring_practitioner",
+   "fieldname": "referred_doctor",
+   "fieldtype": "Link",
+   "label": "Referred Doctor",
+   "options": "Referring Doctor",
    "read_only": 1
   }
  ],
@@ -679,7 +690,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2024-12-13 00:30:12.628018",
+ "modified": "2024-12-13 20:42:06.044774",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",

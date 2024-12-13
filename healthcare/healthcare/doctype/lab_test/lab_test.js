@@ -38,11 +38,11 @@ frappe.ui.form.on('Lab Test', {
 	refresh: function (frm) {
 		refresh_field('normal_test_items');
 		refresh_field('descriptive_test_items');
-		if (frm.doc.__islocal) {
+		/*if (frm.doc.__islocal) {
 			frm.add_custom_button(__('Get from Patient Encounter'), function () {
 				get_lab_test_prescribed(frm);
 			});
-		}
+		}*/
 
 		frm.set_query("code_value", "codification_table", function(doc, cdt, cdn) {
 			let row = frappe.get_doc(cdt, cdn);
@@ -66,7 +66,7 @@ frappe.ui.form.on('Lab Test', {
 			}
 		}
 
-		if (frm.doc.docstatus === 1 && frm.doc.sms_sent === 0 && frm.doc.status !== 'Rejected' ) {
+		/*if (frm.doc.docstatus === 1 && frm.doc.sms_sent === 0 && frm.doc.status !== 'Rejected' ) {
 			frm.add_custom_button(__('Send SMS'), function () {
 				frappe.call({
 					method: 'healthcare.healthcare.doctype.healthcare_settings.healthcare_settings.get_sms_text',
@@ -80,7 +80,7 @@ frappe.ui.form.on('Lab Test', {
 					}
 				});
 			});
-		}
+		}*/
 	},
 
 	template: function(frm) {

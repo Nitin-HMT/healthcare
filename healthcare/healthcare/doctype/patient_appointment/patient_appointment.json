@@ -178,6 +178,8 @@
    "depends_on": "eval:doc.appointment_for==\"Practitioner\"",
    "fieldname": "practitioner",
    "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Healthcare Practitioner",
    "options": "Healthcare Practitioner",
@@ -569,7 +571,7 @@
   {
    "fieldname": "time_of_payment",
    "fieldtype": "Time",
-   "label": "Time",
+   "label": "Time of Payment",
    "read_only": 1
   },
   {
@@ -590,7 +592,7 @@
   }
  ],
  "links": [],
- "modified": "2024-12-13 01:13:12.881666",
+ "modified": "2024-12-13 18:00:10.585839",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Appointment",

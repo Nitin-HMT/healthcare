@@ -434,12 +434,13 @@
    "fetch_if_empty": 1,
    "fieldname": "co_abbr",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "co_abbr",
    "read_only": 1
   }
  ],
  "links": [],
- "modified": "2024-12-12 23:42:13.577670",
+ "modified": "2024-12-13 23:11:26.195165",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Lab Test Template",

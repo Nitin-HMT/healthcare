@@ -1,4 +1,4 @@
-frappe.ui.form.on('Patient', {
+/*frappe.ui.form.on('Patient', {
 	refresh: function (frm) {
 		if (frappe.boot.sysdefaults.country == 'India') {
 			unhide_field(['abha_number', 'abha_address']);
@@ -21,7 +21,7 @@ frappe.ui.form.on('Patient', {
 			hide_field(['abha_number', 'abha_address']);
 		}
 	}
-});
+});*/
 
 // search by ABHA address. If know ABHA number, can be verified
 let search_by_abha_address = function (frm) {
