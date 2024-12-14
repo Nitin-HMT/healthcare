@@ -38,6 +38,11 @@ frappe.ui.form.on('Lab Test', {
 				filters: { 'disabled': 0 ,'company': frm.doc.company }
 			};
 		});
+		frm.set_query('patient', function() {
+			return {
+				filters: { 'status': 'Active','company': frm.doc.company }
+			};
+		});
 	},
 
 	refresh: function (frm) {
