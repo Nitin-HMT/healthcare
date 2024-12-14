@@ -129,7 +129,8 @@
    "fieldtype": "Select",
    "in_standard_filter": 1,
    "label": "Result Format",
-   "options": "\nSingle\nCompound\nDescriptive\nGrouped\nImaging\nNo Result"
+   "options": "\nSingle\nCompound\nDescriptive\nGrouped\nImaging\nNo Result",
+   "permlevel": 1
   },
   {
    "default": "1",
@@ -164,13 +165,15 @@
    "ignore_user_permissions": 1,
    "in_list_view": 1,
    "label": "UOM",
-   "options": "Lab Test UOM"
+   "options": "Lab Test UOM",
+   "permlevel": 1
   },
   {
    "fieldname": "lab_test_normal_range",
    "fieldtype": "Long Text",
    "ignore_xss_filter": 1,
-   "label": "Normal Range"
+   "label": "Normal Range",
+   "permlevel": 1
   },
   {
    "fieldname": "column_break_10",
@@ -294,7 +297,8 @@
    "fieldname": "secondary_uom",
    "fieldtype": "Link",
    "label": "Secondary UOM",
-   "options": "Lab Test UOM"
+   "options": "Lab Test UOM",
+   "permlevel": 1
   },
   {
    "depends_on": "secondary_uom",
@@ -440,7 +444,7 @@
   }
  ],
  "links": [],
- "modified": "2024-12-13 23:11:26.195165",
+ "modified": "2024-12-14 19:19:46.675113",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Lab Test Template",
@@ -481,6 +485,22 @@
    "read": 1,
    "report": 1,
    "role": "OPD Reception",
+   "select": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Lab",
+   "select": 1,
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Lab",
    "select": 1,
    "write": 1
   }

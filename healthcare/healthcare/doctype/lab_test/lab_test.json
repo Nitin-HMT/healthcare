@@ -692,7 +692,7 @@
    "link_fieldname": "reference_name"
   }
  ],
- "modified": "2024-12-13 23:09:10.622151",
+ "modified": "2024-12-14 19:01:36.574357",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Lab Test",
@@ -741,6 +741,19 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Lab",
    "select": 1,
    "share": 1,
    "submit": 1,

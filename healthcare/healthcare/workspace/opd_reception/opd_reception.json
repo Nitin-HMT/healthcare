@@ -1,7 +1,7 @@
 {
  "app": "healthcare",
  "charts": [],
- "content": "[{\"id\":\"1Hd5m66V4t\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Reception Dashboard<br></span>\",\"col\":12}},{\"id\":\"oo5zUhxOEh\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b></b></span>\",\"col\":12}},{\"id\":\"OSok7DHrh_\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Payment Pending Patients\",\"col\":4}},{\"id\":\"UeYv3zvtAV\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Booked But Vitals not Taken\",\"col\":4}},{\"id\":\"Om5XttGxiI\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Ready for Doctor\",\"col\":4}},{\"id\":\"E4mYBbH47e\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Patients Waiting\",\"col\":4}},{\"id\":\"yv--IeX8Qd\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Finished Patients\",\"col\":4}},{\"id\":\"7HRP_OB3Lb\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Collection Today\",\"col\":4}},{\"id\":\"wTElkOjiRz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New OPD Appointment\",\"col\":4}},{\"id\":\"YFzit87TLU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Appointment List\",\"col\":4}},{\"id\":\"3JwCgiU1kE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Interaction\",\"col\":4}},{\"id\":\"CCO8CGAyzC\",\"type\":\"card\",\"data\":{\"card_name\":\"Reception Master\",\"col\":4}},{\"id\":\"IY_ALaDZhM\",\"type\":\"card\",\"data\":{\"card_name\":\"Doctor's Master\",\"col\":4}}]",
+ "content": "[{\"id\":\"1Hd5m66V4t\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Reception Dashboard<br></span>\",\"col\":12}},{\"id\":\"oo5zUhxOEh\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b></b></span>\",\"col\":12}},{\"id\":\"OSok7DHrh_\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Payment Pending Patients\",\"col\":4}},{\"id\":\"UeYv3zvtAV\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Booked But Vitals not Taken\",\"col\":4}},{\"id\":\"Om5XttGxiI\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Ready for Doctor\",\"col\":4}},{\"id\":\"E4mYBbH47e\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Patients Waiting\",\"col\":4}},{\"id\":\"wTElkOjiRz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New OPD Appointment\",\"col\":4}},{\"id\":\"YFzit87TLU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Appointment List\",\"col\":4}},{\"id\":\"yv--IeX8Qd\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Finished Patients\",\"col\":4}},{\"id\":\"t0uI15iSWM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Partient Lab Test\",\"col\":4}},{\"id\":\"3JwCgiU1kE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Prescription List\",\"col\":4}},{\"id\":\"7HRP_OB3Lb\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Collection Today\",\"col\":4}},{\"id\":\"CCO8CGAyzC\",\"type\":\"card\",\"data\":{\"card_name\":\"Reception Master\",\"col\":4}},{\"id\":\"IY_ALaDZhM\",\"type\":\"card\",\"data\":{\"card_name\":\"Doctor's Master\",\"col\":4}}]",
  "creation": "2024-11-29 01:50:20.468074",
  "custom_blocks": [],
  "docstatus": 0,
@@ -184,7 +184,7 @@
    "type": "Link"
   }
  ],
- "modified": "2024-12-13 02:05:43.604720",
+ "modified": "2024-12-14 19:30:30.842369",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "OPD Reception",
@@ -253,9 +253,17 @@
    "type": "DocType"
   },
   {
+   "color": "Grey",
+   "doc_view": "New",
+   "label": "New Partient Lab Test",
+   "link_to": "Lab Test",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
    "color": "Green",
    "doc_view": "List",
-   "label": "Patient Interaction",
+   "label": "Patient Prescription List",
    "link_to": "Patient Encounter",
    "stats_filter": "[[\"Patient Encounter\",\"status\",\"!=\",\"Cancelled\",false]]",
    "type": "DocType"
