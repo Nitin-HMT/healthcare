@@ -33,6 +33,11 @@ frappe.ui.form.on('Lab Test', {
 				}
 			};
 		});
+		frm.set_query('template', function() {
+			return {
+				filters: { 'disabled': 0 ,'company': frm.doc.company }
+			};
+		});
 	},
 
 	refresh: function (frm) {
