@@ -224,7 +224,8 @@ frappe.ui.form.on('Patient Encounter', {
 				};
 			});
 		}
-		//msgprint("x"+frm.doc.pat_hist_string+ "X"+frm.doc.patient_history.length );
+		//msgprint("xhjbvjhbjh"+frm.doc.pat_hist_string+ "X"+frm.doc.patient_history.length );
+		//frm.add_fetch("patient","pat_hist","pat_hist_string");
 		if(frm.doc.pat_hist_string && (frm.doc.patient_history.length<1)){
 			//msgprint("x"+frm.doc.pat_hist_string+ "X"+frm.doc.patient_history );
 			hist=frm.doc.pat_hist_string.replaceAll(/'/g, '"');
