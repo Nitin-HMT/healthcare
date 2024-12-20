@@ -370,6 +370,7 @@
    "description": "Additional information regarding the patient",
    "fieldname": "patient_details",
    "fieldtype": "Text",
+   "hidden": 1,
    "ignore_xss_filter": 1,
    "label": "Patient Details",
    "no_copy": 1
@@ -553,7 +554,7 @@
  "image_field": "image",
  "links": [],
  "max_attachments": 50,
- "modified": "2024-12-13 18:20:59.820031",
+ "modified": "2024-12-19 03:45:31.870686",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient",

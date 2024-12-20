@@ -33,6 +33,7 @@
   "status",
   "google_meet_link",
   "submit_orders_on_save",
+  "lab_test",
   "patient_details_section",
   "patient",
   "patient_name",
@@ -87,9 +88,10 @@
   "section_break_33",
   "column_break_jbew",
   "refer_to",
+  "column_break_hczn",
   "follow_up",
   "next_follow_up_date",
-  "column_break_hczn",
+  "doctors_pvt_notes_section",
   "encounter_comment",
   "encounter_details_tab",
   "order_history_html",
@@ -293,7 +295,7 @@
    "fieldname": "encounter_comment",
    "fieldtype": "Small Text",
    "ignore_xss_filter": 1,
-   "label": "Doctors Pvt Notes",
+   "label": "Your Pvt Notes",
    "no_copy": 1
   },
   {
@@ -678,6 +680,18 @@
    "label": "Referred Doctor",
    "options": "Referring Doctor",
    "read_only": 1
+  },
+  {
+   "fetch_from": "appointment.lab_test",
+   "fieldname": "lab_test",
+   "fieldtype": "Link",
+   "label": "<mark><b><u>Current Lab Tes</u>t</b></mark>",
+   "options": "Lab Test"
+  },
+  {
+   "fieldname": "doctors_pvt_notes_section",
+   "fieldtype": "Section Break",
+   "label": "Doctors Pvt Notes"
   }
  ],
  "is_submittable": 1,
@@ -691,7 +705,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2024-12-15 18:05:55.286334",
+ "modified": "2024-12-19 04:00:26.789028",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",

@@ -44,7 +44,8 @@ class PatientEncounter(Document):
 		self.db_set("status", "Completed")
 		hist_pat= frappe.get_doc("Patient", self.patient)
 		hist_pat.pat_hist = self.pat_hist_string
-		hist_pat.patient_details = f"{datetime.now().strftime('%d-%m-%Y')}<br>{self.encounter_comment}"
+		if(self.encounter_comment):
+			hist_pat.patient_details = f"{hist_pat.patient_details}<br>{datetime.now().strftime('%d-%m-%Y')}<br>{self.encounter_comment}"
 		hist_pat.save()
 		
 	def before_cancel(self):

@@ -6,6 +6,7 @@
 import frappe
 from frappe import _
 from frappe.model.document import Document
+from frappe.model.mapper import get_mapped_doc
 from frappe.utils import get_link_to_form, getdate, now_datetime
 
 from healthcare.healthcare.doctype.nursing_task.nursing_task import NursingTask
@@ -448,3 +449,21 @@ def get_lab_test_prescribed(patient):
 		.where(hso.template_dt == "Lab Test Template")
 		.orderby(hso.creation, order=frappe.qb.desc)
 	).run()
+
+@frappe.whitelist()
+def make_appointment(source_name, target_doc=None):
+	doc = get_mapped_doc(
+		"Lab Test",
+		source_name,
+		{
+			"Lab Test": {
+				"doctype": "Patient Appointment",
+				"field_map": [
+					["patient", "patient"],
+					["company", "company"],
+				],
+			}
+		},
+		target_doc,
+	)
+	return doc

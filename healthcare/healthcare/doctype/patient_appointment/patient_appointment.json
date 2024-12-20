@@ -67,8 +67,10 @@
   "pulse",
   "bp",
   "vital_sign",
+  "lab_test",
   "column_break_iwxf",
   "spo2",
+  "ht",
   "height",
   "weight",
   "bmi",
@@ -462,7 +464,7 @@
    "depends_on": "eval:!doc.inpatient_record",
    "fieldname": "vitals_tab",
    "fieldtype": "Tab Break",
-   "label": "Vitals & Labs"
+   "label": "Vitals"
   },
   {
    "fieldname": "vitals_section",
@@ -470,7 +472,6 @@
    "label": "Vitals"
   },
   {
-   "description": "Presence of a fever (temp &gt; 38.5 \u00b0C/101.3 \u00b0F or sustained temp &gt; 38 \u00b0C/100.4 \u00b0F)",
    "fieldname": "temperature",
    "fieldtype": "Data",
    "label": "Body Temperature",
@@ -489,7 +490,6 @@
    "read_only_depends_on": "eval: doc.status !== \"Open\" && doc.status !== \"Scheduled\";"
   },
   {
-   "description": "Normal resting blood pressure in an adult is approximately 120 mmHg systolic, and 80 mmHg diastolic, abbreviated \"120/80 mmHg\"",
    "fieldname": "bp",
    "fieldtype": "Data",
    "label": "Blood Pressure",
@@ -509,7 +509,7 @@
    "fieldname": "height",
    "fieldtype": "Float",
    "label": "Height (In Meter)",
-   "read_only_depends_on": "eval: doc.status !== \"Open\" && doc.status !== \"Scheduled\";"
+   "read_only": 1
   },
   {
    "fieldname": "weight",
@@ -530,7 +530,6 @@
    "read_only": 1
   },
   {
-   "description": "Adults' pulse rate is anywhere between 50 and 80 beats per minute.",
    "fieldname": "pulse",
    "fieldtype": "Data",
    "label": "Heart Rate / Pulse",
@@ -589,10 +588,25 @@
    "hidden": 1,
    "label": "co_abbr",
    "read_only": 1
+  },
+  {
+   "fieldname": "lab_test",
+   "fieldtype": "Link",
+   "label": "Lab Test",
+   "options": "Lab Test",
+   "read_only": 1
+  },
+  {
+   "description": "If you enter value less than 8, then it will be taken as feet, Else > 8 will be taken as cms",
+   "fieldname": "ht",
+   "fieldtype": "Data",
+   "label": "Height (In feet or In cms)",
+   "non_negative": 1,
+   "read_only_depends_on": "eval: doc.status !== \"Open\" && doc.status !== \"Scheduled\";"
   }
  ],
  "links": [],
- "modified": "2024-12-13 18:00:10.585839",
+ "modified": "2024-12-20 13:59:29.714461",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Appointment",

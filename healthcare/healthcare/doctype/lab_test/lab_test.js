@@ -53,6 +53,15 @@ frappe.ui.form.on('Lab Test', {
 				get_lab_test_prescribed(frm);
 			});
 		}*/
+		if (frm.doc.status == "Completed" && !frm.doc.__islocal){
+			//------ NITIN  --- change name of patient encounter and make it a primary button, disable save
+			frm.page.set_primary_action(__('Patient Appointment'), function() {
+				frappe.model.open_mapped_doc({
+					method: 'healthcare.healthcare.doctype.lab_test.lab_test.make_appointment',
+					frm: frm,
+				});
+			});
+		}
 
 		frm.set_query("code_value", "codification_table", function(doc, cdt, cdn) {
 			let row = frappe.get_doc(cdt, cdn);
@@ -63,6 +72,13 @@ frappe.ui.form.on('Lab Test', {
 					}
 				};
 			}
+		});
+		frm.set_query('test_name', 'lab_test_entry', function() {
+			return {
+				filters: {
+					'lab_test_template_type': 'Single', 'company': frm.doc.company
+				}
+			};
 		});
 
 		if (frappe.defaults.get_default('lab_test_approval_required') && frappe.user.has_role('LabTest Approver')) {

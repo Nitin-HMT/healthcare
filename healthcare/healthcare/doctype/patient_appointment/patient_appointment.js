@@ -146,6 +146,7 @@ frappe.ui.form.on('Patient Appointment', {
 						}
 					create_vital_signs(frm);
 					frm.set_value("status", "Confirmed");
+					
 					await frm.save();
 					//await frm.refresh(); 
 					await frm.reload_doc();
@@ -330,14 +331,14 @@ frappe.ui.form.on('Patient Appointment', {
 		});
 	},
 	
-	height: function(frm) {
-		if (frm.doc.height && frm.doc.weight) {
+	ht: function(frm) {
+		if (frm.doc.ht && frm.doc.weight) {
 			calculate_bmi(frm);
 		}
 	},
 
 	weight: function(frm) {
-		if (frm.doc.height && frm.doc.weight) {
+		if (frm.doc.ht && frm.doc.weight) {
 			calculate_bmi(frm);
 		}
 	},
@@ -1160,7 +1161,24 @@ let show_message = function(d, message, field) {
 let calculate_bmi = function(frm){
 	// Reference https://en.wikipedia.org/wiki/Body_mass_index
 	// bmi = weight (in Kg) / height * height (in Meter)
-	let bmi = (frm.doc.weight / (frm.doc.height * frm.doc.height)).toFixed(2);
+	let height= 0.0001
+	if (frm.doc.ht>20){
+		height= (frm.doc.ht/100).toFixed(2);
+	} else if (frm.doc.ht<8 && frm.doc.ht>0){
+		
+		let x=frm.doc.ht;
+		let y=parseFloat(x);
+		let feet = Math.floor(y)
+		//console.log("imfiringsss" + y);
+		let inch = x.split('.')[1];
+		//console.log("inch" + inch);
+		let final= (feet*12)+parseFloat(inch)
+		height= (final*0.0254).toFixed(2);
+	} else {
+		msgprint("incorrect height entered, should be greater than 20 for cms and less than 8 for feet, also no letters allowed in the field")
+	}
+	frappe.model.set_value(frm.doctype,frm.docname, 'height', height);
+	let bmi = (frm.doc.weight / (height * height)).toFixed(2);
 	let bmi_note = null;
 
 	if (bmi<18.5) {
