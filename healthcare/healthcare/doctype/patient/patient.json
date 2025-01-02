@@ -503,6 +503,7 @@
    "depends_on": "eval:!doc.__islocal",
    "fieldname": "address_and_contact_tab",
    "fieldtype": "Tab Break",
+   "hidden": 1,
    "label": "Address & Contact"
   },
   {
@@ -525,6 +526,7 @@
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -554,7 +556,7 @@
  "image_field": "image",
  "links": [],
  "max_attachments": 50,
- "modified": "2024-12-19 03:45:31.870686",
+ "modified": "2025-01-02 19:51:39.234423",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient",

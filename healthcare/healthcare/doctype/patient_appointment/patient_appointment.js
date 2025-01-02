@@ -12,6 +12,7 @@ frappe.ui.form.on('Patient Appointment', {
 	onload: function(frm) {
 		if (frm.is_new()) {
 			frm.set_value('appointment_time', null);
+			frm.set_value('status', 'Draft');
 			frm.disable_save();
 		}
 	},
@@ -149,7 +150,7 @@ frappe.ui.form.on('Patient Appointment', {
 					
 					await frm.save();
 					//await frm.refresh(); 
-					await frm.reload_doc();
+					//await frm.reload_doc();
 					}
 				});
 			}

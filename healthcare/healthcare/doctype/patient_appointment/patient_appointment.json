@@ -8,16 +8,17 @@
  "engine": "InnoDB",
  "field_order": [
   "appointment_type",
-  "practitioner",
   "inpatient_record",
   "date_of_payment",
   "time_of_payment",
+  "ref_sales_invoice",
   "column_break_1",
-  "patient",
+  "practitioner",
   "service_unit",
   "practitioner_name",
   "appointment_datetime",
   "column_break_febx",
+  "patient",
   "status",
   "naming_series",
   "title",
@@ -27,7 +28,6 @@
   "section_patient_details",
   "patient_name",
   "event",
-  "ref_sales_invoice",
   "fee_valid",
   "column_break_4pp7",
   "patient_sex",
@@ -131,7 +131,7 @@
    "in_filter": 1,
    "in_list_view": 1,
    "label": "Status",
-   "options": "\nScheduled\nOpen\nConfirmed\nChecked In\nChecked Out\nClosed\nCancelled\nNo Show",
+   "options": "\nDraft\nScheduled\nOpen\nConfirmed\nChecked In\nChecked Out\nClosed\nCancelled\nNo Show",
    "read_only": 1,
    "search_index": 1
   },
@@ -193,6 +193,7 @@
    "fetch_if_empty": 1,
    "fieldname": "department",
    "fieldtype": "Link",
+   "hidden": 1,
    "ignore_user_permissions": 1,
    "in_standard_filter": 1,
    "label": "Department",
@@ -227,6 +228,7 @@
    "read_only": 1
   },
   {
+   "collapsible": 1,
    "fieldname": "section_break_16",
    "fieldtype": "Section Break",
    "label": "Payments"
@@ -296,6 +298,7 @@
    "label": "Clinic",
    "no_copy": 1,
    "options": "Company",
+   "read_only": 1,
    "reqd": 1,
    "set_only_once": 1
   },
@@ -440,6 +443,7 @@
    "set_only_once": 1
   },
   {
+   "collapsible": 1,
    "fieldname": "section_patient_details",
    "fieldtype": "Section Break",
    "label": "Patient Details"
@@ -606,7 +610,7 @@
   }
  ],
  "links": [],
- "modified": "2024-12-20 13:59:29.714461",
+ "modified": "2025-01-02 21:44:00.228188",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Appointment",

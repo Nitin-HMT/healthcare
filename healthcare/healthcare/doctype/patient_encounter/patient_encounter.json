@@ -69,7 +69,7 @@
   "symptoms",
   "symptoms_in_print",
   "get_applicable_treatment_plans",
-  "physical_examination",
+  "present_complaint",
   "diagnosis",
   "diagnosis_in_print",
   "section_break_lgqm",
@@ -208,6 +208,7 @@
   {
    "fieldname": "symptoms",
    "fieldtype": "Table MultiSelect",
+   "hidden": 1,
    "ignore_xss_filter": 1,
    "label": "Complaints & Observations",
    "no_copy": 1,
@@ -223,10 +224,6 @@
    "no_copy": 1,
    "print_hide": 1,
    "report_hide": 1
-  },
-  {
-   "fieldname": "physical_examination",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "diagnosis",
@@ -692,6 +689,12 @@
    "fieldname": "doctors_pvt_notes_section",
    "fieldtype": "Section Break",
    "label": "Doctors Pvt Notes"
+  },
+  {
+   "fieldname": "present_complaint",
+   "fieldtype": "Table",
+   "label": "Present Complaint",
+   "options": "Patient Encounter Symptom"
   }
  ],
  "is_submittable": 1,
@@ -705,7 +708,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2024-12-19 04:00:26.789028",
+ "modified": "2025-01-02 20:07:06.900331",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",
