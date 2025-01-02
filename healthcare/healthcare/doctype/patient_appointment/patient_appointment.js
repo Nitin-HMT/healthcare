@@ -147,8 +147,7 @@ frappe.ui.form.on('Patient Appointment', {
 						}
 					create_vital_signs(frm);
 					frm.set_value("status", "Confirmed");
-					
-					await frm.save();
+					frm.save();
 					//await frm.refresh(); 
 					//await frm.reload_doc();
 					}
