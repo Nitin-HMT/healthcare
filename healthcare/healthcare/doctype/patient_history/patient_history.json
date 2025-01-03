@@ -33,6 +33,7 @@
    "reqd": 1
   },
   {
+   "default": "Diagnosis",
    "fetch_from": "history_type.doctype_link",
    "fieldname": "history_doctype",
    "fieldtype": "Link",
@@ -65,7 +66,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-01-02 20:12:06.645840",
+ "modified": "2025-01-04 00:20:27.548032",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient History",
