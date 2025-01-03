@@ -489,6 +489,7 @@ def set_vitals(appointment_pt):
 		appointment_docs.name,
 		{
 			"vital_sign": vital_signs.name,
+			"status": "Confirmed",
 		},
 	)
 	appointment_docs.notify_update()
