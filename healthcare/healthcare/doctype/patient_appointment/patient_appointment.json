@@ -165,7 +165,6 @@
    "label": "Service Unit",
    "mandatory_depends_on": "eval:doc.appointment_for==\"Service Unit\"",
    "options": "Healthcare Service Unit",
-   "read_only": 1,
    "read_only_depends_on": "eval:doc.appointment_for!=\"Service Unit\""
   },
   {
@@ -610,7 +609,7 @@
   }
  ],
  "links": [],
- "modified": "2025-01-02 21:44:00.228188",
+ "modified": "2025-01-07 01:03:18.760569",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Appointment",

@@ -15,6 +15,7 @@
   "strength",
   "uom",
   "dosage_form",
+  "special_instruction",
   "section_break_sgbn",
   "default_duration",
   "default_dosage"
@@ -96,11 +97,17 @@
    "fieldname": "enabled",
    "fieldtype": "Check",
    "label": "Enabled"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "special_instruction",
+   "fieldtype": "Small Text",
+   "label": "Special Instruction"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-12 23:44:43.874098",
+ "modified": "2025-01-07 02:30:39.841017",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "OPD Medication",
