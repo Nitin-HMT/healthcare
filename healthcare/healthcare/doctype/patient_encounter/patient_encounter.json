@@ -650,7 +650,7 @@
    "description": "Entries in this section will be added to permanent history of the patient",
    "fieldname": "patient_history",
    "fieldtype": "Table",
-   "label": "Patient History",
+   "label": "Pre- Existing Conditions",
    "options": "Patient History"
   },
   {
@@ -708,7 +708,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2025-01-02 20:07:06.900331",
+ "modified": "2025-01-07 19:00:20.212268",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",

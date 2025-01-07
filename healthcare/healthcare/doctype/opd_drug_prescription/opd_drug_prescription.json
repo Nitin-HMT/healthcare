@@ -11,7 +11,8 @@
   "medicine_form",
   "column_break_kbhl",
   "dosage",
-  "period"
+  "period",
+  "special_instruction"
  ],
  "fields": [
   {
@@ -59,12 +60,18 @@
    "fieldtype": "Data",
    "label": "Generic Name",
    "read_only": 1
+  },
+  {
+   "fetch_from": "medicine.special_instruction",
+   "fieldname": "special_instruction",
+   "fieldtype": "Small Text",
+   "label": "Special Instruction"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-12-12 17:55:49.974539",
+ "modified": "2025-01-07 18:36:42.053203",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "OPD Drug Prescription",
