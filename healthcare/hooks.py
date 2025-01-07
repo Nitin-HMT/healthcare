@@ -304,3 +304,5 @@ standard_queries = {
 treeviews = [
 	"Healthcare Service Unit",
 ]
+
+website_route_rules = [{'from_route': '/frontend/<path:app_path>', 'to_route': 'frontend'},]
