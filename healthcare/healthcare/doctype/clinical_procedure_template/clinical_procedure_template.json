@@ -18,6 +18,7 @@
   "pre_op_nursing_checklist_template",
   "post_op_nursing_checklist_template",
   "clinic",
+  "company",
   "co_abbr",
   "billing_section",
   "column_break_ea5h",
@@ -73,8 +74,7 @@
    "label": "Item Group",
    "options": "Item Group",
    "read_only": 1,
-   "read_only_depends_on": "eval:doc.link_existing_item",
-   "reqd": 1
+   "read_only_depends_on": "eval:doc.link_existing_item"
   },
   {
    "fieldname": "medical_department",
@@ -273,21 +273,29 @@
   {
    "fieldname": "clinic",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Clinic",
    "options": "Company",
    "read_only": 1
   },
   {
-   "fetch_from": "clinic.abbr",
+   "fetch_from": "company.abbr",
    "fieldname": "co_abbr",
    "fieldtype": "Data",
    "hidden": 1,
    "label": "co_abbr",
    "read_only": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
   }
  ],
  "links": [],
- "modified": "2024-12-12 23:43:29.660227",
+ "modified": "2025-02-15 18:38:07.979900",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Clinical Procedure Template",

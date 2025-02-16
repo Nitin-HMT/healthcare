@@ -18,23 +18,20 @@
  "fields": [
   {
    "fieldname": "details",
-   "fieldtype": "Link",
+   "fieldtype": "Dynamic Link",
    "in_list_view": 1,
    "label": "Details",
-   "options": "Diagnosis",
+   "options": "history_doctype",
    "reqd": 1
   },
   {
-   "default": "PED",
    "fieldname": "history_type",
    "fieldtype": "Link",
    "label": "History Type",
    "options": "Patient History Type",
-   "read_only": 1,
    "reqd": 1
   },
   {
-   "default": "Diagnosis",
    "fetch_from": "history_type.doctype_link",
    "fieldname": "history_doctype",
    "fieldtype": "Link",
@@ -64,7 +61,6 @@
    "label": "Comments"
   },
   {
-   "fetch_from": "details.lifestyle_advise",
    "fieldname": "lifestyle_advise",
    "fieldtype": "Small Text",
    "label": "Lifestyle Advise"
@@ -73,7 +69,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-01-07 18:56:57.049671",
+ "modified": "2025-02-13 19:45:06.315281",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient History",

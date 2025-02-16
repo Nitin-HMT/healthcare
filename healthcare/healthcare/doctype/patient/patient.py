@@ -372,22 +372,22 @@ def Update_history(doc):
 		for p in allergies:
 			#a=xxx>>since>>comments
 			x= p.split(">>")
-			allergy_str += f"{x[0]}, {x[1]}, {x[2]} | "
+			allergy_str += f"{x[0]}, {x[1]}, {x[2]} ; "
 	if medicine:
 		for p in medicine:
 			#a=xxx>>since>>comments
 			x= p.split(">>")
-			medicine_str += f"{x[0]}, {x[1]}, {x[2]} | "
+			medicine_str += f"{x[0]}, {x[1]}, {x[2]} ; "
 	if ped:
 		for p in ped:
 			#a=xxx>>since>>comments
 			x= p.split(">>")
-			ped_str += f"{x[0]}, {x[1]}, {x[2]} | "
+			ped_str += f"{x[0]}, {x[1]}, {x[2]} ; "
 	if surgery:
 		for p in surgery:
 			#a=xxx>>since>>comments
 			x= p.split(">>")
-			surgery_str += f"{x[0]}, {x[1]}, {x[2]} | "
+			surgery_str += f"{x[0]}, {x[1]}, {x[2]} ; "
 	doc.medication = medicine_str
 	doc.medical_history = ped_str
 	doc.allergies = allergy_str

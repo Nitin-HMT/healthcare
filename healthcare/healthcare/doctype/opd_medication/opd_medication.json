@@ -9,6 +9,7 @@
   "medicine_brand",
   "generic_name",
   "clinic",
+  "company",
   "clinic_abbr",
   "column_break_xvys",
   "enabled",
@@ -81,11 +82,12 @@
   {
    "fieldname": "clinic",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Clinic",
    "options": "Company"
   },
   {
-   "fetch_from": "clinic.abbr",
+   "fetch_from": "company.abbr",
    "fieldname": "clinic_abbr",
    "fieldtype": "Data",
    "hidden": 1,
@@ -103,11 +105,17 @@
    "fieldname": "special_instruction",
    "fieldtype": "Small Text",
    "label": "Special Instruction"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-07 02:30:39.841017",
+ "modified": "2025-02-15 18:44:01.011218",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "OPD Medication",

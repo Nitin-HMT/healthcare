@@ -29,6 +29,8 @@ class PatientEncounter(Document):
 	
 	def before_submit(self):
 		self.pat_hist_string = post_patient_history(self)
+		if int(self.follow_up)>0:
+			self.next_follow_up_date = add_days(datetime.now(), days=int(self.follow_up))
 
 	def on_update(self):
 		if self.appointment:
@@ -46,9 +48,9 @@ class PatientEncounter(Document):
 		hist_pat.pat_hist = self.pat_hist_string
 		if(self.encounter_comment):
 			if(hist_pat.patient_details):
-				hist_pat.patient_details = f"{hist_pat.patient_details}<br>{datetime.now().strftime('%d-%m-%Y')}<br>{self.encounter_comment}"
+				hist_pat.patient_details = f"{hist_pat.patient_details}|{datetime.now().strftime('%d-%m-%Y')}: {self.encounter_comment}"
 			else:
-				hist_pat.patient_details = f"{datetime.now().strftime('%d-%m-%Y')}<br>{self.encounter_comment}"
+				hist_pat.patient_details = f"{datetime.now().strftime('%d-%m-%Y')}: {self.encounter_comment}"
 		hist_pat.save()
 		
 	def before_cancel(self):
@@ -73,8 +75,7 @@ class PatientEncounter(Document):
 		self.title = _("{0} on {1}").format(
 			self.patient_name or self.patient, appointment_dat
 		)[:100]
-		if self.follow_up>0:
-			self.next_follow_up_date = add_days(datetime.now(), days=self.follow_up)
+		
 
 	@staticmethod
 	@frappe.whitelist()

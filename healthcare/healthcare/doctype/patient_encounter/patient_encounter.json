@@ -492,7 +492,7 @@
    "read_only": 1
   },
   {
-   "fetch_from": "vital_sign.vital_signs_note",
+   "fetch_from": "vital_sign.nutrition_note",
    "fieldname": "nutrition_note",
    "fieldtype": "Data",
    "label": "BMI Notes",
@@ -577,6 +577,7 @@
    "label": "Further Description of Symptoms, Diagnosis & History"
   },
   {
+   "default": "0",
    "description": "In Days",
    "fieldname": "follow_up",
    "fieldtype": "Int",
@@ -708,7 +709,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2025-01-07 19:00:20.212268",
+ "modified": "2025-02-10 14:50:58.647396",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",

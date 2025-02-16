@@ -5,11 +5,12 @@
   "main": "commitlint.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "cd frontend && yarn install",
-    "dev": "cd frontend && yarn dev",
-    "build": "cd frontend && yarn build"
+    "postinstall": "cd sehat && yarn install",
+    "dev": "cd sehat && yarn dev",
+    "build": "cd sehat && yarn build"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {}
 }
