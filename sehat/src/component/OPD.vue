@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-3 border space-y-2 shadow-md col-span-2 bg-gradient-to-r  from-pink-200/30 from-20% via-blue-200/10 via-60% to-blue-200/60 to-90%">
+  <div class="grid grid-cols-3 border shadow-md col-span-2 bg-gradient-to-r  from-pink-200/30 from-20% via-blue-200/10 via-60% to-blue-200/60 to-90%">
   <div class="col-span-2">
     <Button class="my-1 py-1 bg-transparent text-gray-700/70 hover:bg-transparent active:bg-transparent ml-3 hover:text-amber-700
     relative after:bg-amber-700 after:absolute after:h-px after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300 cursor-pointer"
@@ -29,7 +29,7 @@
     </template>
     Bill History
     </Button>
-    <Button class="bg-transparent text-gray-700/70 hover:bg-transparent active:bg-transparent ml-3 hover:text-blue-800
+    <Button class="bg-transparent text-gray-700/70 hover:bg-transparent active:bg-transparent hover:text-blue-800
     relative after:bg-blue-800 after:absolute after:h-px after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300 cursor-pointer"
     :ref_for="true"
     size="md"
@@ -43,7 +43,7 @@
     </template>
     Labs
     </Button>
-    <Button class="bg-transparent text-gray-700/70 hover:bg-transparent active:bg-transparent ml-2 hover:text-green-700
+    <Button class="bg-transparent text-gray-700/70 hover:bg-transparent active:bg-transparent hover:text-green-700
     relative after:bg-green-700 after:absolute after:h-px after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300 cursor-pointer"
     :ref_for="true"
     size="md"
@@ -57,7 +57,7 @@
     </template>
     Medical History
     </Button>
-    <Button class="bg-transparent text-gray-700/70 hover:bg-transparent active:bg-transparent ml-1 hover:text-red-700
+    <Button class="bg-transparent text-gray-700/70 hover:bg-transparent active:bg-transparent hover:text-red-700
     relative after:bg-red-700 after:absolute after:h-px after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300 cursor-pointer"
     :ref_for="true"
     size="md"
@@ -71,7 +71,7 @@
     </template>
     Vitals
     </Button>
-    <Button class="bg-transparent text-gray-700/70 hover:bg-transparent active:bg-transparent ml-2 hover:text-teal-800
+    <Button class="bg-transparent text-gray-700/70 hover:bg-transparent active:bg-transparent  hover:text-teal-800
     relative after:bg-teal-800 after:absolute after:h-px after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300 cursor-pointer"
     :ref_for="true"
     size="md"
@@ -85,7 +85,7 @@
     </template>
     Consultation
     </Button>
-      <!--<Button class="bg-transparent text-gray-700/70 hover:bg-transparent active:bg-transparent ml-2 "
+      <!--<Button class="bg-transparent text-gray-700/70 hover:bg-transparent active:bg-transparent "
       :ref_for="true"
       size="md"
       :loading="false"
@@ -155,20 +155,22 @@
                 <div>Patient</div>
               </div>
               <div>Age</div>
-              <div>Status</div>
+              <div>Payment Status</div>
               <div>Vitals</div>
               <div>Wait Time</div>
             </ol>
             <ol v-for="(item,index) in tab.details"  @click="appointqueue(item.pat_id)"
             class="grid grid-cols-6 text-sm border gap-2 py-2 my-1 hover:shadow-md hover:bg-cyan-100/20">
               <div class="pl-3 flex gap-2 col-span-2">
-                <div><Badge variant="solid" class="rounded-full" size="sm" :theme="statusToColor[item.opd]">{{(index+1)}}</Badge></div>
+                <div><Badge variant="subtle" class="rounded-full" size="sm" :theme="statusToColor[item.opd]">{{(index+1)}}</Badge></div>
                 <FeatherIcon class="w-4 h-4" :class="[item.gender === 'Female' ? 'text-pink-700' :'text-blue-700']"  name="user"/>
                 {{item.patient}}
               </div>
               <div>{{ item.age }}</div>
-              <div><Badge variant="subtle" :theme="statusToColor[item.status]">{{ item.status }}</Badge></div>
-              <div><FeatherIcon v-if="item.vitals" class="w-4 h-4 text-green-800"  name="check-circle"/>
+              <div><FeatherIcon v-if="item.invoice || item.opd" class="w-4 h-4 text-green-800"  name="check-circle"/>
+                <FeatherIcon v-else class="w-4 h-4 text-red-800"  name="x-circle"/>
+              </div>              
+              <div><FeatherIcon v-if="item.vitals " class="w-4 h-4 text-green-800"  name="check-circle"/>
                 <FeatherIcon v-else class="w-4 h-4 text-red-800"  name="x-circle"/>
               </div>
               <div>{{ item.date }}</div>
@@ -196,9 +198,11 @@ import { dateformat} from "@/utils.js";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
+import updateLocale from 'dayjs/plugin/updateLocale';
 
 dayjs.extend(relativeTime);
 dayjs.extend(LocalizedFormat);
+dayjs.extend(updateLocale);
 
 const router =useRouter();
 const queue_flag =ref(false)
@@ -224,9 +228,10 @@ watch(() => sel_pat.ref_flag,
 //appointment_date: dayjs().format('L LT'),
 lab_tests = createListResource({
 doctype: "Patient Appointment",
-fields: ["name","creation","appointment_date","practitioner","vital_sign","date_of_payment", "fee_valid", "status","patient","patient_name","patient_sex","patient_age"],
+fields: ["name","creation","invoiced","appointment_date","appointment_datetime","practitioner","vital_sign","date_of_payment", "fee_valid", "status","patient","patient_name","patient_sex","patient_age"],
 filters:{
   status: ["in","Open,Confirmed,Scheduled"],
+  appointment_date: dayjs().format('L LT'),
 },
 orderBy: 'creation asc',
 auto: true,
@@ -246,8 +251,9 @@ if (existingLabGroup) {
     age: d.patient_age,
     status:d.status,
     opd:d.fee_valid,
-    date: dayjs(d.appointment_date).fromNow(),
-    vitals:d.vital_sign
+    date: dayjs(d.appointment_datetime).fromNow(),
+    vitals:d.vital_sign,
+    invoice:d.invoiced
   });
 } else {
   // If no matching group is found, create a new entry
@@ -260,8 +266,9 @@ if (existingLabGroup) {
       age: d.patient_age,
       status:d.status,
       opd:d.fee_valid,
-      date: dayjs(d.appointment_date).fromNow(),
-      vitals:d.vital_sign
+      date: dayjs(d.appointment_datetime).fromNow(),
+      vitals:d.vital_sign,
+      invoice:d.invoiced
     }]
   });
 }

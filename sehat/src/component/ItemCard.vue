@@ -16,7 +16,7 @@
       <span v-for="item in items" :key="item.value" class="flex items-center justify-between font-sans">
         <p v-if="title=='Diagnosis'">{{ item.label }}</p>
         <p v-else-if="title=='Medicine'">{{ item.label }} | {{ item.additional_attr }} | {{ item.additional_attr_2 }}</p>
-        <p v-else-if="title=='Procedures'">{{ item.label }} | {{ dateformat(item.additional_attr,"DD/MM/YYYY HH:mm") }} | {{ item.additional_attr_2 }}</p>
+        <p v-else-if="title=='Procedures'">{{ item.label }} | {{ dateformat(item.additional_attr,"DD/MM/YYYY") }} | {{ item.additional_attr_2 }}</p>
          <p v-else>{{ item.label }} {{ item.additional_attr }} {{ item.additional_attr_2 }}</p> <!--{{ dateformat(item.additional_attr,"DD/MM/YYYY") }} -->
       </span>
     </div>

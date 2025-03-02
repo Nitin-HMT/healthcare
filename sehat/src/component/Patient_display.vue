@@ -78,7 +78,7 @@
             <span v-else>
               <span v-if="appoint.invoiced" class="flex flex-col justify-between items-center">
               <div class="text-base text-red-900 my-2">First the previous Payment Should be cancelled and then a new Payment Created.</div> 
-                <Button :variant="'solid'" @click="cancel(appoint.ref_sales_invoice)" class="bg-gradient-to-r from-red-600 to-red-900">Cancel Previous Payment</Button>
+                <Button :variant="'solid'" @click="cancel(appoint.ref_sales_invoice); pay_load=true;" :loading="pay_load" class="bg-gradient-to-r from-red-600 to-red-900">Cancel Previous Payment</Button>
               </span>
               <span v-else class="grid grid-cols-2 gap-4">
                 <p>Consult Charges: {{formatCurrency(appoint.paid_amount ,"INR")}}</p>
@@ -86,12 +86,12 @@
                 <Switch size="sm" label="Free Visit" v-model="appoint.fee_valid"/>
                 <FormControl :type="'number'" size="sm"  variant="subtle" label="Discount Amount" v-model="discount"/>
                 <div></div>
-                <FormControl :type="'select'" :required="true" :options="[{label: 'Cash',value: 'Cash',},{label: 'UPI',value: 'UPI',},{label: 'Credit Card',value: 'Credit Card',},]" size="sm"  variant="subtle" label="Mode of Payment" v-model="appoint.mode_of_payment"/>
-                <Button v-if="appoint.mode_of_payment && (appoint.paid_amount-discount)>0" :variant="'solid'" @click="make_paid()" class="bg-gradient-to-r from-green-600 to-green-900">Make Invoice & Payment</Button>
+                <FormControl :type="'select'" :required="true" :options="[{label: 'Cash',value: 'Cash',},{label: 'UPI',value: 'UPI',},{label: 'Credit Card',value: 'Credit Card',},{label: '3rd Party',value: '3rd Party',},]" size="sm"  variant="subtle" label="Mode of Payment" v-model="appoint.mode_of_payment"/>
+                <Button v-if="appoint.mode_of_payment && (appoint.paid_amount-discount)>0" :variant="'solid'" @click="make_paid(); pay_load=true;" :loading="pay_load" class="bg-gradient-to-r from-green-600 to-green-900">Make Invoice & Payment</Button>
                 <Button :variant="'subtle'" @click="clear">Clear</Button>
               </span>
             </span>
-
+            {{pay_load}}
           </div>
         </div>
       </template>
@@ -113,7 +113,7 @@
   let all_appointment= ref([]);
   let payment_flag=ref(false);
   let discount= ref(0.00); 
-
+  let pay_load=ref(false)
   let all_appoint=createListResource({
   doctype: "Patient Appointment",
   fields: ["*"],
@@ -186,6 +186,7 @@ watch(() => sel_pat.ref_flag,
      fee_valid: appoint.value.fee_valid,
      mode_of_payment: ""
     })
+    payment_flag.value=false; 
   }
   function make_paid(){
     console.log(appoint.value.mode_of_payment);
@@ -212,7 +213,8 @@ watch(() => sel_pat.ref_flag,
     all_appointment.value.splice(0);
     discount.value=0.00;
     sel_pat.ref_flag=true;
-    payment_flag.value=false;    
+    payment_flag.value=false; 
+    pay_load.value=false;   
   }   
 })
 make_invoice.submit();
@@ -240,7 +242,8 @@ function cancel(sinv){
       appoint.ref_sales_invoice=""
     //console.log("x"+data_referjj);.
     sel_pat.ref_flag=true;
-    console.log("x")
+    console.log("x");
+    pay_load.value=false; 
 
   }   
 })

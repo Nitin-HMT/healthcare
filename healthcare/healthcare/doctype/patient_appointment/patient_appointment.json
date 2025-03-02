@@ -172,6 +172,7 @@
    "depends_on": "eval:!doc.__is_local",
    "fieldname": "section_break_12",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Appointment Details"
   },
   {
@@ -619,7 +620,7 @@
   }
  ],
  "links": [],
- "modified": "2025-03-01 13:49:47.167081",
+ "modified": "2025-03-03 00:52:57.938355",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Appointment",

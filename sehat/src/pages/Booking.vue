@@ -21,11 +21,11 @@
       <!-- <FormControl type="date" v-model="data.appoint" placeholder="Appointment Date & Time" class="block w-full rounded-full px-2 py-1.5 font-mono 
       bg-gray-100 border-solid border border-gray-100 hover:bg-gray-200/90 transition-all"/> -->
       <div class="grid grid-cols-4 gap-2">
-      <FormControl type="select" :options="referdr" v-model="data.ref_dr" placeholder="Referred By" class="block col-span-3 w-full rounded-full px-2 py-3 font-serif 
+      <FormControl type="autocomplete" :options="referdr" v-model="data.ref_dr" placeholder="Referred By" class="block col-span-3 w-full rounded-full px-2 py-3 font-serif 
       bg-gray-100 border-solid border border-gray-100 hover:bg-gray-200/90 transition-all"/>      
       <Button :variant="'subtle'" size="xl" label="+" class="w-full rounded-full py-2 mt-1 
       bg-gray-300 border-solid border hover:bg-gray-400 text-lg transition-all" @click="refer_dial=true"/></div>
-      <span v-if="data.doctor" class="block w-full rounded-full px-2 py-3 font-mono 
+      <span v-if="data.doctor && !data.appoint_type" class="block w-full rounded-full px-2 py-3 font-mono 
       bg-gray-100 border-solid border border-gray-100 hover:bg-gray-200/90 transition-all ">{{ formatCurrency(data.doctor.charge,"INR") }}</span>
     </div>
 <Dialog v-model="refer_dial">
@@ -133,7 +133,7 @@ const data= reactive({
   ref_dr:"",
   appoint:dayjs(),
   appoint_type:false,
-  refer:[]
+  refer:[null,null]
 });
 let healthcare_pr= ref([]);
 let referdr=ref([]);
@@ -242,8 +242,8 @@ const make_refer = createResource({
    // data.appointment_name=data_Z.name;
     referdr.value.splice(0);
     refferal.fetch();
-    data.refer=[];
-    data.refer_dial=false;
+    data.refer=[null,null];
+    refer_dial.value=false;
     console.log("success in dr refer");  
   }   
 })

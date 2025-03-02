@@ -58,8 +58,7 @@
       <template #actions>
         <div class="flex items-center justify-center gap-5">
          <Button variant="solid" theme="blue" 
-         @click="create_vitals.submit()" :loading="create_vitals.loading" 
-         :disabled="!selected_vitals.Vitals[0]">
+         @click="create_vitals.submit()" :loading="create_vitals.loading">
          Submit Vitals</Button>
          <Button class="ml-2" variant="subtle" theme="blue" @click="selected_vitals.Vitals=[]; height=0">Clear</Button>
          <Button class="ml-2" variant="subtle" theme="blue" @click="patDialogshown=false">Close</Button>
@@ -73,6 +72,13 @@
 import { createListResource, FeatherIcon,Badge, Dialog,FormControl,createResource,ErrorMessage } from 'frappe-ui';
 import { onMounted,inject,ref,watch } from 'vue';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import LocalizedFormat from 'dayjs/plugin/localizedFormat';
+import updateLocale from 'dayjs/plugin/updateLocale';
+
+dayjs.extend(relativeTime);
+dayjs.extend(LocalizedFormat);
+dayjs.extend(updateLocale);
 
 const all_searches_x = ref([]);
 let sel_pat=inject("patient");
@@ -103,7 +109,7 @@ let appointments_x=createListResource({
   filters:{
     status: ["in","Open,Scheduled"],
   patient: sel_pat.details.name,
-  appointment_date: dayjs(),  
+  appointment_date: dayjs().format('L LT'), 
 },
 orderBy: 'modified asc',
   auto: true,

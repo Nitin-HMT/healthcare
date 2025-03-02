@@ -240,7 +240,7 @@
             <li v-for="(item,index) in data.selected" > 
               <span v-if="item.type=='surg'" class="grid md:grid-cols-3 gap-2">
                 {{item.label}} 
-              <DateTimePicker v-model="item.additional_attr" placeholder="Date" />
+              <FormControl :type="'date'" v-model="item.additional_attr" placeholder="Date" />
               
               <FormControl v-model="item.additional_attr_2" type="text" placeholder="Comments" /></span>
             </li>
@@ -375,6 +375,7 @@
 <ErrorMessage :message="make_medicine.error"/>
 <ErrorMessage :message="make_refer.error"/>
 <ErrorMessage :message="make_allergy.error"/>
+<div class="text-xs text-green-600 pb-2">{{ create_msg }}</div>
 <div class="grid grid-cols-4 gap-3 " v-if="add_item.selected_new=='symptoms'">
 <FormControl v-model="add_item.symptoms" type="text" placeholder="Complaint Name" />
 </div>
@@ -460,11 +461,11 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
         create_new : false,
         selected_new: "symptoms",
         symptoms: [],
-        diagnosis: [],
+        diagnosis: [null,null],
         labs:[],
         procedure:[],
-        medicine:[],
-        refer:[],
+        medicine:[null,null,null,null,null,null],
+        refer:[null,null],
         allergy:[]
     });
     const referdr=ref([]);
@@ -482,6 +483,7 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
     const patDialogshown = ref(false);
     const moreinfoDialog = ref(false);
     let submit_confirm = ref(false);
+    let create_msg= ref("")
     
     // Function to transform and add to all_searches
     const addToAllSearches = (label, description, type, image, additional_attr,additional_attr_2,sp_attr,added) => {
@@ -804,6 +806,7 @@ Patient_details = createListResource({
            // add_item.create_new=false;
             let x= { "label": data_sym.complaints, "value": data_sym.complaints, "description": data_sym.complaints, "image": "/files/symptoms.jpg", "type": "Complaint", "additional_attr": "", "additional_attr_2": null, "sp_attr": null, "added": null }
             data.selected.push(x)
+            create_msg.value="Symptom Created Successfully"
         // data.appointment_name=data_Z.name;
         }   
     })
@@ -818,10 +821,11 @@ Patient_details = createListResource({
         onSuccess: (data_diag) => {
         // data.appointment_name=data_Z.name;
             addToAllSearches(data_diag.diagnosis, null, "Diagnosis", "/files/diagnosis.jpg",data_diag.lifestyle_advise,null,null,null);
-            add_item.diagnosis=[];
+            add_item.diagnosis=[null,null];
            // add_item.create_new=false;
             let x=  { "label": data_diag.diagnosis, "value": data_diag.diagnosis, "description": data_diag.diagnosis, "image": "/files/diagnosis.jpg", "type": "Diagnosis", "additional_attr": data_diag.lifestyle_advise, "additional_attr_2": null, "sp_attr": null, "added": null }
             data.selected.push(x)
+            create_msg.value="Diagnosis Created Successfully"
         }   
     })
     const make_labs = createResource({
@@ -838,6 +842,7 @@ Patient_details = createListResource({
        // add_item.create_new=false;
         let x=  { "label": data_labs.lab_test_name, "value": data_labs.lab_test_name, "description": data_labs.lab_test_name, "image": "/files/lab_test_blue_2.jpg", "type": "labs", "additional_attr": "", "additional_attr_2": null, "sp_attr": null, "added": data_labs.name }
         data.selected.push(x)
+        create_msg.value="Lab Created Successfully"
         }   
     })
     const make_medicine = createResource({
@@ -856,10 +861,11 @@ Patient_details = createListResource({
         onSuccess: (data_medicine) => {
         // data.appointment_name=data_Z.name;
         addToAllSearches(`${data_medicine.dosage_form} ${data_medicine.medicine_brand}`, `${data_medicine.generic_name}, ${data_medicine.default_duration}, ${data_medicine.default_dosage}`, "Meds", "/files/pill_yellow.jpg",data_medicine.default_dosage, data_medicine.default_duration,data_medicine.special_instruction,[data_medicine.name,data_medicine.dosage_form]);
-        add_item.medicine=[];
+        add_item.medicine=[null,null,null,null,null,null];
        // add_item.create_new=false;
         let x=  { "label": `${data_medicine.dosage_form} ${data_medicine.medicine_brand}`, "value": `${data_medicine.dosage_form} ${data_medicine.medicine_brand},${data_medicine.generic_name}, ${data_medicine.default_duration}, ${data_medicine.default_dosage}`, "description": `${data_medicine.generic_name}, ${data_medicine.default_duration}, ${data_medicine.default_dosage}`, "image": "/files/pill_yellow.jpg", "type": "Meds", "additional_attr": data_medicine.default_dosage, "additional_attr_2": data_medicine.default_duration, "sp_attr": data_medicine.special_instruction, "added": [data_medicine.name,data_medicine.dosage_form] }
         data.selected.push(x)
+        create_msg.value="Medicine Created Successfully"
         }   
     })
     const make_refer = createResource({
@@ -872,9 +878,10 @@ Patient_details = createListResource({
         },
         onSuccess: (data_refer) => {
         // data.appointment_name=data_Z.name;
-        add_item.refer=[];
+        add_item.refer=[null,null];
       //  add_item.create_new=false;
         refferal.fetch()
+        create_msg.value="Referring Dr Created Successfully"
         }   
     })
     const make_allergy = createResource({
@@ -889,7 +896,7 @@ Patient_details = createListResource({
         add_item.allergy=[];
        // add_item.create_new=false;
         allergy.fetch();
-    
+        create_msg.value="Allergy Created Successfully"
         }   
     })
     const make_procedure = createResource({
@@ -906,6 +913,7 @@ Patient_details = createListResource({
       //  add_item.create_new=false;
         let x=   { "label": data_procedure.template, "value": data_procedure.template, "description": data_procedure.template, "image": "/files/surgery _red.jpg", "type": "surg","additional_attr": data_procedure.date, "additional_attr_2": data_procedure.comments, "sp_attr": "", "added": data_procedure.name }
         data.selected.push(x)
+        create_msg.value="Procedure Created Successfully"
         }   
     })
     function sp_char(search,char){
