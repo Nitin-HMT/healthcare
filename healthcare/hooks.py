@@ -7,7 +7,7 @@ app_description = "Modern, Open Source HIS built on Frappe and ERPNext"
 app_icon = "octicon octicon-file-directory"
 app_color = "grey"
 app_email = "info@earthianslive.com"
-app_license = "GNU GPL V3"
+app_license = "mit"
 required_apps = ["erpnext"]
 app_home = "/app/healthcare"
 
