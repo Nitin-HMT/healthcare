@@ -161,14 +161,15 @@ class PatientAppointment(Document):
 						for appointment in overlapping_appointments
 						if appointment not in service_unit_appointments
 					]
-
+#------------------------------------- Nitin switched off overlap as it was interfering with Vue design ----------------
 		if overlapping_appointments:
-			frappe.throw(
-				_("Not allowed, cannot overlap appointment {}").format(
-					frappe.bold(", ".join([appointment["name"] for appointment in overlapping_appointments]))
-				),
-				OverlapError,
-			)
+			# frappe.throw(
+			# 	_("Not allowed, cannot overlap appointment {}").format(
+			# 		frappe.bold(", ".join([appointment["name"] for appointment in overlapping_appointments]))
+			# 	),
+			# 	OverlapError,
+			# )
+			return
 
 	def validate_based_on_appointments_for(self):
 		if self.appointment_for:
@@ -394,7 +395,7 @@ def check_payment_reqd(patient):
 
 
 @frappe.whitelist()
-def invoice_appointment(appointment_name, discount_percentage=0, discount_amount=0):
+def invoice_appointment(appointment_name, discount_percentage="", discount_amount=0):
 	appointment_doc = frappe.get_doc("Patient Appointment", appointment_name)
 	settings = frappe.get_single("Healthcare Settings")
 

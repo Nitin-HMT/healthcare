@@ -6,7 +6,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/pages/Home.vue'),
+    component: () => import('@/pages/Booking.vue'),
   },
   {
     name: 'Login',
@@ -14,9 +14,34 @@ const routes = [
     component: () => import('@/pages/Login.vue'),
   },
   {
-    name: 'Temp',
-    path: '/temp',
-    component: () => import('@/pages/Temp.vue'),
+    name: 'Med_Hist',
+    path: '/MHist',
+    component: () => import('@/pages/Med_Hist.vue'),
+  },
+  {
+    name: 'Labs',
+    path: '/labs',
+    component: () => import('@/pages/Labs.vue'),
+  },
+  {
+    name: 'Booking',
+    path: '/booking',
+    component: () => import('@/pages/Booking.vue'),
+  },
+  {
+    name: 'BHist',
+    path: '/BHist',
+    component: () => import('@/pages/Book_Hist.vue'),
+  },
+  {
+    name: 'Nursing',
+    path: '/nursing',
+    component: () => import('@/pages/Nursing.vue'),
+  },
+  {
+    name: 'Consult',
+    path: '/consult',
+    component: () => import('@/pages/Consult.vue'),
   },
 ]
 
@@ -35,8 +60,8 @@ router.beforeEach(async (to, from, next) => {
 
   if (to.name === 'Login' && isLoggedIn) {
     next({ name: 'Home' })
-  } else if (to.name !== 'Login' && !isLoggedIn) {
-    next({ name: 'Login' })
+  } else if (!isLoggedIn) {//(to.name !== 'Login' && !isLoggedIn)
+    window.location.href ="/login?redirect-to=/sehat";
   } else {
     next()
   }

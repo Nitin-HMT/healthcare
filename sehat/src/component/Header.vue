@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-green-50 bg-opacity-30 border-solid border border-green-100 y-2 grid grid-cols-2">
+    <div class="bg-green-50 bg-opacity-30 y-2 grid grid-cols-2">
        <!--- <div>
         <Avatar class="mx-6"
         :shape="'square'"
@@ -9,7 +9,7 @@
         size="2xl"
         />
         </div>-->
-        <div><h2 class=" mt-3 font-bold text-md text-gray-700 px-2">Hello {{x[0]}}!</h2></div>
+        <div><h2 class=" mt-3 font-bold font-sans text-md text-gray-700 px-2">Hello {{x[0]}}!</h2></div>
         <div class=" mx-6 mt-3 flex justify-end ">
         <Dropdown
             :options="[
@@ -34,7 +34,7 @@
                     :ref_for="true"
                     :image="image"
                     label="avatar"
-                    size="2xl"
+                    size="md"
                     />
                 </template>
             </Button>
@@ -65,7 +65,7 @@ let user = createListResource ({
     auto: true,
     transform(data) {
     data.forEach(d => {
-      let y = d.salutation+". "+d.first_name+" "+d.last_name
+      let y = d.salutation+" "+d.first_name+" "+d.last_name
       x.value.push(y);
     });
   }

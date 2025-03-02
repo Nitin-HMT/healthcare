@@ -1,10 +1,12 @@
 import frappe
+from datetime import date
 @frappe.whitelist()
-def make_prescripton(patient,appointment,selected,extras,History):
+def make_prescripton(patient,appoint,selected,extras,History):
     if not patient:
         frappe.throw("Patient Is Empty, Please Add something")
+    appointment=appoint[0]
     full_app_string=appointment["full_string"]
-    app_vitals=appointment["Vitals"]
+    #app_vitals=appointment["Vitals"]
     current_appointment = appointment["value"]
     cur_patient = full_app_string["patient"]
     cur_sex= full_app_string["patient_sex"]
@@ -61,17 +63,17 @@ def make_prescripton(patient,appointment,selected,extras,History):
     new_prescription.patient_sex = cur_sex
     new_prescription.patient_age = cur_age
     new_prescription.practitioner= cur_doctor
-    new_prescription.bp= app_vitals[0]
-    new_prescription.pulse= app_vitals[1]
-    new_prescription.spo2= app_vitals[2]
-    new_prescription.height= app_vitals[3]
-    new_prescription.weight= app_vitals[4]
-    new_prescription.bmi= app_vitals[5]
-    new_prescription.temperature = app_vitals[6]
-    new_prescription.nutrition_note = app_vitals[8]
-    new_prescription.referred_doctor = app_vitals[9]
-    new_prescription.fee_valid = app_vitals[10]
-    new_prescription.vital_sign_notes = app_vitals[7]
+    # new_prescription.bp= app_vitals[0]
+    # new_prescription.pulse= app_vitals[1]
+    # new_prescription.spo2= app_vitals[2]
+    # new_prescription.height= app_vitals[3]
+    # new_prescription.weight= app_vitals[4]
+    # new_prescription.bmi= app_vitals[5]
+    # new_prescription.temperature = app_vitals[6]
+    # new_prescription.nutrition_note = app_vitals[8]
+    # new_prescription.referred_doctor = app_vitals[9]
+    # new_prescription.fee_valid = app_vitals[10]
+    # new_prescription.vital_sign_notes = app_vitals[7]
     new_prescription.further_description = extras["add_sym"]
     new_prescription.further_advice = extras["add_advise"]
     new_prescription.follow_up = extras["add_followup"]
@@ -155,3 +157,160 @@ def make_procedure(name):
     new_procedure.item_group="Services"
     new_procedure.insert(ignore_permissions=True)
     return new_procedure
+
+@frappe.whitelist()
+def make_patient(ptname,new_pt):
+    # selected:UMSM2400001 new_pat:[ "first", "middle", "last", "32", "Male", "O Positive", "8954615456", null ]
+    if not new_pt[0] or not new_pt[3]  or not new_pt[4]  or not new_pt[6]:
+        frappe.throw("Mandatory Field not entered")
+    if not ptname:
+    #print ("new_pt")
+        new_ptr= frappe.new_doc("Patient")
+        new_ptr.first_name= new_pt[0]
+        new_ptr.middle_name= new_pt[1]
+        new_ptr.last_name= new_pt[2]
+        new_ptr.aged= int(new_pt[3])
+        new_ptr.sex= new_pt[4]
+        new_ptr.blood_group= new_pt[5]
+        new_ptr.mobile= new_pt[6]
+        new_ptr.insert(ignore_permissions=True)
+        return new_ptr
+    if ptname:
+        exist= ptname["name"]
+        new_ptr = frappe.get_doc('Patient', exist)
+        new_ptr.first_name= new_pt[0]
+        new_ptr.middle_name= new_pt[1]
+        new_ptr.last_name= new_pt[2]
+        new_ptr.aged= int(new_pt[3])
+        new_ptr.sex= new_pt[4]
+        new_ptr.blood_group= new_pt[5]
+        new_ptr.mobile= new_pt[6]
+        new_ptr.save()
+        return new_ptr
+
+@frappe.whitelist()
+def update_lab_uom(op,lab,uom,min_range,max_range):
+    if not lab or not uom:
+        frappe.throw("Uom Update Unsuccessful, Contact Developer")
+    if op == "new":
+        new_labs = frappe.new_doc("Lab Test Template")
+        new_labs.lab_test_name=lab
+        new_labs.lab_test_code=lab
+        new_labs.department="Diagnostic"
+        new_labs.lab_test_uom = uom
+        new_labs.min_normal_range = min_range
+        new_labs.max_normal_range = max_range
+        new_labs.insert(ignore_permissions=True)
+        return new_labs
+    else:
+        lab_temp = frappe.get_doc('Lab Test Template', lab)
+        lab_temp.lab_test_uom = uom
+        lab_temp.min_normal_range = min_range
+        lab_temp.max_normal_range = max_range
+        lab_temp.save()
+        return lab_temp
+
+@frappe.whitelist()
+def make_lab_results(patient,date,data_x):
+    if not date or not data_x or not patient:
+        frappe.throw("Lab Data Missing, Contact Developer")
+    labs=[]
+    for d in data_x:
+        uom_x=d["uom"]
+        labs.append({"test_name":d["value"], "result":d["result"],"uom":uom_x["value"]})
+    lab_temp = frappe.new_doc("Lab Test")
+    lab_temp.patient = patient["name"]
+    lab_temp.patient_sex = patient["gender"]
+    lab_temp.result_date = date
+    lab_temp.set("lab_test_entry", labs)
+    lab_temp.insert(ignore_permissions=True)
+    lab_temp.submit()
+    #return new_order
+    return lab_temp
+
+@frappe.whitelist()
+def cancel_lab_result(lab):
+    new_lab = frappe.get_doc('Lab Test', lab)
+    new_lab.cancel()
+    return new_lab
+
+@frappe.whitelist()
+def make_vitals(patient_data):
+    if not patient_data:
+        frappe.throw("Vitals Data Missing, Contact Developer")
+    #{ "value": "Anand Kr Soni", 
+    # "name": "DLM-APNT-1224-0054", 
+    # "Vitals": [ "120/80 mmHg", "72", "99", "1.83", "80", "23.89", "96.5", "vfcg", "Normal", null, 1 ] }
+    pt_name=patient_data["value"]
+    ap_name=patient_data["name"]
+    vt_array=patient_data["Vitals"]
+    vitals = frappe.new_doc("Vital Signs")
+    vitals.patient = pt_name
+    #vitals.signs_date = date
+    vitals.appointment=ap_name
+    if vt_array[0].find("/"):
+        x= vt_array[0].split("/")
+        vitals.bp_systolic=x[0]
+        vitals.bp_diastolic=x[1]
+    else:
+        frappe.throw("BP Format incorrect, / not found")
+    vitals.bp = vt_array[0] +" mmHg"
+    vitals.pulse = vt_array[1]
+    vitals.spo2 = vt_array[2]
+    vitals.height = vt_array[3]
+    vitals.weight = vt_array[4]
+    vitals.bmi = vt_array[5]
+    vitals.temperature = vt_array[6]
+    vitals.vital_signs_note = vt_array[7]
+    vitals.nutrition_note = vt_array[8]
+    vitals.insert(ignore_permissions=True)
+    vitals.submit()
+    #return new_order
+    return vitals.name 
+
+@frappe.whitelist()
+def cancel_sales_inv(inv):
+    new_lab = frappe.get_doc('Sales Invoice', inv)
+    new_lab.cancel()
+    return new_lab
+
+
+
+
+
+
+
+# Under development
+@frappe.whitelist()
+def make_appoint(datas,patient):
+    #{ "label": "Nitin Agarwal", "description": "Nitin Agarwal | 34 Yrs", 
+    # "value": "Nitin Agarwal,8954615456", "gender": "Male", "gen_abbr": "M", 
+    # "name": "UMSM2400001", 
+    # "new": [ "Nitin Agarwal", null, null, "34", "Male", "O Positive", "8954615456", null ] }
+    full_doc = datas["doctor"]
+    doctor = full_doc["value"]
+    item= full_doc["item"]
+    charge= full_doc["charge"]
+    schedule= full_doc["schedule"]
+    unit= full_doc["service_unit"]
+    if not patient:
+        frappe.throw("Patient Is Empty, Please Add something")
+    new_appoint = frappe.new_doc("Patient Appointment")
+    new_appoint.appointment_type=datas["appnt_type"]
+    new_appoint.practitioner=doctor
+    new_appoint.patient=patient["name"]
+    new_appoint.referring_practitioner=datas["ref_dr"]
+    new_appoint.fee_valid=datas["appoint_type"]
+    # new_appoint.appointment_datetime=date.today()
+    new_appoint.billing_item=item
+    new_appoint.service_unit=unit
+    # new_appoint.appointment_date= date.today()
+    # new_procedure.item_code=name
+    # new_procedure.item_group="Services"
+    new_appoint.insert(ignore_permissions=True)
+    return new_appoint
+
+@frappe.whitelist()
+def get_roles(user_x):
+    roles =  frappe.get_roles(user_x)
+    return roles

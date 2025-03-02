@@ -1,5 +1,5 @@
 import router from '@/router'
-import { computed, reactive } from 'vue'
+import { computed, reactive,ref } from 'vue'
 import { createResource } from 'frappe-ui'
 
 import { userResource } from './user'
@@ -39,4 +39,19 @@ export const session = reactive({
   }),
   user: sessionUser(),
   isLoggedIn: computed(() => !!session.user),
+})
+
+export const userRole= reactive({
+  roles: createResource({
+    url: 'healthcare.api.get_roles',
+    makeParams(){
+        return {
+          user_x:sessionUser()
+        }
+    },
+  //   onSuccess(data) {
+  //     return data
+  //   },
+  auto:true
+   })
 })

@@ -172,7 +172,6 @@
    "depends_on": "eval:!doc.__is_local",
    "fieldname": "section_break_12",
    "fieldtype": "Section Break",
-   "hidden": 1,
    "label": "Appointment Details"
   },
   {
@@ -207,13 +206,14 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "Today",
    "fieldname": "appointment_date",
    "fieldtype": "Date",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Date",
    "read_only": 1,
-   "read_only_depends_on": "eval:doc.appointment_for==\"Practitioner\"",
+   "read_only_depends_on": "eval:doc.appointment_for!=\"Practitioner\"",
    "reqd": 1,
    "search_index": 1
   },
@@ -251,6 +251,7 @@
    "report_hide": 1
   },
   {
+   "fetch_from": "patient.aged",
    "fieldname": "patient_age",
    "fieldtype": "Data",
    "label": "Patient Age",
@@ -475,6 +476,7 @@
    "label": "Vitals"
   },
   {
+   "fetch_from": "vital_sign.temperature",
    "fieldname": "temperature",
    "fieldtype": "Data",
    "label": "Body Temperature",
@@ -493,12 +495,14 @@
    "read_only_depends_on": "eval: doc.status !== \"Open\" && doc.status !== \"Scheduled\";"
   },
   {
+   "fetch_from": "vital_sign.bp",
    "fieldname": "bp",
    "fieldtype": "Data",
    "label": "Blood Pressure",
    "read_only": 1
   },
   {
+   "fetch_from": "vital_sign.vital_signs_note",
    "fieldname": "vital_signs_note",
    "fieldtype": "Small Text",
    "label": "Notes",
@@ -509,30 +513,35 @@
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "vital_sign.height",
    "fieldname": "height",
    "fieldtype": "Float",
    "label": "Height (In Meter)",
    "read_only": 1
   },
   {
+   "fetch_from": "vital_sign.weight",
    "fieldname": "weight",
    "fieldtype": "Float",
    "label": "Weight (In Kilogram)",
    "read_only_depends_on": "eval: doc.status !== \"Open\" && doc.status !== \"Scheduled\";"
   },
   {
+   "fetch_from": "vital_sign.bmi",
    "fieldname": "bmi",
    "fieldtype": "Float",
    "label": "BMI",
    "read_only": 1
   },
   {
+   "fetch_from": "vital_sign.nutrition_note",
    "fieldname": "nutrition_note",
    "fieldtype": "Small Text",
    "label": "Nutritional Notes",
    "read_only": 1
   },
   {
+   "fetch_from": "vital_sign.pulse",
    "fieldname": "pulse",
    "fieldtype": "Data",
    "label": "Heart Rate / Pulse",
@@ -558,6 +567,7 @@
   },
   {
    "description": "%",
+   "fetch_from": "vital_sign.spo2",
    "fieldname": "spo2",
    "fieldtype": "Data",
    "label": "SpO<sub>2</sub>",
@@ -567,8 +577,7 @@
    "fieldname": "vital_sign",
    "fieldtype": "Link",
    "label": "Vital Sign",
-   "options": "Vital Signs",
-   "read_only": 1
+   "options": "Vital Signs"
   },
   {
    "fieldname": "time_of_payment",
@@ -581,7 +590,7 @@
    "depends_on": "eval:doc.fee_valid",
    "fieldname": "fee_valid",
    "fieldtype": "Check",
-   "label": "Fee Valid",
+   "label": "Free Visit",
    "read_only": 1
   },
   {
@@ -595,6 +604,7 @@
   {
    "fieldname": "lab_test",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Lab Test",
    "options": "Lab Test",
    "read_only": 1
@@ -609,7 +619,7 @@
   }
  ],
  "links": [],
- "modified": "2025-01-07 01:03:18.760569",
+ "modified": "2025-03-01 13:49:47.167081",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Appointment",

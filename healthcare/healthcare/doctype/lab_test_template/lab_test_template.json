@@ -35,6 +35,8 @@
   "lab_test_uom",
   "secondary_uom",
   "conversion_factor",
+  "min_normal_range",
+  "max_normal_range",
   "column_break_10",
   "lab_test_normal_range",
   "section_break_compound",
@@ -442,10 +444,22 @@
    "hidden": 1,
    "label": "co_abbr",
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "min_normal_range",
+   "fieldtype": "Float",
+   "label": "Min Normal Range"
+  },
+  {
+   "default": "0",
+   "fieldname": "max_normal_range",
+   "fieldtype": "Float",
+   "label": "Max Normal Range"
   }
  ],
  "links": [],
- "modified": "2024-12-17 22:31:29.888560",
+ "modified": "2025-03-01 20:18:57.772014",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Lab Test Template",
