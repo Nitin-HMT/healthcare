@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-green-50 bg-opacity-30 y-2 grid grid-cols-2">
+    <div class="bg-green-50 bg-opacity-30 y-2 grid grid-cols-3">
        <!--- <div>
         <Avatar class="mx-6"
         :shape="'square'"
@@ -10,6 +10,7 @@
         />
         </div>-->
         <div><h2 class=" mt-3 font-bold font-sans text-md text-gray-700 px-2">Hello {{x[0]}}!</h2></div>
+        <div><h2 class=" mt-3 font-semibold font-sans text-md text-green-700 px-2">{{company}}</h2></div>
         <div class=" mx-6 mt-3 flex justify-end ">
         <Dropdown
             :options="[
@@ -56,9 +57,10 @@ const cookies = new URLSearchParams(document.cookie.split('; ').join('&'))
 let full_names = cookies.get('full_name')
 let image = cookies.get('user_image')
 let x =ref([]);
+let company =ref("");
 let user = createListResource ({
   doctype: 'Employee',
-  fields: ['salutation', 'first_name', 'last_name'],
+  fields: ['salutation', 'first_name', 'last_name','company'],
   filters: {
         user_id: cookies.get('user_id')
     },
@@ -67,6 +69,7 @@ let user = createListResource ({
     data.forEach(d => {
       let y = d.salutation+" "+d.first_name+" "+d.last_name
       x.value.push(y);
+      company.value=d.company
     });
   }
 })

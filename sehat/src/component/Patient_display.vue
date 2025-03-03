@@ -91,7 +91,6 @@
                 <Button :variant="'subtle'" @click="clear">Clear</Button>
               </span>
             </span>
-            {{pay_load}}
           </div>
         </div>
       </template>

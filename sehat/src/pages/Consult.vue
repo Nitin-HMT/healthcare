@@ -538,7 +538,7 @@ transform(data) {
 for (let d of data) {
 let label = d.patient_name;
 let description = d.patient_age;
-let vitals =[d.bp,d.pulse,d.spo2,d.height,d.weight,d.bmi,d.temperature,d.vital_sign_notes,
+let vitals =[d.bp,d.pulse,d.spo2,d.height,d.weight,d.bmi,d.temperature,d.vital_signs_note,
         d.nutrition_note,d.referring_practitioner,d.fee_valid]
 let pt = { "label": label, "Vitals":vitals, "gender":d.patient_sex ,"patient_id":d.patient,"value": d.name , "description": description, "image": "/files/user_icon.svg", "type": "Patient", "full_string": d };
 appoints.value.push(pt);
@@ -580,7 +580,7 @@ transform(data) {
 for (let d of data) {
 let label = d.patient_name;
 let description = d.patient_age;
-let vitals =[d.bp,d.pulse,d.spo2,d.height,d.weight,d.bmi,d.temperature,d.vital_sign_notes,
+let vitals =[d.bp,d.pulse,d.spo2,d.height,d.weight,d.bmi,d.temperature,d.vital_signs_note,
         d.nutrition_note,d.referring_practitioner,d.fee_valid]
 let pt = { "label": label, "Vitals":vitals, "gender":d.patient_sex ,"patient_id":d.patient,"value": d.name , "description": description, "image": "/files/user_icon.svg", "type": "Patient", "full_string": d };
 appoints.value.push(pt);
