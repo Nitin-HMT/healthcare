@@ -99,6 +99,7 @@
       OPD Procedure
       </Button>-->
 </div>
+
 <div class="flex items-center justify-end mr-3">
     <Button class="bg-transparent hover:bg-transparent active:bg-transparent"
     :ref_for="true"
@@ -110,29 +111,22 @@
     @click="queue_flag=true"
     >
     <template #prefix>
-      <FeatherIcon class="w-6 h-8 text-red-700 hover:text-red-900 rounded-full" name="grid"/>
+      <FeatherIcon class="w-6 h-8 text-gray-900 hover:text-gray-800 rounded-full" name="menu"/>
       <!-- <Badge v-if="lab_tests.list.data" :variant="'solid'" size="sm" 
     class= "object-right-top text-white border-white bg-blue-800 absolute inset-4 flex justify-center items-end z-60 ">
       {{lab_tests.list.data.length}}
     </Badge> -->
+    
     </template>
-
+    
   </Button>
-      <Badge v-if="appointCount" :variant="'solid'" size="sm" 
-    class= " text-white border-white bg-gradient-to-r from-red-800 to-red-800 absolute inline-flex size-5" @click="queue_flag=true">
+  <Badge v-if="appointCount" :variant="'solid'" size="sm" 
+    class= " text-white border-white bg-gradient-to-r from-gray-900 to-gray-900 absolute inline-flex size-4" @click="queue_flag=true">
         {{appointCount}}
     </Badge>
     <Badge v-if="appointCount" :variant="'solid'" size="sm" 
-    class= " text-white border-white bg-gradient-to-r from-red-800 to-red-800 animate-ping absolute inline-flex size-5" @click="queue_flag=true">
-      
+    class= " text-white border-white bg-gradient-to-r from-gray-400 to-gray-400 animate-ping absolute inline-flex size-4" @click="queue_flag=true">
     </Badge>
-    <div>
-    <!-- <Badge v-if="lab_tests.list.data" :variant="'solid'" size="sm" 
-    class= " text-white border-white bg-blue-800 absolute inset-4 flex justify-center items-end z-60 ">
-      {{lab_tests.list.data.length}}
-    </Badge> -->
-  </div>
-
 </div>
 </div>
 <PtDisp :Patient="sel_pat.details"/>
@@ -141,7 +135,7 @@
     <h3>OPD Queue</h3>
   </template>
   <template #body-content>
-    <p><Tabs as="div"
+    <p v-if="test_array.length"><Tabs as="div"
       class="border bg-gray-50/10 font-seriff"
       :tabs="test_array"
     >
@@ -185,6 +179,7 @@
       </template>
     </Tabs>
     </p>
+    <p v-else class="text-sm font-mono font-extralight">Queue Empty</p>
   </template>
 </Dialog>
 <!-- <div class="text-xs flex items-center justify-end">{{ dayjs().format('L LT') }}</div> -->
