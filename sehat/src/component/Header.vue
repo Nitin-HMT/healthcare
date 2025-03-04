@@ -12,7 +12,7 @@
         <div><h2 class=" mt-3 font-bold font-sans text-md text-gray-700 px-2">Hello {{x[0]}}!</h2></div>
         <div><h2 class=" mt-3 font-semibold font-sans text-md text-green-700 px-2">{{company}}</h2></div>
         <div class=" mx-6 mt-3 flex justify-end ">
-        <Dropdown
+        <Dropdown 
             :options="[
                 {
                 label: 'Switch to Desk',
@@ -28,6 +28,7 @@
                 },
             ]"
             >
+            <!-- class="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-cyan-600 hover:to-teal-700 transition-all" -->
             <Button>
                 <template #icon>
                     <Avatar v-if="image" class="mx-2"

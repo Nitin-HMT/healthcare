@@ -101,6 +101,7 @@
     />
     <ItemCard
       v-if="categorizedItems.lab.length > 0"
+      @click="labDialogshown=true"
       title="Labs"
       :items="categorizedItems.lab"
       image="/files/lab_test_blue_2.jpg"
@@ -203,15 +204,19 @@
 <!-- ALL DIALOGS-->
   <Dialog :options="{
     title: 'Symptoms',
-    size: 'sm'
+    size: 'lg'
     }"
     v-model="symDialogshown">
     <template #body-content>
         <ul class= "space-y-2">
-            <li v-for="(item,index) in data.selected" > 
-              <span v-if="item.type=='Complaint'" class="grid md:grid-cols-2 gap-2">
-                {{item.label}} 
-              <FormControl v-model="item.additional_attr" type="text" placeholder="Comments" /></span>
+            <li v-for="(item,index) in data.selected" class="gap-1 hover:bg-violet-300/30 hover:underline" > 
+              <span v-if="item.type=='Complaint'" class="grid md:grid-cols-5 gap-2">
+                <div class="col-span-2 font-serif font-light text-sm flex justify-start items-between pl-3 pt-1">{{item.label}}</div>
+              <FormControl class="col-span-2" v-model="item.additional_attr" type="text" placeholder="Comments" />
+              <div class="flex justify-end items-between pr-6" >
+                <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_line(index)"/></button>
+              </div>
+            </span>
             </li>
         </ul>
     </template>
@@ -223,45 +228,106 @@
     v-model="diagDialogshown">
     <template #body-content>
         <ul class= "space-y-2">
-            <li v-for="(item,index) in data.selected" > 
+            <!-- <li v-for="(item,index) in data.selected" > 
               <span v-if="item.type=='Diagnosis'" class="grid md:grid-cols-2 gap-2">
                 {{item.label}} - {{ item.additional_attr }}</span>
+            </li> -->
+            <li v-for="(item,index) in data.selected" class="gap-1 hover:bg-green-200/30 hover:underline" > 
+              <span v-if="item.type=='Diagnosis'" class="grid md:grid-cols-5 gap-2">
+                <div class="col-span-2 font-serif font-light text-sm flex justify-start items-between pl-3 pt-1">
+                  {{item.label}} 
+                </div>
+                <div class="col-span-2 font-serif font-light text-sm flex justify-start items-between pl-3 pt-1">
+                  {{ item.additional_attr }}
+                </div>
+              <div class="flex justify-end items-between pr-6" >
+                <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_line(index)"/></button>
+              </div>
+            </span>
+            </li>
+        </ul>
+    </template>
+</Dialog>
+<Dialog :options="{
+    title: 'Labs',
+    size: 'xl'
+    }"
+    v-model="labDialogshown">
+    <template #body-content>
+        <ul class= "space-y-2">
+            <!-- <li v-for="(item,index) in data.selected" > 
+              <span v-if="item.type=='Diagnosis'" class="grid md:grid-cols-2 gap-2">
+                {{item.label}} - {{ item.additional_attr }}</span>
+            </li> -->
+            <li v-for="(item,index) in data.selected" class="gap-1 hover:bg-blue-200/30 hover:underline" > 
+              <span v-if="item.type=='labs'" class="grid md:grid-cols-3 gap-2">
+                <div class="col-span-2 font-serif font-light text-sm flex justify-start items-between pl-3 pt-1">
+                  {{item.label}} 
+                </div>
+              <div class="flex justify-end items-between pr-6" >
+                <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_line(index)"/></button>
+              </div>
+            </span>
             </li>
         </ul>
     </template>
 </Dialog>
 <Dialog :options="{
     title: 'Procedures',
-    size: 'xl'
+    size: '2xl'
     }"
     v-model="surDialogshown">
     <template #body-content>
         <ul class= "space-y-2">
-            <li v-for="(item,index) in data.selected" > 
+            <!-- <li v-for="(item,index) in data.selected" > 
               <span v-if="item.type=='surg'" class="grid md:grid-cols-3 gap-2">
                 {{item.label}} 
               <FormControl :type="'date'" v-model="item.additional_attr" placeholder="Date" />
-              
               <FormControl v-model="item.additional_attr_2" type="text" placeholder="Comments" /></span>
+            </li> -->
+            <li v-for="(item,index) in data.selected" class="gap-1 hover:bg-red-200/30 hover:underline" > 
+              <span v-if="item.type=='surg'" class="grid md:grid-cols-10 gap-2">
+                <div class="col-span-3 font-serif font-light text-sm flex justify-start items-between pl-3 pt-1">
+                  {{item.label}} 
+                </div>
+                <FormControl class="col-span-3" :type="'date'" v-model="item.additional_attr" placeholder="Date" />
+              <FormControl class="col-span-3" v-model="item.additional_attr_2" type="text" placeholder="Comments" />
+              <div class="flex justify-end items-between pr-6" >
+                <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_line(index)"/></button>
+              </div>
+            </span>
             </li>
         </ul>
     </template>
 </Dialog>
 <Dialog :options="{
     title: 'Medicine',
-    size: '2xl'
+    size: '3xl'
     }"
     v-model="medDialogshown">
     <template #body-content>
         <ul class= "space-y-2">
-            <li v-for="(item,index) in data.selected" > 
+            <!-- <li v-for="(item,index) in data.selected" > 
               <span v-if="item.type=='Meds'" class="grid md:grid-cols-5 gap-2">
                 <p class="col-span-2">{{item.label}} </p>
-              <!--<FormControl v-model="item.additional_attr" type="text" placeholder="Date" />-->
+              <FormControl v-model="item.additional_attr" type="text" placeholder="Date" />
               <Select :options="med_dosage" v-model="item.additional_attr" placeholder="Dosage" />
               <Select :options="med_duration" v-model="item.additional_attr_2" placeholder="Duration" />
               <p>{{ item.sp_attr }}</p>
               </span>
+            </li> -->
+            <li v-for="(item,index) in data.selected" class="gap-1 hover:bg-yellow-100/60 hover:underline" > 
+              <span v-if="item.type=='Meds'" class="grid md:grid-cols-7 gap-2">
+                <div class="col-span-2 font-serif font-light text-sm flex justify-start items-between pl-3 pt-1">
+                  {{item.label}} 
+                </div>
+                <Select :options="med_dosage" v-model="item.additional_attr" placeholder="Dosage" />
+              <Select :options="med_duration" v-model="item.additional_attr_2" placeholder="Duration" />
+              <p class="col-span-2 font-serif font-light text-sm flex justify-end pt-1 items-between">{{ item.sp_attr }}</p>
+              <div class="flex justify-end items-between pr-6">
+                <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_line(index)"/></button>
+              </div>
+            </span>
             </li>
         </ul>
     </template>
@@ -286,14 +352,17 @@
             </div>
           </span>
           <span>
-            <div>
+            <div class="pt-4">
               <ul class= "space-y-2">
-              <li v-for="(item) in data.history" > 
-              <span class="grid md:grid-cols-4 gap-2">
-                <p>{{item.history_type}}</p>
-                <p>{{item.label}}</p>
-              <FormControl v-model="item.since" type="text" placeholder="Since" />
-              <FormControl v-model="item.comment" type="text" placeholder="Comments" />
+              <li v-for="(item,index) in data.history" class="gap-2 hover:bg-teal-200/30 hover:underline" > 
+              <span class="grid md:grid-cols-5 gap-2">
+                <p class="font-serif font-light text-sm flex justify-start items-between pl-3 pt-1">{{item.history_type}}</p>
+                <p class="font-serif font-light text-sm flex justify-start items-between pt-1">{{item.label}}</p>
+              <FormControl class="font-serif font-light text-sm flex justify-start items-between pt-1" v-model="item.since" type="text" placeholder="Since" />
+              <FormControl class="font-serif font-light text-sm flex justify-start items-between pt-1" v-model="item.comment" type="text" placeholder="Comments" />
+              <div class="flex justify-end items-between pt-1 pr-6">
+                <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_Hist_line(index)"/></button>
+              </div>
             </span>
             </li>
           </ul>
@@ -302,7 +371,6 @@
     </template>
     
 </Dialog>
-
 <Dialog v-model="submit_confirm">
   <template #body-title>
     <h3>Confirm Advise Submission</h3>
@@ -424,7 +492,7 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
     </Button>
   </template>
 </Dialog>
-{{data.selected}}+XXX
+<!-- {{data.selected}} -->
 </template>
 
 <script setup>
@@ -480,6 +548,7 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
     let Patient_details = ref("");
     const symDialogshown = ref(false);
     const diagDialogshown = ref(false);
+    const labDialogshown = ref(false);
     const appoint_flag = ref(false);
     const medDialogshown = ref(false);
     const surDialogshown = ref(false);
@@ -688,7 +757,7 @@ Patient_details = createListResource({
         pageLength: 500,
         transform(data) {
         data.forEach(d => {
-            addToAllSearches(d.template, null, "surg", "/files/surgery _red.jpg","","","",d.name);
+            addToAllSearches(d.template, null, "surg", "/files/surgery _red.jpg",dayjs(),"","",d.name);
             //addTohistory(d.template, null, "Surgical History", "","","","",d.name);
             let label = d.template;
             let pt = { "label": label, "description": label, "value": d.name , "history_type": "Surgical History", "history_doctype":"Clinical Procedure Template","since":"","comment":""};
@@ -829,6 +898,9 @@ Patient_details = createListResource({
             let x=  { "label": data_diag.diagnosis, "value": data_diag.diagnosis, "description": data_diag.diagnosis, "image": "/files/diagnosis.jpg", "type": "Diagnosis", "additional_attr": ((data_diag.lifestyle_advise) ? data_diag.lifestyle_advise : "") , "additional_attr_2": null, "sp_attr": null, "added": null }
             data.selected.push(x)
             create_msg.value="Diagnosis Created Successfully"
+            let label = data_diag.diagnosis;
+            let pt = { "label": label, "description": label, "value": label , "history_type": "PED","history_doctype":"Diagnosis","since":"","comment":""};
+            all_history.value.push(pt);
         }   
     })
     const make_labs = createResource({
@@ -867,7 +939,10 @@ Patient_details = createListResource({
         add_item.medicine=[null,null,null,null,null,null];
        // add_item.create_new=false;
         let x=  { "label": `${data_medicine.dosage_form} ${data_medicine.medicine_brand}`, "value": `${data_medicine.dosage_form} ${data_medicine.medicine_brand},${data_medicine.generic_name}, ${data_medicine.default_duration}, ${data_medicine.default_dosage}`, "description": `${data_medicine.generic_name}, ${data_medicine.default_duration}, ${data_medicine.default_dosage}`, "image": "/files/pill_yellow.jpg", "type": "Meds", "additional_attr": data_medicine.default_dosage, "additional_attr_2": data_medicine.default_duration, "sp_attr": data_medicine.special_instruction, "added": [data_medicine.name,data_medicine.dosage_form] }
-        data.selected.push(x)
+        data.selected.push(x);
+        let label = data_medicine.name;
+        let pt = { "label": `${data_medicine.dosage_form} ${data_medicine.medicine_brand}`, "description": `${data_medicine.generic_name}`, "value": label , "history_type": "Medication","history_doctype":"OPD Medication","since":"","comment":""};
+        all_history.value.push(pt);
         create_msg.value="Medicine Created Successfully"
         }   
     })
@@ -883,7 +958,13 @@ Patient_details = createListResource({
         // data.appointment_name=data_Z.name;
         add_item.refer=[null,null];
       //  add_item.create_new=false;
-        refferal.fetch()
+       // refferal.fetch();
+        let label = data_refer.doctor_name;
+        let description = data_refer.more_information;
+        let name = data_refer.name;
+        let pt = { "label": label, "name":name, "value": name, "description": description, "type": "referdr"};
+        referdr.value.push(pt);
+        more_info.add_referal=pt
         create_msg.value="Referring Dr Created Successfully"
         }   
     })
@@ -897,8 +978,12 @@ Patient_details = createListResource({
         onSuccess: (data_allergy) => {
         // data.appointment_name=data_Z.name;
         add_item.allergy=[];
+        let label = data_allergy.name;
+        let pt = { "label": label, "description": label, "value": label , "history_type": "Allergy","history_doctype":"Patient Allergy", "since":"","comment":""};
+        all_history.value.push(pt);
+        data.history.push(pt);
        // add_item.create_new=false;
-        allergy.fetch();
+        //allergy.fetch();
         create_msg.value="Allergy Created Successfully"
         }   
     })
@@ -915,13 +1000,23 @@ Patient_details = createListResource({
         add_item.procedure=[];
       //  add_item.create_new=false;
         let x=   { "label": data_procedure.template, "value": data_procedure.template, "description": data_procedure.template, "image": "/files/surgery _red.jpg", "type": "surg","additional_attr": "", "additional_attr_2": "", "sp_attr": "", "added": data_procedure.name }
-        data.selected.push(x)
+        data.selected.push(x);
+        let label = data_procedure.template;
+        let pt = { "label": label, "description": label, "value": data_procedure.name , "history_type": "Surgical History", "history_doctype":"Clinical Procedure Template","since":"","comment":""};
+        all_history.value.push(pt);
         create_msg.value="Procedure Created Successfully"
         }   
     })
     function sp_char(search,char){
-      console.log(search+"-"+char);
+      //console.log(search+"-"+char);
       let text = search.includes(char);
       return text
     }
+    function clear_line(locater){
+      data.selected.splice(locater,1);
+    }
+    function clear_Hist_line(locater){
+      data.history.splice(locater,1);
+    }
+    
 </script>
