@@ -294,8 +294,10 @@ def make_appoint(datas,patient):
     charge= full_doc["charge"]
     schedule= full_doc["schedule"]
     unit= full_doc["service_unit"]
+    ref_dr=""
     ref_prac = datas["ref_dr"]
-    ref_dr=ref_prac["value"]
+    if ref_prac:
+        ref_dr=ref_prac["value"]
 
     if not patient:
         frappe.throw("Patient Is Empty, Please Add something")

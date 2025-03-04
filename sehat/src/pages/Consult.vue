@@ -302,6 +302,7 @@
     </template>
     
 </Dialog>
+
 <Dialog v-model="submit_confirm">
   <template #body-title>
     <h3>Confirm Advise Submission</h3>
@@ -423,6 +424,7 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
     </Button>
   </template>
 </Dialog>
+{{data.selected}}+XXX
 </template>
 
 <script setup>
@@ -431,6 +433,7 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
     import { createListResource,createResource, ErrorMessage,DateTimePicker } from 'frappe-ui';
     import ItemCard from '@/component/ItemCard.vue';
     import {session,userRole} from '@/data/session';
+    import dayjs from 'dayjs';
     let roles_z=userRole.roles.fetch()
    let doctor_flag=computed(() => userRole.roles.data.includes("OPD Doctor"))
     let sel_pat=inject("patient");
@@ -823,7 +826,7 @@ Patient_details = createListResource({
             addToAllSearches(data_diag.diagnosis, null, "Diagnosis", "/files/diagnosis.jpg",data_diag.lifestyle_advise,null,null,null);
             add_item.diagnosis=[null,null];
            // add_item.create_new=false;
-            let x=  { "label": data_diag.diagnosis, "value": data_diag.diagnosis, "description": data_diag.diagnosis, "image": "/files/diagnosis.jpg", "type": "Diagnosis", "additional_attr": data_diag.lifestyle_advise, "additional_attr_2": null, "sp_attr": null, "added": null }
+            let x=  { "label": data_diag.diagnosis, "value": data_diag.diagnosis, "description": data_diag.diagnosis, "image": "/files/diagnosis.jpg", "type": "Diagnosis", "additional_attr": ((data_diag.lifestyle_advise) ? data_diag.lifestyle_advise : "") , "additional_attr_2": null, "sp_attr": null, "added": null }
             data.selected.push(x)
             create_msg.value="Diagnosis Created Successfully"
         }   
@@ -911,7 +914,7 @@ Patient_details = createListResource({
         addToAllSearches(data_procedure.template, null, "surg", "/files/surgery _red.jpg","","","",data_procedure.name);
         add_item.procedure=[];
       //  add_item.create_new=false;
-        let x=   { "label": data_procedure.template, "value": data_procedure.template, "description": data_procedure.template, "image": "/files/surgery _red.jpg", "type": "surg","additional_attr": data_procedure.date, "additional_attr_2": data_procedure.comments, "sp_attr": "", "added": data_procedure.name }
+        let x=   { "label": data_procedure.template, "value": data_procedure.template, "description": data_procedure.template, "image": "/files/surgery _red.jpg", "type": "surg","additional_attr": "", "additional_attr_2": "", "sp_attr": "", "added": data_procedure.name }
         data.selected.push(x)
         create_msg.value="Procedure Created Successfully"
         }   

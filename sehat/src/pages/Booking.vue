@@ -117,7 +117,6 @@
       class="col-span-2 block w-full rounded-full px-2 py-2 item-center justify-center" :disabled="true" />
    </div>
   <ErrorMessage :message="make_apppoint.error"/>
-  {{ data.ref_dr }}
 </template>
 <script setup>
 import { reactive, ref,watch,inject,onMounted } from 'vue';
