@@ -135,7 +135,8 @@ def make_refer(name,desc):
         frappe.throw("Referal not entered")
     new_refer = frappe.new_doc("Referring Doctor")
     new_refer.doctor_name=name
-    new_refer.more_information=desc
+    if desc:
+        new_refer.more_information=desc
     new_refer.insert(ignore_permissions=True)
     return new_refer
 @frappe.whitelist()
@@ -293,13 +294,16 @@ def make_appoint(datas,patient):
     charge= full_doc["charge"]
     schedule= full_doc["schedule"]
     unit= full_doc["service_unit"]
+    ref_prac = datas["ref_dr"]
+    ref_dr=ref_prac["value"]
+
     if not patient:
         frappe.throw("Patient Is Empty, Please Add something")
     new_appoint = frappe.new_doc("Patient Appointment")
     new_appoint.appointment_type=datas["appnt_type"]
     new_appoint.practitioner=doctor
     new_appoint.patient=patient["name"]
-    new_appoint.referring_practitioner=datas["ref_dr"]
+    new_appoint.referring_practitioner=ref_dr
     new_appoint.fee_valid=datas["appoint_type"]
     # new_appoint.appointment_datetime=date.today()
     new_appoint.billing_item=item

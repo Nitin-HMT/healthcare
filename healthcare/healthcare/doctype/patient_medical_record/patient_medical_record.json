@@ -124,10 +124,11 @@
  ],
  "in_create": 1,
  "links": [],
- "modified": "2024-12-06 00:27:33.029877",
+ "modified": "2025-03-04 16:37:08.001841",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Medical Record",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
@@ -144,10 +145,37 @@
   },
   {
    "create": 1,
+   "delete": 1,
    "read": 1,
    "report": 1,
    "role": "OPD Doctor",
    "select": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Reception",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OPD Lab",
+   "select": 1,
+   "share": 1,
    "write": 1
   }
  ],
