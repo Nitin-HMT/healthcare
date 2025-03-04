@@ -501,8 +501,8 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
     import { createListResource,createResource, ErrorMessage,DateTimePicker } from 'frappe-ui';
     import ItemCard from '@/component/ItemCard.vue';
     import {session,userRole} from '@/data/session';
-    import dayjs from 'dayjs';
-    let roles_z=userRole.roles.fetch()
+
+   let roles_z=userRole.roles.fetch()
    let doctor_flag=computed(() => userRole.roles.data.includes("OPD Doctor"))
     let sel_pat=inject("patient");
     let pay_flag= ref(false)
@@ -757,7 +757,7 @@ Patient_details = createListResource({
         pageLength: 500,
         transform(data) {
         data.forEach(d => {
-            addToAllSearches(d.template, null, "surg", "/files/surgery _red.jpg",dayjs(),"","",d.name);
+            addToAllSearches(d.template, null, "surg", "/files/surgery _red.jpg","","","",d.name);
             //addTohistory(d.template, null, "Surgical History", "","","","",d.name);
             let label = d.template;
             let pt = { "label": label, "description": label, "value": d.name , "history_type": "Surgical History", "history_doctype":"Clinical Procedure Template","since":"","comment":""};
