@@ -4,124 +4,110 @@
     <Badge :variant="'solid'" class=" block w-full rounded-full px-2 py-2 font-serif item-center justify-center
     bg-gradient-to-r from-red-800 to-red-600 hover:from-red-900 hover:to-red-700 text-white transition-all" size="xl" label="No Patient Selected"/>
   </div>
-  <div v-else-if="!result.length" class="mt-4 md:mx-[200px] flex flex-row item-center justify-center gap-3 p-3">
+  <div v-if="sel_pat.details">
+    <div v-if="!result.length && !create_result" class="mt-4 md:mx-[200px] flex flex-row item-center justify-center gap-3 p-3">
     <Badge :variant="'solid'" class=" block w-full rounded-full px-2 py-2 font-serif item-center justify-center
     bg-gradient-to-r from-red-800 to-red-600 hover:from-red-900 hover:to-red-700 text-white transition-all" size="xl" label="No Results"/>
     <Badge :variant="'solid'" class=" block w-full rounded-full px-2 py-2 font-serif item-center justify-center
     bg-gradient-to-r from-blue-800 to-blue-600 hover:from-blue-900 hover:to-blue-700 text-white transition-all" 
     size="xl" label="+ Add New Labs" @click="create_result=true"/>
   </div>
-    <div v-else>
-      <div class="mt-3 grid grid-cols-5 gap-3 p-3">
-        <Switch size="sm" label="Show Results By Test Results" description="" :disabled="false" v-model="show_bytest"/>
-        <div class="col-span-3"></div>
-        <Badge :variant="'solid'" class=" block w-full rounded-full font-serif item-center justify-center
-    bg-gradient-to-r from-blue-800 to-blue-600 hover:from-blue-900 hover:to-blue-700 text-white transition-all" 
-    size="lg" label="+ Add New Labs" @click="create_result=true"/>
-      </div>
-    <Tabs v-if="!show_bytest"
-      as="div"
-      class="border bg-gray-50/10 font-seriff"
-      :tabs="result"
-    vertical>
-      <template #tab-panel="{ tab }">
-        <div class="p-5 grid grid-cols-10">
-            
-          <!--<div v-html="tab.full"></div>-->
-          <div class="col-span-4">
-            <ul v-for="(item) in tab.tests" class="grid grid-cols-3 justify-start items-center border">
-              <li>{{item.test}}</li>
-              <li>{{ item.result }}</li>
-              <li>{{ item.uom }}</li>
-            </ul>
 
-          </div>
-          <div class="col-span-4"></div>
-          <Button
-          @click="cancel_confirm(tab.name)"
-          :variant="'solid'"
-          theme="red"
-          size="md"
-          :loadingText="null"
-          :link="null"
-        >
-        <FeatherIcon class="w-6 h-6 rounded-full text-white"  name="trash-2"/>
-        </Button>
-    
+    <div class="mt-3 grid grid-cols-5 gap-3 p-3" v-if="!create_result && result.length">
+      <Switch size="sm" label="Show Results By Test Results" description="" :disabled="false" v-model="show_bytest"/>
+      <div class="col-span-3"></div>
+      <Badge :variant="'solid'" class=" block w-full rounded-full font-serif item-center justify-center
+  bg-gradient-to-r from-blue-800 to-blue-600 hover:from-blue-900 hover:to-blue-700 text-white transition-all" 
+  size="lg" label="+ Add New Labs" @click="create_result=true"/>
     </div>
-      </template>
-    </Tabs>
-    <Tabs v-if="show_bytest"
-      as="div"
-      class="border bg-yellow-100/80 font-seriff"
-      :tabs="test_array"
-    vertical>
-      <template #tab-panel="{ tab }">
-        <div class="p-5 grid grid-cols-10 gap-2 bg-yellow-50">
-            
-          <!--<div v-html="tab.full"></div>-->
-          <div class="col-span-4 pt-5 ">
-            <ul v-for="(item) in tab.tests" class="grid grid-cols-3 justify-start items-center border">
-              <li>{{item.date}}</li>
-              <li>{{ item.result }}</li>
-              <li>{{ item.uom }}</li>
-            </ul>
-          </div>
-          <div class="col-span-6 pt-5"> 
-            <v-frappe-chart class=""
-    type="line"
-    :labels="tab.dates"
-    :title="tab.label"
-    :data="[{ name: tab.uom, values: tab.resultss },]"
-    :colors="get_color()"
-    :line-options="{dotSize: 4, regionFill: 1 }"
-    :axis-options= "{ xAxisMode: 'tick'}"
-    :y-regions="[
-    {
-      label: 'Reference Range',
-      start: tab.min,
-      end: tab.max,
-      options: { labelPos: 'right' },
-    },
-  ]"
-    />
-</div>
-        </div>
-      </template>
-    </Tabs>
-  </div>
-  <Dialog v-model="create_result" :options="{title: 'Add Lab Results', size: '3xl'}">
-  <template #body-content>
-    <div class="flex flex-col gap-3">
-      <div class="grid grid-cols-2 pr-[60px]">
-      <FormControl :type="'date'"  variant="outline" label="Result Date" :required="true" v-model="lab_result_date"/>
+    <div v-if="!create_result">
+      <Tabs v-if="!show_bytest"
+        as="div"
+        class="border bg-gray-50/10 font-seriff"
+        :tabs="result"
+      vertical>
+        <template #tab-panel="{ tab }">
+          <div class="p-5 grid grid-cols-10">
+              
+            <!--<div v-html="tab.full"></div>-->
+            <div class="col-span-4">
+              <ul v-for="(item) in tab.tests" class="grid grid-cols-3 justify-start items-center border">
+                <li>{{item.test}}</li>
+                <li>{{ item.result }}</li>
+                <li>{{ item.uom }}</li>
+              </ul>
+
+            </div>
+            <div class="col-span-4"></div>
+            <Button
+            @click="cancel_confirm(tab.name)"
+            :variant="'solid'"
+            theme="red"
+            size="md"
+            :loadingText="null"
+            :link="null"
+          >
+          <FeatherIcon class="w-6 h-6 rounded-full text-white"  name="trash-2"/>
+          </Button>
+      
       </div>
-      <div class="grid grid-cols-6 gap-2">
-        <div class="col-span-5 font-mono">
-        <Autocomplete  :options="all_labs" v-model="lab_result_line" placeholder="Select All Lab Results" :multiple="true"/>
+        </template>
+      </Tabs>
+      <Tabs v-if="show_bytest"
+        as="div"
+        class="border bg-yellow-100/80 font-seriff"
+        :tabs="test_array"
+      vertical>
+        <template #tab-panel="{ tab }">
+          <div class="p-5 grid grid-cols-10 gap-2 bg-yellow-50">
+              
+            <!--<div v-html="tab.full"></div>-->
+            <div class="col-span-4 pt-5 ">
+              <ul v-for="(item) in tab.tests" class="grid grid-cols-3 justify-start items-center border">
+                <li>{{item.date}}</li>
+                <li>{{ item.result }}</li>
+                <li>{{ item.uom }}</li>
+              </ul>
+            </div>
+            <div class="col-span-6 pt-5"> 
+              <v-frappe-chart class=""
+      type="line"
+      :labels="tab.dates"
+      :title="tab.label"
+      :data="[{ name: tab.uom, values: tab.resultss },]"
+      :colors="get_color()"
+      :line-options="{dotSize: 4, regionFill: 1 }"
+      :axis-options= "{ xAxisMode: 'tick'}"
+      :y-regions="[
+      {
+        label: 'Reference Range',
+        start: tab.min,
+        end: tab.max,
+        options: { labelPos: 'right' },
+      },
+    ]"
+      />
+  </div>
+          </div>
+        </template>
+      </Tabs>
+    </div>
+    <div v-else>   
+  <div class="font-bold font-serif text-xl pl-2 pr-4 grid grid-cols-5 mt-5">
+    <p class="flex col-span-4">Add Lab Results</p>
+    <Badge :variant="'solid'" class=" block w-full rounded-full font-serif item-center justify-center bg-gradient-to-r from-gray-800 to-blue-600 hover:from-blue-900 hover:to-blue-700 text-white transition-all" size="lg" label="Go Back" @click="create_result=false"/>
+  </div>
+  <div class="grid grid-cols-3 gap-3 font-mono">
+    <div class="col-span-2 m-3">
+      <div class="grid grid-cols-5 gap-2">
+        <FormControl :type="'date'"  variant="outline" label="Result Date" :required="true" v-model="lab_result_date" class="text-2xl"/>
+        <div class="col-span-4 font-mono">
+        <FormControl :type="'autocomplete'"  :options="all_labs" v-model="lab_result_line" label="Search Labs" placeholder="Select All Lab Results" :multiple="true"/>
         <!-- <FormControl :type="'text'" variant="outline"  placeholder="Test Result" v-model="lab_result_line[1]" />
         <FormControl :type="autocomplete" :options="all_uom" variant="outline" placeholder="UOM" v-model="lab_result_line[2]"/>
         <button>add line</button> --></div>
-        <Button @click="make_new_lab=true" v-if="!make_new_lab" >+New Lab</Button>
-        <Button @click="make_new_lab=false" v-if="make_new_lab">- Clear</Button>
       </div>
-      <div v-if="make_new_lab">
-        Create a New Lab
-        <span class="grid md:grid-cols-5 gap-2 text-xs font-mono border p-2 hover:shadow-md bg-green-100/30">
-              <FormControl :type="'text'" variant="outline"  placeholder="Test Name" v-model="new_lab[0]" class="col-span-2" />
-              <Autocomplete :options="all_uom" variant="outline" placeholder="UOM" v-model="new_lab[1]"/>
-              <FormControl :type="'number'" variant="outline"  placeholder="Min Range" v-model="new_lab[2]" />
-              <FormControl :type="'number'" variant="outline"  placeholder="Max Range" v-model="new_lab[3]" />
-              <div v-if="!new_lab[0]" class="font-2xs text-red-700 col-span-2" >Add Lab Name,Dont Use "-"</div> 
-              <div v-if="!new_lab[1]" class="font-2xs text-red-700">Add Lab UOM</div>
-              <div v-if="!new_lab[2]" class="font-2xs text-red-700">Add Min Range</div>
-              <div v-if="!new_lab[3]" class="font-2xs text-red-700">Add Max Range</div>
-              <Button variant="solid" @click="update_uom('new',new_lab[0],new_lab[1].label,new_lab[2],new_lab[3])" theme="green">Add New Lab</Button>
-              <Button variant="subtle" class="ml-5" @click="clear_new" theme="green">Clear</Button>
-
-        </span>
-      </div>
-      <div v-if="!make_new_lab">
+      <div>
             <ul class= "pt-3">
             <li v-for="(item) in lab_result_line" class="p-1"> 
             <span class="grid md:grid-cols-5 gap-2 text-xs font-mono border p-2 hover:shadow-md bg-blue-100/30">
@@ -131,10 +117,10 @@
               <FormControl :type="'number'" variant="outline"  placeholder="Min Range" v-model="item.min_range" />
               <FormControl :type="'number'" variant="outline"  placeholder="Max Range" v-model="item.max_range" />
               <div></div>
-              <div v-if="!item.result" class="font-2xs text-red-700">Add Result</div>
-              <div v-if="!item.uom" class="font-2xs text-red-700">Please Add UOM</div>
-              <div v-if="!item.min_range" class="font-2xs text-red-700">Add Min Range</div>
-              <div v-if="!item.max_range" class="font-2xs text-red-700">Please Max Range</div>
+              <div v-if="!item.result" class="font-2xs text-red-700">Add Result</div><div v-else></div>
+              <div v-if="!item.uom" class="font-2xs text-red-700">Please Add UOM</div><div v-else></div>
+              <div v-if="!item.min_range" class="font-2xs text-red-700">Add Min Range</div><div v-else></div>
+              <div v-if="!item.max_range" class="font-2xs text-red-700">Please Max Range</div><div v-else></div>
           </span>
           </li>
         </ul>
@@ -142,17 +128,34 @@
       <div class="font-2xs text-red-700">{{ error }}</div>
       <ErrorMessage :message="update_uom.error"/>
       <ErrorMessage :message="make_labss.error"/>
-    </div>
-  </template>
-  <template #actions v-if="!make_new_lab">
-    <Button variant="solid" @click="submit_labs" theme="blue">
-      Confirm
+    <Button variant="solid" @click="submit_labs" theme="blue" >
+      Submit Results
     </Button>
-    <Button variant="subtle" class="ml-5" @click="clear" theme="blue">
+    <Button variant="subtle" class="ml-5" @click="clear" theme="blue" >
       Clear
     </Button>
-  </template>
-</Dialog>
+  </div>
+  <div class="pr-2">
+        <p class="font-semibold font-sans text-lg pr-2 mt-3">Create a New Lab Test</p>
+        <span class="grid md:grid-cols-5 gap-2 text-xs font-sans border p-2 hover:shadow-md bg-green-100/30">
+              <FormControl :type="'text'" variant="outline"  placeholder="Test Name" v-model="new_lab[0]" class="col-span-2" />
+              <Autocomplete :options="all_uom" variant="outline" placeholder="UOM" v-model="new_lab[1]"/>
+              <FormControl :type="'number'" variant="outline"  placeholder="Min Range" v-model="new_lab[2]" />
+              <FormControl :type="'number'" variant="outline"  placeholder="Max Range" v-model="new_lab[3]" />
+              <div v-if="!new_lab[0]" class="font-2xs text-red-700 col-span-2" >Add Lab Name,Dont Use "-"</div> <div class="col-span-2" v-else></div>
+              <div v-if="!new_lab[1]" class="font-2xs text-red-700">Add Lab UOM</div><div v-else></div>
+              <div v-if="!new_lab[2]" class="font-2xs text-red-700">Add Min Range</div><div v-else></div>
+              <div v-if="!new_lab[3]" class="font-2xs text-red-700">Add Max Range</div><div v-else></div>
+              <div class="flex items-center col-span-5">
+                <Button variant="solid" @click="update_uom('new',new_lab[0],new_lab[1].label,new_lab[2],new_lab[3])" theme="green">Add New Lab</Button>
+                <Button variant="subtle" class="ml-5" @click="clear_new" theme="green">Clear</Button>
+              </div>
+        </span>
+  </div>
+</div>
+</div>
+    
+</div>
 <Dialog
   :options="{
     title: 'Confirm Deletion',
@@ -335,13 +338,10 @@ const update_labs = createResource({
         }
     },
     onSuccess: (lab_temp) => {
-      if(make_new_lab.value){
         all_labs.value.splice(0);
         new_lab.value.splice(0);
         labs.fetch();
-        make_new_lab.value=false
-      }
-      
+        //make_new_lab.value=false      
       
     console.log("success in"+lab_temp);  
   }   
@@ -391,6 +391,12 @@ function clear_new(){
   //lab_result_date.value="";
   new_lab.value.splice(0);
 }
+
+function clear(){
+  //lab_result_date.value="";
+  lab_result_line.value.splice(0);
+}
+
 function get_color(){
   let color = ['#00bdff', '#1b3bff', '#8F00FF', '#ff0011', '#ff7300', '#ffd600', '#00c30e', '#65ff00', '#d200ff', '#FF00FF', '#de980b', '#380404'];
   let idx = Math.floor(Math.random() * color.length);

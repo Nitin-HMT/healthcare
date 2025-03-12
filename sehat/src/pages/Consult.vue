@@ -373,7 +373,7 @@
 </Dialog>
 <Dialog v-model="submit_confirm">
   <template #body-title>
-    <h3>Confirm Advise Submission</h3>
+    <h3 class="font-semibold">Confirm Advise Submission</h3>
     <ErrorMessage :message="make_opd_prescription.error"/>
   </template>
   <template #body-content>
@@ -381,11 +381,13 @@
     </p>
   </template>
   <template #actions>
-    <Button v-if="sel_pat.appoint.invoiced || sel_pat.appoint.fee_valid" variant="solid" class= "bg-gradient-to-r from-pink-500 to-blue-600 hover:from-pink-600 hover:to-blue-700"
+    <Button variant="solid" class= "bg-gradient-to-r from-pink-500 to-blue-600 hover:from-pink-600 hover:to-blue-700"
       :loading="make_opd_prescription.loading"  @click="make_opd_prescription.submit()">
       Confirm
     </Button>
-    <Button v-else :disabled="true">Submit Stopped as Payment Not Completed</Button>
+    <!-- <Button v-else :disabled="true">Submit Stopped as Payment Not Completed</Button> 
+     v-if="sel_pat.appoint.invoiced || sel_pat.appoint.fee_valid"
+    -->
     <Button
       variant="solid"
       class= "ml-2 bg-gradient-to-r from-red-800 to-red-600 hover:from-red-900 hover:to-red-700"

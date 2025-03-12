@@ -22,6 +22,7 @@
   "gender",
   "company",
   "co_abbr",
+  "practioner_timing",
   "column_break_awaa",
   "status",
   "naming_series",
@@ -29,6 +30,7 @@
   "portfolio",
   "registration_no",
   "qualifications",
+  "further_information",
   "employee_details_tab",
   "employee_and_user_details_section",
   "practitioner_type",
@@ -439,11 +441,21 @@
    "hidden": 1,
    "label": "co_abbr",
    "read_only": 1
+  },
+  {
+   "fieldname": "further_information",
+   "fieldtype": "Small Text",
+   "label": "Further Information"
+  },
+  {
+   "fieldname": "practioner_timing",
+   "fieldtype": "Small Text",
+   "label": "Practioner Timing"
   }
  ],
  "image_field": "image",
  "links": [],
- "modified": "2024-12-14 00:39:05.617508",
+ "modified": "2025-03-08 22:38:03.564429",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Healthcare Practitioner",

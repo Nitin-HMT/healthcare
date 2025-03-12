@@ -41,7 +41,7 @@
     <template #prefix>
       <FeatherIcon class="w-5 h-5 text-ink-blue-3" name="heart"/>
     </template>
-    Labs
+    Lab Results
     </Button>
     <Button class="bg-transparent text-gray-700/70 hover:bg-transparent active:bg-transparent hover:text-green-700
     relative after:bg-green-700 after:absolute after:h-px after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300 cursor-pointer"

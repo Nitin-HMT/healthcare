@@ -1,29 +1,56 @@
 <template>
-  <div class="mt-4 grid sm:grid-cols-3 gap-3 p-3" v-if="all_searches_x.length">
-    <div v-for="sin_vital in all_searches_x" class="p-3 gap-2 space-y-2 justify-between flex-col "
+  <div class="mt-4 grid sm:grid-cols-3 gap-3 p-3 border" :class="[selected_vitals.gen_abbr === 'Female' ? 'bg-pink-200/20' :'bg-blue-200/20']" v-if="selected_vitals && sel_pat.details">
+    <!--<div v-for="sin_vital in all_searches_x" class="p-3 gap-2 space-y-2 justify-between flex-col "
     :class="[sin_vital.gen_abbr === 'Female' ? 'bg-pink-200/70 hover:shadow-md hover:bg-pink-200/90 transition-all' :'hover:shadow-md bg-blue-200/70 hover:bg-blue-200/90 transition-all']"
     @click="edit_vitals(sin_vital)">
         <span class="p-3 grid md:grid-cols-1 gap-2" >
           <div class="text-gray-600 flex items-end justify-end text-base">{{ sin_vital.doctor }}</div>
           <div class="flex"><FeatherIcon class="w-9 h-9" :class="[sin_vital.gen_abbr === 'Female' ? 'text-pink-700' :'text-blue-700']"  name="user"/>
-            <!-- <Badge  :variant="'solid'" size="sm" class= " text-white border-white bg-violet-900">
+            <Badge  :variant="'solid'" size="sm" class= " text-white border-white bg-violet-900">
                 {{(index+1)}}
-            </Badge> -->
+            </Badge>
           </div>
           <span class="font-sans font-semibold decoration-gray-600 flex gap-4 " v-if="sin_vital" >
             {{ sin_vital.label }} | {{  sin_vital.gen_abbr }} | {{ sin_vital.new[3] }}
           </span>
           <p class="flex items-start justify-center flex-col font-sans text-sm" v-if="sin_vital">
             </p>
-          <!-- <p class="flex items-start justify-end flex-col font-light text-sm">
+          <p class="flex items-start justify-end flex-col font-light text-sm">
           {{ sin_vital.Vitals[0]}} mmHg| {{ sin_vital.Vitals[1] }}bpm | SpO2 : {{ sin_vital.Vitals[2] }}%  
           | Ht: {{ sin_vital.Vitals[3] }}m | Wt: {{ sin_vital.Vitals[4] }}Kg 
           | BMI: {{ sin_vital.Vitals[5] }}-{{ sin_vital.Vitals[8] }}|
-          </p> -->
+          </p>
       </span>
         <span class="col-span-3 flex items-center justify-end text-base">
           <div class="text-gray-600 font-light"> {{ sin_vital.name }}</div>
         </span>
+    </div>-->
+    <span class="col-span-2 grid md:grid-cols-2 gap-2 p-1 font-sans" v-if="selected_vitals.value==sel_pat.details.name">
+                  <div >{{selected_vitals.name}}</div>
+                  <div class="col-span-2 grid grid-cols-3 gap-6">
+                    <FormControl :required="true" description="Sys/Dia, '/' Required, mmHg" v-model="selected_vitals.Vitals[0]" type="text" label="BP" placeholder="BP" />
+                    <FormControl description="bpm" v-model="selected_vitals.Vitals[1]" type="number" label="Pulse" placeholder="HeartRate" />
+                    <FormControl description="0-99" v-model="selected_vitals.Vitals[2]" type="number" label="SpO2 (%)" placeholder="SpO2" />
+                  </div>
+                  <div class="col-span-2 grid grid-cols-3 gap-6">
+                  <FormControl description="If you enter value less than 8, 
+                  then it will be taken as feet,
+                   Else > 8 will be taken as cms" v-model="height" type="number" 
+                   label="Ht" @change="heightx(height)" placeholder="Height" /> 
+                  <FormControl description="Kgs" v-model="selected_vitals.Vitals[4]" type="number" @change="heightx(height)" label="Wt" placeholder="Weight" />
+                  <FormControl description="°f" v-model="selected_vitals.Vitals[6]" type="number" label="Temp" placeholder="Temperature" />
+                </div>
+                <div class="col-span-2">
+                  <FormControl v-model="selected_vitals.Vitals[7]" type="textarea" label="Vital Notes" placeholder="Vital Notes" />
+                </div>
+                <ErrorMessage :message="create_vitals.error"/>
+    </span>
+    
+    <div class="flex items-center justify-center gap-5">
+      <Button variant="outline" :theme="[selected_vitals.gen_abbr === 'Female' ? 'red' :'blue']" @click="create_vitals.submit()" :loading="create_vitals.loading">
+          Submit Vitals
+      </Button>
+      <Button class="ml-2" variant="ghost" :theme="[selected_vitals.gen_abbr === 'Female' ? 'red' :'blue']" @click="selected_vitals.Vitals=[]; height=0">Clear</Button>
     </div>
   </div>
 
@@ -102,7 +129,8 @@ let appointments=createListResource({
 //appointment_date: dayjs(),
 function get_appoint(){
   all_searches_x.value.splice(0);
-  console.log("I am being called")
+  selected_vitals.value="";
+  console.log("I am being called"+sel_pat.details.name)
 let appointments_x=createListResource({
   doctype: "Patient Appointment",
   fields: ["*"],
@@ -125,7 +153,12 @@ orderBy: 'modified asc',
             let more= ["","","",d.patient_age,d.patient_sex,"","",""];
             let pt = { "label": label,"status": status, "vital_record": vital_record,"doctor": d.practitioner, "description": description, "value": value, "gender": d.patient_sex,"gen_abbr": d.patient_sex, "name":d.name, 
             "new": more,"Vitals":vitals};
-            all_searches_x.value.push(pt);
+            //all_searches_x.value.push(pt);
+            selected_vitals.value=pt;
+            if(d.value==sel_pat.details.name){
+              selected_vitals.value=pt;
+            }
+            
         }
         }
 
@@ -171,7 +204,7 @@ function heightx(ht){
 
 watch(() => sel_pat.details,
 (details) => {
-all_searches_x.value.splice(0);
+selected_vitals.value="";
 get_appoint();
 console.log("I am firing")
 }
