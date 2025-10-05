@@ -6,8 +6,11 @@
  "engine": "InnoDB",
  "field_order": [
   "complaint",
+  "operation_string",
+  "phrase",
   "column_break_srpw",
-  "comments"
+  "comments",
+  "symptom_negated"
  ],
  "fields": [
   {
@@ -27,11 +30,27 @@
   {
    "fieldname": "column_break_srpw",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "operation_string",
+   "fieldtype": "Small Text",
+   "label": "Operation String"
+  },
+  {
+   "fieldname": "phrase",
+   "fieldtype": "Data",
+   "label": "Phrase"
+  },
+  {
+   "default": "0",
+   "fieldname": "symptom_negated",
+   "fieldtype": "Check",
+   "label": "Symptom Negated"
   }
  ],
  "istable": 1,
  "links": [],
- "modified": "2025-01-02 20:05:35.641174",
+ "modified": "2025-10-03 13:34:35.875005",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter Symptom",

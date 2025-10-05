@@ -28,7 +28,7 @@ class PatientEncounter(Document):
 			self.status = "Ordered"
 	
 	def before_submit(self):
-		self.pat_hist_string = post_patient_history(self)
+		#self.pat_hist_string = post_patient_history(self)
 		if int(self.follow_up)>0:
 			self.next_follow_up_date = add_days(datetime.now(), days=int(self.follow_up))
 
@@ -39,19 +39,19 @@ class PatientEncounter(Document):
 	def on_submit(self):
 		if self.therapies:
 			create_therapy_plan(self)
-		# self.make_service_request()
-		# self.make_medication_request()
+		self.make_service_request()
+		self.make_medication_request()
 		# to save service_request name in prescription
 		self.save("Update")
 		self.db_set("status", "Completed")
-		hist_pat= frappe.get_doc("Patient", self.patient)
-		hist_pat.pat_hist = self.pat_hist_string
-		if(self.encounter_comment):
-			if(hist_pat.patient_details):
-				hist_pat.patient_details = f"{hist_pat.patient_details}|{datetime.now().strftime('%d-%m-%Y')}: {self.encounter_comment}"
-			else:
-				hist_pat.patient_details = f"{datetime.now().strftime('%d-%m-%Y')}: {self.encounter_comment}"
-		hist_pat.save()
+		#hist_pat= frappe.get_doc("Patient", self.patient)
+		#hist_pat.pat_hist = self.pat_hist_string
+		# if(self.encounter_comment):
+		# 	if(hist_pat.patient_details):
+		# 		hist_pat.patient_details = f"{hist_pat.patient_details}|{datetime.now().strftime('%d-%m-%Y')}: {self.encounter_comment}"
+		# 	else:
+		# 		hist_pat.patient_details = f"{datetime.now().strftime('%d-%m-%Y')}: {self.encounter_comment}"
+		# hist_pat.save()
 		
 	def before_cancel(self):
 		orders = frappe.get_all("Service Request", {"order_group": self.name})
@@ -556,7 +556,7 @@ def get_encounter_details(doc):
 	)
 
 	return medication_requests, service_requests, clinical_notes
-
+# Disabled Currently
 @frappe.whitelist()
 def post_patient_history(doc):
     final_history = {}

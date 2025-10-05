@@ -1,11 +1,12 @@
 {
  "actions": [],
- "autoname": "format:{medicine_brand}-{clinic_abbr}",
+ "autoname": "format:{dosage_form} {medicine_brand}-{clinic_abbr}",
  "creation": "2024-12-05 18:15:37.012642",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "dosage_form",
   "medicine_brand",
   "generic_name",
   "clinic",
@@ -15,7 +16,6 @@
   "enabled",
   "strength",
   "uom",
-  "dosage_form",
   "special_instruction",
   "section_break_sgbn",
   "default_duration",
@@ -57,7 +57,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Dosage Form",
-   "options": "Dosage Form"
+   "options": "Dosage Form",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_sgbn",
@@ -115,7 +116,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-15 18:44:01.011218",
+ "modified": "2025-09-23 13:02:14.353730",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "OPD Medication",

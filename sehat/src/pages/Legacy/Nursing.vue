@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-4 grid sm:grid-cols-3 gap-3 p-3 border" :class="[selected_vitals.gen_abbr === 'Female' ? 'bg-pink-200/20' :'bg-blue-200/20']" v-if="selected_vitals && sel_pat.details">
+  <div class="mt-4 grid sm:grid-cols-3 gap-3 p-3 border" :class="[selected_vitals.gen_abbr === 'Female' ? 'bg-pink-100/30' :'bg-blue-200/20']" v-if="selected_vitals && sel_pat.details">
     <!--<div v-for="sin_vital in all_searches_x" class="p-3 gap-2 space-y-2 justify-between flex-col "
     :class="[sin_vital.gen_abbr === 'Female' ? 'bg-pink-200/70 hover:shadow-md hover:bg-pink-200/90 transition-all' :'hover:shadow-md bg-blue-200/70 hover:bg-blue-200/90 transition-all']"
     @click="edit_vitals(sin_vital)">
@@ -28,20 +28,20 @@
     <span class="col-span-2 grid md:grid-cols-2 gap-2 p-1 font-sans" v-if="selected_vitals.value==sel_pat.details.name">
                   <div >{{selected_vitals.name}}</div>
                   <div class="col-span-2 grid grid-cols-3 gap-6">
-                    <FormControl :required="true" description="Sys/Dia, '/' Required, mmHg" v-model="selected_vitals.Vitals[0]" type="text" label="BP" placeholder="BP" />
-                    <FormControl description="bpm" v-model="selected_vitals.Vitals[1]" type="number" label="Pulse" placeholder="HeartRate" />
-                    <FormControl description="0-99" v-model="selected_vitals.Vitals[2]" type="number" label="SpO2 (%)" placeholder="SpO2" />
+                    <FormControl variant="outline" :required="true" description="Sys/Dia, '/' Required, mmHg" v-model="selected_vitals.Vitals[0]" type="text" label="BP" placeholder="BP" />
+                    <FormControl variant="outline" description="bpm" v-model="selected_vitals.Vitals[1]" type="number" label="Pulse" placeholder="HeartRate" />
+                    <FormControl variant="outline" description="0-99" v-model="selected_vitals.Vitals[2]" type="number" label="SpO2 (%)" placeholder="SpO2" />
                   </div>
                   <div class="col-span-2 grid grid-cols-3 gap-6">
-                  <FormControl description="If you enter value less than 8, 
+                  <FormControl variant="outline" description="If you enter value less than 8, 
                   then it will be taken as feet,
                    Else > 8 will be taken as cms" v-model="height" type="number" 
                    label="Ht" @change="heightx(height)" placeholder="Height" /> 
-                  <FormControl description="Kgs" v-model="selected_vitals.Vitals[4]" type="number" @change="heightx(height)" label="Wt" placeholder="Weight" />
-                  <FormControl description="°f" v-model="selected_vitals.Vitals[6]" type="number" label="Temp" placeholder="Temperature" />
+                  <FormControl variant="outline" description="Kgs" v-model="selected_vitals.Vitals[4]" type="number" @change="heightx(height)" label="Wt" placeholder="Weight" />
+                  <FormControl variant="outline" description="°f" v-model="selected_vitals.Vitals[6]" type="number" label="Temp" placeholder="Temperature" />
                 </div>
                 <div class="col-span-2">
-                  <FormControl v-model="selected_vitals.Vitals[7]" type="textarea" label="Vital Notes" placeholder="Vital Notes" />
+                  <FormControl variant="outline" v-model="selected_vitals.Vitals[7]" type="textarea" label="Vital Notes" placeholder="Vital Notes" />
                 </div>
                 <ErrorMessage :message="create_vitals.error"/>
     </span>
@@ -56,43 +56,9 @@
 
   <div v-else class="mt-4 md:mx-[200px] flex item-center justify-center gap-3 p-3">
     <Badge :variant="'solid'" class=" block w-full rounded-full px-2 py-2 font-serif item-center justify-center
-    bg-gradient-to-r from-red-800 to-red-600 hover:from-red-900 hover:to-red-700 text-white transition-all" size="xl" label="No Appointments"/>
+    bg-gradient-to-r from-red-800 to-red-600 hover:from-red-900 hover:to-red-700 text-white transition-all" size="xl" label="No Appointments/ Vitals Done"/>
   </div>
-  <Dialog :options="{title: 'Patient Vitals', size: '2xl'}" v-model="patDialogshown">
-      <template #body-content >
-                <span class="grid md:grid-cols-2 gap-2 p-1 font-sans" v-if="selected_vitals.new">
-                  <div >{{selected_vitals.label}} | {{selected_vitals.gender}} | {{ selected_vitals.new[3] }}</div>
-                  
-                  <div class="col-span-2 grid grid-cols-3 gap-2">
-                  <FormControl :required="true" description="Sys/Dia, '/' Required, mmHg" v-model="selected_vitals.Vitals[0]" type="text" label="BP" placeholder="BP" />
-                  <FormControl description="bpm" v-model="selected_vitals.Vitals[1]" type="number" label="Pulse" placeholder="HeartRate" />
-                  <FormControl description="0-99" v-model="selected_vitals.Vitals[2]" type="number" label="SpO2 (%)" placeholder="SpO2" />
-                  </div>
-                  <div class="col-span-2 grid grid-cols-3 gap-2">
-                  <FormControl description="If you enter value less than 8, 
-                  then it will be taken as feet,
-                   Else > 8 will be taken as cms" v-model="height" type="number" 
-                   label="Ht" @change="heightx(height)" placeholder="Height" /> 
-                  <FormControl description="Kgs" v-model="selected_vitals.Vitals[4]" type="number" @change="heightx(height)" label="Wt" placeholder="Weight" />
-                  <FormControl description="°f" v-model="selected_vitals.Vitals[6]" type="number" label="Temp" placeholder="Temperature" />
-                </div>
-                <div class="col-span-2">
-                  <FormControl v-model="selected_vitals.Vitals[7]" type="textarea" label="Vital Notes" placeholder="Vital Notes" />
-                </div>
-                </span>
-                <ErrorMessage :message="create_vitals.error"/>
-      </template>
-      <template #actions>
-        <div class="flex items-center justify-center gap-5">
-         <Button variant="solid" theme="blue" 
-         @click="create_vitals.submit()" :loading="create_vitals.loading">
-         Submit Vitals</Button>
-         <Button class="ml-2" variant="subtle" theme="blue" @click="selected_vitals.Vitals=[]; height=0">Clear</Button>
-         <Button class="ml-2" variant="subtle" theme="blue" @click="patDialogshown=false">Close</Button>
-        </div>
-      </template>
 
-  </Dialog>
 </template>
 
 <script setup>

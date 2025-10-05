@@ -18,6 +18,8 @@
   "age_html",
   "aged",
   "image",
+  "rating",
+  "emergency",
   "column_break_14",
   "sex",
   "blood_group",
@@ -28,6 +30,7 @@
   "company",
   "co_abbr",
   "gen_abbr",
+  "dietary_preference",
   "column_break_ouzg",
   "status",
   "patient_name",
@@ -58,6 +61,7 @@
   "personal_and_social_history",
   "occupation",
   "pat_hist",
+  "history_updated_on",
   "column_break_25",
   "marital_status",
   "allergy_medical_and_surgical_history",
@@ -547,15 +551,34 @@
   {
    "fieldname": "pat_hist",
    "fieldtype": "Small Text",
-   "label": "pat_hist",
-   "read_only": 1
+   "label": "pat_hist"
+  },
+  {
+   "fieldname": "rating",
+   "fieldtype": "Rating",
+   "label": "Rating"
+  },
+  {
+   "fieldname": "emergency",
+   "fieldtype": "Data",
+   "label": "Emergency"
+  },
+  {
+   "fieldname": "dietary_preference",
+   "fieldtype": "Data",
+   "label": "Dietary Preference"
+  },
+  {
+   "fieldname": "history_updated_on",
+   "fieldtype": "Date",
+   "label": "History Updated on"
   }
  ],
  "icon": "fa fa-user",
  "image_field": "image",
  "links": [],
  "max_attachments": 50,
- "modified": "2025-02-21 13:32:07.805599",
+ "modified": "2025-10-03 13:10:51.083577",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient",

@@ -12,6 +12,8 @@
     "dayjs": "^1.11.13",
     "feather-icons": "^4.29.2",
     "frappe-ui": "^0.1.108",
+    "lucide-vue-next": "^0.540.0",
+    "pinia": "^3.0.3",
     "vue": "^3.5.13",
     "vue-frappe-chart": "^0.1.10",
     "vue-router": "^4.5.0"

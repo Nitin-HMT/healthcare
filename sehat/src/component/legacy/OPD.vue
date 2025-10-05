@@ -85,19 +85,33 @@
     </template>
     Consultation
     </Button>
-      <!--<Button class="bg-transparent text-gray-700/70 hover:bg-transparent active:bg-transparent "
-      :ref_for="true"
-      size="md"
-      :loading="false"
-      :loadingText="null"
-      :disabled="true"
-      :link="null"
-      @click="">
+    <Button class="bg-transparent text-gray-700/70 hover:bg-transparent active:bg-transparent  hover:text-yellow-800
+    relative after:bg-yellow-800 after:absolute after:h-px after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300 cursor-pointer"
+    :ref_for="true"
+    size="md"
+    :loading="false"
+    :loadingText="null"
+    :disabled="false"
+    :link="null"
+    @click="router.push({ 'name' : 'Consult_alt'})">
+    <template #prefix>
+      <FeatherIcon class="w-5 h-5 text-yellow-600" name="briefcase"/>
+    </template>
+    Consultation 2
+    </Button>
+    <!-- <Button class="bg-transparent text-gray-700/70 hover:bg-transparent active:bg-transparent "
+    :ref_for="true"
+    size="md"
+    :loading="false"
+    :loadingText="null"
+    :disabled="false"
+    :link="null"
+      @click="router.push({ 'name' : 'Consult_alt'})">
       <template #prefix>
         <FeatherIcon class="w-5 h-5 text-gray-2" name="briefcase"/>
       </template>
-      OPD Procedure
-      </Button>-->
+      Consultation 2
+      </Button> -->
 </div>
 
 <div class="flex items-center justify-end mr-3">
@@ -194,6 +208,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import updateLocale from 'dayjs/plugin/updateLocale';
+
 
 dayjs.extend(relativeTime);
 dayjs.extend(LocalizedFormat);
@@ -298,6 +313,7 @@ function appointqueue(pat_id){
             let pt = { "label": label, "description": description, "value": value, "gender": d.sex,"gen_abbr": d.gen_abbr, "name":d.name, 
             "new":[d.first_name,d.middle_name,d.last_name,d.aged,d.sex,d.blood_group,d.mobile,d.email] };
             sel_pat.details= pt;
+            sel_pat.ref_flag=true;
             queue_flag.value=false;
         }
         }

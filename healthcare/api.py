@@ -1,65 +1,62 @@
 import frappe
 from datetime import date
 @frappe.whitelist()
-def make_prescripton(patient,appoint,selected,extras,History):
+def make_prescripton(patient,appoint,appoint_string,data,comment,reason,result,flag,time):
     if not patient:
         frappe.throw("Patient Is Empty, Please Add something")
-    appointment=appoint[0]
-    full_app_string=appointment["full_string"]
-    app_vitals=appointment["Vitals"]
-    current_appointment = appointment["value"]
-    cur_patient = full_app_string["patient"]
-    cur_sex= full_app_string["patient_sex"]
-    cur_age= full_app_string["patient_age"]
-    cur_doctor= full_app_string["practitioner"]
+    app_vitals=appoint_string["Vitals"]
+    cur_sex= appoint_string["gender"]
+    cur_age= appoint_string["age"]
+    cur_doctor= appoint_string["doctor"]
+    interact_notes=data[0]
+    interaction_follow=data[1]
+    referal_dr=data[2]
+    room=data[5]
+    request_page=data[6]
     cur_sym=[]
     cur_diag=[]
     cur_lab=[]
     cur_proc=[]
     cur_meds=[]
-    hist=[]
-    for h in History:
-        if h["history_type"] == "Medication":
-            hist.append({"history_type":h["history_type"], "history_doctype":"OPD Medication","details":h["value"], "duration":h["since"],"comments":h["comment"] })
-        if h["history_type"] == "Allergy":
-            hist.append({"history_type":h["history_type"], "history_doctype":"Patient Allergy","details":h["value"], "duration":h["since"],"comments":h["comment"] })
-        if h["history_type"] == "Surgical History":
-            hist.append({"history_type":h["history_type"], "history_doctype":"Clinical Procedure Template","details":h["value"] ,"duration":h["since"],"comments":h["comment"] })
-        if h["history_type"] == "PED":
-            hist.append({"history_type":h["history_type"], "history_doctype":"Diagnosis","details":h["value"], "duration":h["since"],"comments":h["comment"] })
-    for x in selected:
-        if x["type"] == "Complaint":
-            label=x["label"]
-            notes=x["additional_attr"]
-            cur_sym.append({"complaint":label, "comments": notes})
-        if x["type"] == "Diagnosis":
-            label=x["label"]
-            notes=x["additional_attr"]
-            cur_diag.append({"diagnosis":label, "lifestyle_advise": notes})
-        if x["type"] == "labs":
-            label=x["added"]
-            #notes=x["additional_attr"]
-            cur_lab.append({"lab_test_code":label})
-        if x["type"] == "surg":
-            label=x["added"]
-            Date=x["additional_attr"]
-            notes=x["additional_attr_2"]
-            cur_proc.append({"procedure":label, "date":Date, "comments":notes})
-        if x["type"] == "Meds":
-            y=x["added"]
-            label=y[0]
-            form=y[1]
-            dose=x["additional_attr"]
-            period=x["additional_attr_2"]
-            cur_meds.append({"medicine":label, "medicine_form":form, "dosage":dose, "period":period })
-    refer=extras["add_referal"]
-    dr_value=""
-    if refer:
-        dr_value=refer["name"]
+    if not flag:
+        for x in result:
+            original_phrase=x["Original"]
+            q=x["Qualifier"]
+            notes=""
+            if len(q) > 0:
+                qualifier=q[0]
+                notes=qualifier["comments"]
+            # notes=qualifie["comments"]
+            if x["Category"] == "Symptoms":
+                label=x["Functional"]
+                #notes=qualifie["comments"]
+                negation=x["negation"]
+                cur_sym.append({"complaint":label, "comments": notes,"symptom_negated":negation,"phrase":original_phrase,"operation_string":str(x)})
+            if x["Category"] == "Diagnosis":
+                label=x["Functional"]
+                #notes=qualifier["comments"]
+                cur_diag.append({"diagnosis":label, "comments": notes,"phrase":original_phrase,"operation_string":str(x)})
+            if x["Category"] == "labs":
+                label=x["Functional"]
+                #notes=qualifier["comments"]
+                cur_lab.append({"lab_test_code":label, "lab_test_comment": notes,"phrase":original_phrase,"operation_string":str(x)})
+            if x["Category"] == "surg":
+                label=x["Functional"]
+            # Date=x["additional_attr"]
+                #notes=qualifier["comments"]
+                cur_proc.append({"procedure":label, "comments": notes,"phrase":original_phrase,"operation__string":str(x)})
+            if x["Category"] == "Meds":
+                label=x["Functional"]
+                form=qualifier["medicine_form"]
+                dose=qualifier["dosage"]
+                period=qualifier["period"]
+                #notes=qualifier["comments"]
+                cur_meds.append({"medicine":label, "medicine_form":form, "dosage":dose, "period":period,"comments":notes,"phrase":original_phrase,"operation_string":str(x) })
+   
     # [{name: "", qty: ""}]
     new_prescription = frappe.new_doc("Patient Encounter")
-    new_prescription.appointment = current_appointment
-    new_prescription.patient = cur_patient
+    new_prescription.appointment = appoint
+    new_prescription.patient = patient
     new_prescription.patient_sex = cur_sex
     new_prescription.patient_age = cur_age
     new_prescription.practitioner= cur_doctor
@@ -74,17 +71,20 @@ def make_prescripton(patient,appoint,selected,extras,History):
     new_prescription.referred_doctor = app_vitals[9]
     new_prescription.fee_valid = app_vitals[10]
     new_prescription.vital_signs_note = app_vitals[7]
-    new_prescription.further_description = extras["add_sym"]
-    new_prescription.further_advice = extras["add_advise"]
-    new_prescription.follow_up = extras["add_followup"]
-    new_prescription.encounter_comment= extras["pvt_notes"]
-    new_prescription.refer_to= dr_value
-    new_prescription.set("present_complaint", cur_sym)
-    new_prescription.set("diagnosis", cur_diag)
-    new_prescription.set("lab_test_prescription", cur_lab)
-    new_prescription.set("procedure_prescription", cur_proc)
-    new_prescription.set("opd_medication", cur_meds)
-    new_prescription.set("patient_history", hist)
+    new_prescription.follow_up = interaction_follow
+    new_prescription.refer_to= referal_dr
+    new_prescription.stream_of_thought_input=interact_notes
+    new_prescription.transcription_result=str(result)
+    new_prescription.transcription_failed=flag
+    new_prescription.reason=reason
+    new_prescription.consult_time=time
+    if not flag:
+        new_prescription.set("present_complaint", cur_sym)
+        new_prescription.set("diagnosis", cur_diag)
+        new_prescription.set("lab_test_prescription", cur_lab)
+        new_prescription.set("procedure_prescription", cur_proc)
+        new_prescription.set("opd_medication", cur_meds)
+        new_prescription.further_description = comment
     new_prescription.insert(ignore_permissions=True)
     new_prescription.submit()
     #return new_order

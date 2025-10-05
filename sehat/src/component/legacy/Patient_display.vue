@@ -1,6 +1,6 @@
 <template>
     <div v-if="Patient" :class="[Patient.gen_abbr === 'F' ? 'bg-pink-200/40 hover:shadow-md transition-all' :'bg-blue-200/40 hover:shadow-md transition-all']"
-    class="p-3 grid md:grid-cols-6 gap-2 space-y-2 justify-between flex-col">
+    class="p-1 pt-4 grid md:grid-cols-6 gap-2 space-y-2 justify-between flex-col">
       <span class="flex gap-2 col-span-2">
         <FeatherIcon class="w-8 h-8" :class="[
             Patient.gen_abbr === 'F' ? 'text-pink-700' :'text-blue-700'
@@ -45,8 +45,23 @@
           <!-- <div class="text-red-800 ">{{ Patient.new[5] }} </div> -->
           <div> {{ Patient.new[6] }} </div>
           <!-- <div class="text-gray-700"> {{ Patient.name }}</div> -->
+          <Button
+    @click="updatePatient"
+    class="rounded-full ml-2"
+    :variant="'ghost'"
+    :ref_for="true"
+    theme="red"
+    size="sm"
+    label="Button"
+    :loading="false"
+    :loadingText="null"
+    :link="null"
+  >
+  <FeatherIcon class="w-6 h-6 rounded-full text-red-800"  name="x-circle"/>
+  </Button>
       </span>
     </div>
+    <Ptsearch v-else/>
     
     <div v-if="appoint.name" :class="[Patient.gen_abbr === 'F' ? 'bg-pink-200/40' :'bg-blue-200/40']"
     class="px-2 flex justify-center items-center">
@@ -87,21 +102,38 @@
                 <FormControl :type="'number'" size="sm"  variant="subtle" label="Discount Amount" v-model="discount"/>
                 <div></div>
                 <FormControl :type="'select'" :required="true" :options="[{label: 'Cash',value: 'Cash',},{label: 'UPI',value: 'UPI',},{label: 'Credit Card',value: 'Credit Card',},{label: '3rd Party',value: '3rd Party',},]" size="sm"  variant="subtle" label="Mode of Payment" v-model="appoint.mode_of_payment"/>
-                <Button v-if="appoint.mode_of_payment && (appoint.paid_amount-discount)>0" :variant="'solid'" @click="make_paid(); pay_load=true;" :loading="pay_load" class="bg-gradient-to-r from-green-600 to-green-900">Make Invoice & Payment</Button>
                 <Button :variant="'subtle'" @click="clear">Clear</Button>
+                <Button v-if="appoint.mode_of_payment && (appoint.paid_amount-discount)>0" :variant="'solid'" @click="make_paid(); pay_load=true;" :loading="pay_load" class="bg-gradient-to-r from-green-600 to-green-900">Make Invoice & Payment</Button>
+                
               </span>
             </span>
           </div>
         </div>
       </template>
 </Dialog>
-<!-- {{ appoint.name }} {{all_appointment}} -->
+<!-- {{ appoint }}4 {{all_appointment}} 4 {{sel_pat}} -->
+
+<div v-if="patient_x">
+    <div class="bg-white rounded-xl shadow p-4 space-y-2">
+      <h2 class="text-lg font-semibold">Patient Information</h2>
+      <p><strong>Name:</strong> {{ patient_x.full_name }}</p>
+      <p><strong>Age:</strong> {{ patient_x.age }}</p>
+      <p><strong>Doctor Notes:</strong> {{ patient_x``.doctor_notes || 'None' }}</p>
+    </div>
+  </div>
+
   </template>
   
   <script setup>
   import { reactive, ref, computed, watch,inject } from 'vue';
   import { FeatherIcon,createListResource,Badge,Dialog,Switch,FormControl,createResource } from 'frappe-ui';
   import {formatCurrency} from "@/utils.js";
+  import Ptsearch from '@/component/Patient_search.vue';
+import { usePatientStore } from '@/stores/patientStore'
+
+const patientStore = usePatientStore()
+
+const patient_x = computed(() => patientStore.currentPatient)
 
   defineProps({
     Patient: Object,
@@ -226,7 +258,11 @@ function clear(){
   discount.value= 0.00;
   appoint.value.mode_of_payment=""
 }
-
+function updatePatient(){
+        sel_pat.details=""
+        sel_pat.appoint=""
+        sel_pat.ref_flag=true
+    }
 function cancel(sinv){
   //console.log("inside cancel"+lab_name)
   const cancel_labs = createResource({

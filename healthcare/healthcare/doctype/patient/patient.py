@@ -32,8 +32,8 @@ class Patient(Document):
 		self.load_dashboard_info()
 
 	def validate(self):
-		if self.pat_hist:
-			Update_history(self)
+		# if self.pat_hist:
+		# 	Update_history(self)
 		self.set_full_name()
 		self.flags.is_new_doc = self.is_new()
 		self.flags.existing_customer = self.is_new() and bool(self.customer)

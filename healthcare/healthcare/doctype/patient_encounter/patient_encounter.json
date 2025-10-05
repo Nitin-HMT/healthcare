@@ -65,6 +65,7 @@
   "history_section",
   "patient_history",
   "pat_hist_string",
+  "stream_of_thought_input",
   "sb_symptoms",
   "symptoms",
   "symptoms_in_print",
@@ -93,11 +94,15 @@
   "next_follow_up_date",
   "doctors_pvt_notes_section",
   "encounter_comment",
+  "consult_time",
   "encounter_details_tab",
   "order_history_html",
   "encounter_details",
   "notes_tab",
   "clinical_notes",
+  "transcription_failed",
+  "transcription_result",
+  "reason",
   "dashboard_tab"
  ],
  "fields": [
@@ -419,10 +424,9 @@
    "label": "Submit Orders on Save"
   },
   {
-   "depends_on": "eval:!doc.__islocal && doc.docstatus == 0;",
+   "description": "eval:!doc.__islocal && doc.docstatus == 0;",
    "fieldname": "notes_tab",
    "fieldtype": "Tab Break",
-   "hidden": 1,
    "label": "Notes"
   },
   {
@@ -574,7 +578,7 @@
   {
    "fieldname": "further_description",
    "fieldtype": "Small Text",
-   "label": "Further Description of Symptoms, Diagnosis & History"
+   "label": "Further Description"
   },
   {
    "default": "0",
@@ -634,6 +638,7 @@
   {
    "fieldname": "further_advice",
    "fieldtype": "Small Text",
+   "hidden": 1,
    "label": "Further Advice"
   },
   {
@@ -651,6 +656,7 @@
    "description": "Entries in this section will be added to permanent history of the patient",
    "fieldname": "patient_history",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Pre- Existing Conditions",
    "options": "Patient History"
   },
@@ -660,8 +666,8 @@
    "fetch_if_empty": 1,
    "fieldname": "pat_hist_string",
    "fieldtype": "Small Text",
-   "hidden": 1,
-   "label": "Pat_hist_string"
+   "label": "Patient History",
+   "read_only": 1
   },
   {
    "fetch_from": "company.abbr",
@@ -696,6 +702,33 @@
    "fieldtype": "Table",
    "label": "Present Complaint",
    "options": "Patient Encounter Symptom"
+  },
+  {
+   "fieldname": "stream_of_thought_input",
+   "fieldtype": "Small Text",
+   "label": "Stream of Thought Input",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "transcription_failed",
+   "fieldtype": "Check",
+   "label": "Transcription Failed"
+  },
+  {
+   "fieldname": "transcription_result",
+   "fieldtype": "Long Text",
+   "label": "Transcription Result"
+  },
+  {
+   "fieldname": "reason",
+   "fieldtype": "Small Text",
+   "label": "Reason"
+  },
+  {
+   "fieldname": "consult_time",
+   "fieldtype": "Int",
+   "label": "Consult Time"
   }
  ],
  "is_submittable": 1,
@@ -709,7 +742,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2025-02-10 14:50:58.647396",
+ "modified": "2025-10-05 01:25:10.883814",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",

@@ -11,61 +11,33 @@
   <!--{{ data.appnt_patient }}
    selected patient information display -->
   <div class="p-3 flex gap-2 gap-x-5 font-sans shadow-md bg-gradient-to-r  from-gray-200/30 from-20% via-gray-200/10 via-60% to-gray-200/60 to-90% rounded-sm space-y-2 justify-between flex-col" v-if="appoints.length && sel_pat.details.name">
-  <!-- {{Patient_details.list.data[0].medical_history}} -->
-    <span class="flex items-center gap-x-10 text-gray-900" >
+  <span class="flex items-center gap-x-10 text-gray-900" >
       <Tabs as="div"  
       :tabs="[
         {
           label: 'History',
-          content: history.hist
+          content: Patient_details.list.data[0].medical_history
         },
         {
           label: 'Surgery',
-          content: history.surg_hist
+          content: Patient_details.list.data[0].surgical_history
         },
         {
           label: 'Medication',
-          content: history.meds
+          content: Patient_details.list.data[0].medication
         },
         {
           label: 'Allergies',
-          content: history.allergy
+          content: Patient_details.list.data[0].allergies
         },
         {
           label: 'Doctors Notes',
-          content: history.patient_details
-        },
-        {
-          label: 'More Information',
-          content: ''
+          content: Patient_details.list.data[0].patient_details
         },
       ]">
       <template #tab-panel="{ tab }">
-        <div class="py-2">
-          <div v-if="tab.label!= 'Doctors Notes' && tab.label!= 'More Information'" v-for="(x,index) in tab.content" class="grid grid-cols-4 gap-2 py-2">
-            <FormControl v-if="tab.label=='History'" v-model="x[0]" :options="hist_history" type="autocomplete" placeholder="Name" />
-            <FormControl v-if="tab.label=='Surgery'" v-model="x[0]" :options="surg_history" type="autocomplete" placeholder="Name" />
-            <FormControl v-if="tab.label=='Medication'" v-model="x[0]" :options="med_history" type="autocomplete" placeholder="Name" />
-            <FormControl v-if="tab.label=='Allergies'" v-model="x[0]" :options="aller_history" type="autocomplete" placeholder="Name" />
-            <FormControl v-model="x[1]" type="text" placeholder="Since" />
-            <FormControl v-model="x[2]" type="text" placeholder="Comment" />
-            <div class="flex justify-start items-between pt-1 pr-6">
-                <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_Hist_line(tab.content,index)"/></button>
-              </div>
-          </div>
-          <div v-else v-for="y in tab.content">
-            {{y}}
-          </div>
-          <Button v-if="tab.label=='History'" @click="history.hist.push([''])">+ Add History</Button>
-          <Button v-if="tab.label=='Surgery'" @click="history.surg_hist.push([''])">+ Add Surgery</Button>
-          <Button v-if="tab.label=='Medication'" @click="history.meds.push([''])">+ Add Medication</Button>
-          <Button v-if="tab.label=='Allergies'" @click="history.allergy.push([''])">+ Add Allergies</Button>
-          <FormControl class="py-2" v-if="tab.label=='Doctors Notes'" v-model="more_info.pvt_notes" type="textarea" placeholder="Your Private Notes" />
-          <div v-if="tab.label=='More Information'" class="grid md:grid-cols-3 gap-2 p-1 font-sans">
-            <FormControl v-model="more_info.add_sym" type="textarea" placeholder="Further Description of Symptoms, Diagnosis & History" />
-            <FormControl v-model="more_info.add_advise" type="textarea" placeholder="Further Advice" />
-            <FormControl type="autocomplete" :options="referdr" v-model="more_info.add_referal" placeholder="Referred To"/>
-          </div>
+        <div class="p-2">
+          {{ tab.content }}
         </div>
       </template>
     </Tabs>
@@ -106,9 +78,76 @@
       <p class="text-red-700" v-if="Patient_details.list.data[0].patient_details">Notes: {{  Patient_details.list.data[0].patient_details }}</p>
     -->
     </span></div>
-  <!--Search Bar-->
+  <!-- PENDING--- ROVING PATIENT CREATION AND DISPLAY -->
+   <!-- Display of Symptoms, Diagnsis, Meds etc -->
+  <div class="grid md:grid-cols-3 gap-2 p-1">
+    <ItemCard
+      v-if="categorizedItems.syms.length > 0"
+      @click="symDialogshown=true"
+      title="Observations"
+      :items="categorizedItems.syms"
+      image="/files/symptoms.jpg"
+      underlineColor="font-mono font-bold underline decoration-violet-600 flex items-center justify-between gap-4"
+      cardClass="mt-4 p-3 shadow-md bg-violet-100/80 rounded-sm space-y-2 flex items-center justify-between flex-col hover:bg-violet-200 transition-all"
+    />
+    <ItemCard
+      v-if="categorizedItems.diag.length > 0"
+      @click="diagDialogshown=true"
+      title="Diagnosis"
+      :items="categorizedItems.diag"
+      image="/files/diagnosis.jpg"
+      underlineColor="font-mono font-bold underline decoration-green-600 flex items-center justify-between gap-4"
+      cardClass="mt-4 p-3 shadow-md bg-green-100/80 rounded-sm space-y-2 flex items-center justify-between flex-col hover:bg-green-200 transition-all"
+    />
+    <ItemCard
+      v-if="categorizedItems.lab.length > 0"
+      @click="labDialogshown=true"
+      title="Labs"
+      :items="categorizedItems.lab"
+      image="/files/lab_test_blue_2.jpg"
+      underlineColor="font-mono font-bold underline decoration-blue-600 flex items-center justify-between gap-4"
+      cardClass="mt-4 p-3 shadow-md bg-blue-800/10 rounded-sm space-y-2 flex items-center justify-between flex-col hover:bg-blue-800/20 transition-all"
+    />
+    <ItemCard
+      v-if="categorizedItems.surgery.length > 0"
+      @click="surDialogshown=true"
+      title="Procedures"
+      :items="categorizedItems.surgery"
+      image="/files/surgery _red.jpg"
+      underlineColor="font-mono font-bold underline decoration-red-600 flex items-center justify-between gap-4"
+      cardClass="mt-4 p-3 shadow-md bg-red-100/50 rounded-sm space-y-2 flex items-center justify-between flex-col hover:bg-red-200 transition-all"
+    />
+    <ItemCard
+      v-if="categorizedItems.meds.length > 0"
+      @click="medDialogshown=true"
+      title="Medicine"
+      :items="categorizedItems.meds"
+      image="/files/pill_yellow.jpg"
+      underlineColor="font-mono font-bold underline decoration-amber-600 flex items-center justify-between gap-4"
+      cardClass="col-span-2 mt-4 p-3 shadow-md bg-amber-100/50 rounded-sm space-y-2 flex items-center justify-between flex-col hover:bg-amber-200 transition-all"
+    />
+  </div>
+  <div>
+  <div v-if="appoints.length && sel_pat.details.name" @click="moreinfoDialog=true" class="py-2 m-1 flex items-center justify-between flex-col col-span-2 mt-4 px-3 shadow-md bg-teal-100/50 rounded-sm hover:bg-teal-200 transition-all">
+      <span class="font-mono font-bold underline decoration-teal-600 flex gap-4">Patient History & Additional Information</span>
+      <div class="grid md:grid-cols-7 gap-2 font-sans"> 
+      <div v-if="more_info.add_sym" Class="col-span-2"><p class="font-bold">Further Symptoms: </p>{{more_info.add_sym}}</div>
+      <div v-if="more_info.add_advise" Class="col-span-2"><p class="font-bold">Further Advise: </p>{{more_info.add_advise}}</div>
+      <div v-if="more_info.add_followup"><p class="font-bold">Follow-up:</p> {{more_info.add_followup}} Days</div>
+      <div v-if="more_info.add_referal"><p class="font-bold">Reffered To:</p> {{more_info.add_referal.label}}</div>
+      <div v-if="more_info.pvt_notes"><p class="font-bold">Private Notes:</p> {{more_info.pvt_notes}}</div>
+      <div class="col-span-7" v-if="data.history.length>0">
+              <p class="font-bold">Patient History:</p>
+              <span v-for="(item) in data.history"> 
+                {{item.history_type}}-{{item.label}} {{item.since}} {{item.comment}} | 
+            </span>
+      </div>
+    </div>
+  </div></div>
+  <!-- PENDING- Extra Data eg follow up etc entry-->
+<!--Search Bar-->
   <div v-if="appoints.length && sel_pat.details.name">
-    <div class="px-[30px] py-4 mx-6 grid grid-cols-12 gap-2">
+    <div class="px-[30px] py-8 mx-6 grid grid-cols-12 gap-2">
       <div class="col-span-10">
         <Autocomplete 
           :options="all_searches" 
@@ -162,76 +201,8 @@
       
     </div>
   </div>
-  <!-- PENDING--- ROVING PATIENT CREATION AND DISPLAY -->
-   <!-- Display of Symptoms, Diagnsis, Meds etc -->
-  <div class="grid md:grid-cols-3 gap-2 p-1">
-    <ItemCard
-      v-if="categorizedItems.syms.length > 0"
-      @click="symDialogshown=true"
-      title="Observations"
-      :items="categorizedItems.syms"
-      image="/files/symptoms.jpg"
-      underlineColor="font-mono font-bold underline decoration-violet-600 flex items-center justify-between gap-4"
-      cardClass="mt-4 p-3 shadow-md bg-violet-100/80 rounded-sm space-y-2 flex items-center justify-between flex-col hover:bg-violet-200 transition-all"
-    />
-    <ItemCard
-      v-if="categorizedItems.diag.length > 0"
-      @click="diagDialogshown=true"
-      title="Diagnosis"
-      :items="categorizedItems.diag"
-      image="/files/diagnosis.jpg"
-      underlineColor="font-mono font-bold underline decoration-green-600 flex items-center justify-between gap-4"
-      cardClass="mt-4 p-3 shadow-md bg-green-100/80 rounded-sm space-y-2 flex items-center justify-between flex-col hover:bg-green-200 transition-all"
-    />
-    <ItemCard
-      v-if="categorizedItems.lab.length > 0"
-      @click="labDialogshown=true"
-      title="Labs"
-      :items="categorizedItems.lab"
-      image="/files/lab_test_blue_2.jpg"
-      underlineColor="font-mono font-bold underline decoration-blue-600 flex items-center justify-between gap-4"
-      cardClass="mt-4 p-3 shadow-md bg-blue-800/10 rounded-sm space-y-2 flex items-center justify-between flex-col hover:bg-blue-800/20 transition-all"
-    />
-    <ItemCard
-      v-if="categorizedItems.surgery.length > 0"
-      @click="surDialogshown=true"
-      title="Procedures"
-      :items="categorizedItems.surgery"
-      image="/files/surgery _red.jpg"
-      underlineColor="font-mono font-bold underline decoration-red-600 flex items-center justify-between gap-4"
-      cardClass="mt-4 p-3 shadow-md bg-red-100/50 rounded-sm space-y-2 flex items-center justify-between flex-col hover:bg-red-200 transition-all"
-    />
-    <ItemCard
-      v-if="categorizedItems.meds.length > 0"
-      @click="medDialogshown=true"
-      title="Medicine"
-      :items="categorizedItems.meds"
-      image="/files/pill_yellow.jpg"
-      underlineColor="font-mono font-bold underline decoration-amber-600 flex items-center justify-between gap-4"
-      cardClass="col-span-2 mt-4 p-3 shadow-md bg-amber-100/50 rounded-sm space-y-2 flex items-center justify-between flex-col hover:bg-amber-200 transition-all"
-    />
-  </div>
-  <!-- <div>
-  <div v-if="appoints.length && sel_pat.details.name" @click="moreinfoDialog=true" class="py-2 m-1 flex items-center justify-between flex-col col-span-2 mt-4 px-3 shadow-md bg-teal-100/50 rounded-sm hover:bg-teal-200 transition-all">
-      <span class="font-mono font-bold underline decoration-teal-600 flex gap-4">Patient History & Additional Information</span>
-      <div class="grid md:grid-cols-7 gap-2 font-sans"> 
-      <div v-if="more_info.add_sym" Class="col-span-2"><p class="font-bold">Further Symptoms: </p>{{more_info.add_sym}}</div>
-      <div v-if="more_info.add_advise" Class="col-span-2"><p class="font-bold">Further Advise: </p>{{more_info.add_advise}}</div>
-      <div v-if="more_info.add_followup"><p class="font-bold">Follow-up:</p> {{more_info.add_followup}} Days</div>
-      <div v-if="more_info.add_referal"><p class="font-bold">Reffered To:</p> {{more_info.add_referal.label}}</div>
-      <div v-if="more_info.pvt_notes"><p class="font-bold">Private Notes:</p> {{more_info.pvt_notes}}</div>
-      <div class="col-span-7" v-if="data.history.length>0">
-              <p class="font-bold">Patient History:</p>
-              <span v-for="(item) in data.history"> 
-                {{item.history_type}}-{{item.label}} {{item.since}} {{item.comment}} | 
-            </span>
-      </div>
-    </div>
-  </div></div> -->
-  <!-- PENDING- Extra Data eg follow up etc entry-->
-
 <!-- ALL DIALOGS-->
-<Dialog :options="{
+  <Dialog :options="{
     title: 'Symptoms',
     size: 'lg'
     }"
@@ -361,8 +332,7 @@
         </ul>
     </template>
 </Dialog>
-<!--<Autocomplete :options="all_history" v-model="data.history" placeholder="Add History Here" :multiple="true"/>-->
-<!-- <Dialog :options="{
+<Dialog :options="{
     title: 'History & More Information',
     size: '3xl'
     }"
@@ -372,13 +342,13 @@
             
               <FormControl v-model="more_info.add_sym" type="textarea" placeholder="Further Description of Symptoms, Diagnosis & History" />
               <FormControl v-model="more_info.add_advise" type="textarea" placeholder="Further Advice" />
-              <FormControl v-model="more_info.add_followup" type="number" label="Follow Up (In Days)" />
-              <FormControl type="autocomplete" :options="referdr" v-model="more_info.add_referal" placeholder="Referred To" label="Referred To"/>
+              <FormControl v-model="more_info.add_followup" type="number" placeholder="Follow Up (In Days)" />
+              <Autocomplete :options="referdr" v-model="more_info.add_referal" placeholder="Referred To"/>
               <FormControl v-model="more_info.pvt_notes" type="textarea" placeholder="Your Private Notes" />
               <div></div>
               <div class="col-span-2">
                 Patient History
-              
+              <Autocomplete :options="all_history" v-model="data.history" placeholder="Add History Here" :multiple="true"/>
             </div>
           </span>
           <span>
@@ -400,24 +370,24 @@
           </span>
     </template>
     
-</Dialog> -->
+</Dialog>
 <Dialog v-model="submit_confirm">
   <template #body-title>
-    <h3>Confirm Advise Submission</h3>
+    <h3 class="font-semibold">Confirm Advise Submission</h3>
     <ErrorMessage :message="make_opd_prescription.error"/>
   </template>
   <template #body-content>
-    <FormControl v-model="more_info.add_followup" type="number" label="Follow Up (In Days)" class="pb-2 pr-10" />
     <p>Are You Sure you want to submit this Patient Advise?
     </p>
   </template>
   <template #actions>
-    <Button  variant="solid" class= "bg-gradient-to-r from-pink-500 to-blue-600 hover:from-pink-600 hover:to-blue-700"
+    <Button variant="solid" class= "bg-gradient-to-r from-pink-500 to-blue-600 hover:from-pink-600 hover:to-blue-700"
       :loading="make_opd_prescription.loading"  @click="make_opd_prescription.submit()">
       Confirm
     </Button>
-    <!-- v-if="sel_pat.appoint.invoiced || sel_pat.appoint.fee_valid"
-    <Button v-else :disabled="true">Submit Stopped as Payment Not Completed</Button> -->
+    <!-- <Button v-else :disabled="true">Submit Stopped as Payment Not Completed</Button> 
+     v-if="sel_pat.appoint.invoiced || sel_pat.appoint.fee_valid"
+    -->
     <Button
       variant="solid"
       class= "ml-2 bg-gradient-to-r from-red-800 to-red-600 hover:from-red-900 hover:to-red-700"
@@ -496,7 +466,8 @@
 </div>
 <div v-if="add_item.selected_new=='medicine'" class="grid grid-cols-4 gap-3">
 <FormControl v-model="add_item.medicine[0]" type="text" placeholder="Medicine Brand Name" />
-<Select :options="[{label:'Tablet',value:'Tablet',},{label:'Cream',value:'Cream',},{label:'Capsule',value:'Capsule',},{label:'Injection',value:'Injection',},{label:'Syrup',value:'Syrup',}]" 
+<Select :options="[{label:'Tablet',value:'Tablet',},{label:'Cream',value:'Cream',},{label:'Capsule',value:'Capsule',},{label:'Injection',value:'Injection',},{label:'Syrup',value:'Syrup',},
+{label:'Sachet',value:'Sachet',},{label:'Solution',value:'Solution',},{label:'Inhaler',value:'Inhaler',}]" 
 v-model="add_item.medicine[1]" placeholder="Dosage Form" />
 <Select :options="med_dosage" v-model="add_item.medicine[2]" placeholder="Dosage" />
 <Autocomplete :options="med_duration" v-model="add_item.medicine[3]" placeholder="Duration" />
@@ -524,8 +495,7 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
     </Button>
   </template>
 </Dialog>
-{{data.history}}
-{{history.hist}}
+<!-- {{data.selected}} -->
 </template>
 
 <script setup>
@@ -561,14 +531,6 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
         add_referal:"",
         
     });
-    const history = reactive({
-      allergy: [],
-      surg_hist:[],
-      hist: [],
-      meds:[],
-      patient_details:[]
-
-    });
     const add_item = reactive({
         create_new : false,
         selected_new: "symptoms",
@@ -582,10 +544,7 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
     });
     const referdr=ref([]);
     const all_searches = ref([]);
-    const hist_history= ref([]);
-    const med_history= ref([]);
-    const surg_history= ref([]);
-    const aller_history= ref([]);
+    const all_history= ref([])
     const appoints = ref([]);
     const med_dosage = ref([]);
     const med_duration = ref([]);
@@ -599,7 +558,6 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
     const patDialogshown = ref(false);
     const moreinfoDialog = ref(false);
     let submit_confirm = ref(false);
-
     let create_msg= ref("")
     
     // Function to transform and add to all_searches
@@ -676,28 +634,10 @@ Patient_details = createListResource({
         },
         pageLength: 1,
         auto: true,
-        transform(data) {
-for (let d of data) {
-  const aller_rows = d.allergies.split(';');
-  history.allergy = aller_rows.map(row => row.split(',')).map(arr => arr.map(item => item.replace(/^\s+/, '')));
-  const Mhist_rows = d.medical_history.split(';');
-  history.hist = Mhist_rows.map(row => row.split(',')).map(arr => arr.map(item => item.replace(/^\s+/, '')));
-  const Shist_rows = d.surgical_history.split(';');
-  history.surg_hist = Shist_rows.map(row => row.split(',')).map(arr => arr.map(item => item.replace(/^\s+/, '')));
-  const meds_rows = d.medication.split(';');
-  history.meds = meds_rows.map(row => row.split(',')).map(arr => arr.map(item => item.replace(/^\s+/, '')));
-  if(d.patient_details.indexOf('|')){
-  history.patient_details = d.patient_details.split('|')}
-  else{
-    history.patient_details = d.patient_details;
-  }
-}
-}
     }); 
 }
 );
-data.history=computed(() => history.allergy.concat(history.hist,history.surg_hist,history.meds))
-// data.history= history.allergy.concat(history.hist,history.surg_hist,history.meds)
+
 onMounted(() => {
   appoints.value.splice(0);
 let appointment = createListResource({
@@ -736,19 +676,6 @@ Patient_details = createListResource({
         },
         pageLength: 1,
         auto: true,
-        transform(data) {
-for (let d of data) {
-  const aller_rows = d.allergies.split(';');
-  history.allergy = aller_rows.map(row => row.split(',')).map(arr => arr.map(item => item.replace(/^\s+/, '')));
-  const Mhist_rows = d.medical_history.split(';');
-  history.hist = Mhist_rows.map(row => row.split(',')).map(arr => arr.map(item => item.replace(/^\s+/, '')));
-  const Shist_rows = d.surgical_history.split(';');
-  history.surg_hist = Shist_rows.map(row => row.split(',')).map(arr => arr.map(item => item.replace(/^\s+/, '')));
-  const meds_rows = d.medication.split(';');
-  history.meds = meds_rows.map(row => row.split(',')).map(arr => arr.map(item => item.replace(/^\s+/, '')));
-  history.patient_details = d.patient_details.split('|');
-}
-}
     }); 
 })
 
@@ -792,8 +719,8 @@ for (let d of data) {
             addToAllSearches(d.diagnosis, null, "Diagnosis", "/files/diagnosis.jpg",d.lifestyle_advise,null,null,null);
         // addTohistory(d.diagnosis, null, "PED", "",null,null,null,null);
             let label = d.diagnosis;
-            let pt = { "label": label, "description": label, "value": label , "history_type": "PED","history_doctype":"Diagnosis"};
-            hist_history.value.push(pt);
+            let pt = { "label": label, "description": label, "value": label , "history_type": "PED","history_doctype":"Diagnosis","since":"","comment":""};
+            all_history.value.push(pt);
         });
         }
     });
@@ -820,8 +747,8 @@ for (let d of data) {
             addToAllSearches(`${d.dosage_form} ${d.medicine_brand}`, `${d.generic_name}, ${d.default_duration}, ${d.default_dosage}`, "Meds", "/files/pill_yellow.jpg",d.default_dosage, d.default_duration,d.special_instruction,[d.name,d.dosage_form]);
             //addTohistory(`${d.dosage_form} ${d.medicine_brand}`, `${d.generic_name}, ${d.default_duration}, ${d.default_dosage}`, "Medication", "",d.default_dosage, d.default_duration,d.special_instruction,[d.name,d.dosage_form]);
             let label = d.name;
-            let pt = { "label": `${d.dosage_form} ${d.medicine_brand}`, "description": `${d.generic_name}`, "value": label , "history_type": "Medication","history_doctype":"OPD Medication"};
-            med_history.value.push(pt);
+            let pt = { "label": `${d.dosage_form} ${d.medicine_brand}`, "description": `${d.generic_name}`, "value": label , "history_type": "Medication","history_doctype":"OPD Medication","since":"","comment":""};
+            all_history.value.push(pt);
         });
         }
     });
@@ -836,8 +763,8 @@ for (let d of data) {
             addToAllSearches(d.template, null, "surg", "/files/surgery _red.jpg","","","",d.name);
             //addTohistory(d.template, null, "Surgical History", "","","","",d.name);
             let label = d.template;
-            let pt = { "label": label, "description": label, "value": d.name , "history_type": "Surgical History", "history_doctype":"Clinical Procedure Template"};
-            surg_history.value.push(pt);
+            let pt = { "label": label, "description": label, "value": d.name , "history_type": "Surgical History", "history_doctype":"Clinical Procedure Template","since":"","comment":""};
+            all_history.value.push(pt);
         });
         }
     });
@@ -861,8 +788,8 @@ for (let d of data) {
         transform(data) {
         for (let d of data) {
             let label = d.name;
-            let pt = { "label": label, "description": label, "value": label , "history_type": "Allergy","history_doctype":"Patient Allergy"};
-            aller_history.value.push(pt);
+            let pt = { "label": label, "description": label, "value": label , "history_type": "Allergy","history_doctype":"Patient Allergy", "since":"","comment":""};
+            all_history.value.push(pt);
         }
         }
     });
@@ -903,10 +830,7 @@ for (let d of data) {
     }
     function updateSearches(){
         all_searches.value.splice(0);
-        hist_history.splice(0);
-        med_history.splice(0);
-        surg_history.splice(0);
-        aller_history.splice(0);
+        all_history.value.splice(0);
         med_dosage.value.splice(0);
         med_duration.value.splice(0);
         referdr.value.splice(0);
@@ -927,10 +851,7 @@ for (let d of data) {
     // submit_confirm=false;
         data.appnt_patient="";
         data.selected=[];
-        hist_history.splice(0);
-        med_history.splice(0);
-        surg_history.splice(0);
-        aller_history.splice(0);
+        data.history=[];
         more_info.add_sym= ""
         more_info.add_advise= ""
         more_info.add_followup= 0
@@ -981,8 +902,8 @@ for (let d of data) {
             data.selected.push(x)
             create_msg.value="Diagnosis Created Successfully"
             let label = data_diag.diagnosis;
-            let pt = { "label": label, "description": label, "value": label , "history_type": "PED","history_doctype":"Diagnosis"};
-            hist_history.value.push(pt);
+            let pt = { "label": label, "description": label, "value": label , "history_type": "PED","history_doctype":"Diagnosis","since":"","comment":""};
+            all_history.value.push(pt);
         }   
     })
     const make_labs = createResource({
@@ -1023,8 +944,8 @@ for (let d of data) {
         let x=  { "label": `${data_medicine.dosage_form} ${data_medicine.medicine_brand}`, "value": `${data_medicine.dosage_form} ${data_medicine.medicine_brand},${data_medicine.generic_name}, ${data_medicine.default_duration}, ${data_medicine.default_dosage}`, "description": `${data_medicine.generic_name}, ${data_medicine.default_duration}, ${data_medicine.default_dosage}`, "image": "/files/pill_yellow.jpg", "type": "Meds", "additional_attr": data_medicine.default_dosage, "additional_attr_2": data_medicine.default_duration, "sp_attr": data_medicine.special_instruction, "added": [data_medicine.name,data_medicine.dosage_form] }
         data.selected.push(x);
         let label = data_medicine.name;
-        let pt = { "label": `${data_medicine.dosage_form} ${data_medicine.medicine_brand}`, "description": `${data_medicine.generic_name}`, "value": label , "history_type": "Medication","history_doctype":"OPD Medication"};
-        med_history.value.push(pt);
+        let pt = { "label": `${data_medicine.dosage_form} ${data_medicine.medicine_brand}`, "description": `${data_medicine.generic_name}`, "value": label , "history_type": "Medication","history_doctype":"OPD Medication","since":"","comment":""};
+        all_history.value.push(pt);
         create_msg.value="Medicine Created Successfully"
         }   
     })
@@ -1061,9 +982,9 @@ for (let d of data) {
         // data.appointment_name=data_Z.name;
         add_item.allergy=[];
         let label = data_allergy.name;
-        let pt = { "label": label, "description": label, "value": label , "history_type": "Allergy","history_doctype":"Patient Allergy"};
-        aller_history.value.push(pt);
-        //data.history.push(pt);
+        let pt = { "label": label, "description": label, "value": label , "history_type": "Allergy","history_doctype":"Patient Allergy", "since":"","comment":""};
+        all_history.value.push(pt);
+        data.history.push(pt);
        // add_item.create_new=false;
         //allergy.fetch();
         create_msg.value="Allergy Created Successfully"
@@ -1084,8 +1005,8 @@ for (let d of data) {
         let x=   { "label": data_procedure.template, "value": data_procedure.template, "description": data_procedure.template, "image": "/files/surgery _red.jpg", "type": "surg","additional_attr": "", "additional_attr_2": "", "sp_attr": "", "added": data_procedure.name }
         data.selected.push(x);
         let label = data_procedure.template;
-        let pt = { "label": label, "description": label, "value": data_procedure.name , "history_type": "Surgical History", "history_doctype":"Clinical Procedure Template"};
-        surg_history.value.push(pt);
+        let pt = { "label": label, "description": label, "value": data_procedure.name , "history_type": "Surgical History", "history_doctype":"Clinical Procedure Template","since":"","comment":""};
+        all_history.value.push(pt);
         create_msg.value="Procedure Created Successfully"
         }   
     })
@@ -1097,8 +1018,8 @@ for (let d of data) {
     function clear_line(locater){
       data.selected.splice(locater,1);
     }
-    function clear_Hist_line(array,locater){
-      array.splice(locater,1);
+    function clear_Hist_line(locater){
+      data.history.splice(locater,1);
     }
     
 </script>

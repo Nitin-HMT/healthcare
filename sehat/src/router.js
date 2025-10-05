@@ -4,45 +4,60 @@ import { userResource } from '@/data/user'
 
 const routes = [
   {
+    path: '/opd',
+    name: 'opd',
+    component: () => import('@/pages/OPD/OpdDashboard.vue'),
+  },
+  {
     path: '/',
-    name: 'Home',
-    component: () => import('@/pages/Booking.vue'),
+    name: 'home',
+    component: () => import('@/pages/OPD/OpdDashboard.vue'),
+  },
+  // {
+  //   name: 'Login',
+  //   path: '/account/login',
+  //   component: () => import('@/pages/Login.vue'),
+  // },
+   {
+    name: 'opd_consult',
+    path: '/opd/:pat_id/:app_id',
+    component: () => import('@/pages/OPD/OpdConsult.vue'),
   },
   {
-    name: 'Login',
-    path: '/account/login',
-    component: () => import('@/pages/Login.vue'),
+    name: 'pat_dash',
+    path: '/pd/:pat_id',
+    component: () => import('@/pages/PatientDashboard.vue'),
   },
-  {
-    name: 'Med_Hist',
-    path: '/MHist',
-    component: () => import('@/pages/Med_Hist.vue'),
-  },
-  {
-    name: 'Labs',
-    path: '/labs',
-    component: () => import('@/pages/Labs.vue'),
-  },
-  {
-    name: 'Booking',
-    path: '/booking',
-    component: () => import('@/pages/Booking.vue'),
-  },
-  {
-    name: 'BHist',
-    path: '/BHist',
-    component: () => import('@/pages/Book_Hist.vue'),
-  },
-  {
-    name: 'Nursing',
-    path: '/nursing',
-    component: () => import('@/pages/Nursing.vue'),
-  },
-  {
-    name: 'Consult',
-    path: '/consult',
-    component: () => import('@/pages/Consult.vue'),
-  },
+  // {
+  //   name: 'Labs',
+  //   path: '/labs',
+  //   component: () => import('@/pages/Labs.vue'),
+  // },
+  // {
+  //   name: 'Booking',
+  //   path: '/booking',
+  //   component: () => import('@/pages/Booking.vue'),
+  // },
+  // {
+  //   name: 'BHist',
+  //   path: '/BHist',
+  //   component: () => import('@/pages/Book_Hist.vue'),
+  // },
+  // {
+  //   name: 'Nursing',
+  //   path: '/nursing',
+  //   component: () => import('@/pages/Nursing.vue'),
+  // },
+  // {
+  //   name: 'Consult',
+  //   path: '/consult',
+  //   component: () => import('@/pages/Consult.vue'),
+  // },
+  // {
+  //   name: 'Consult_alt',
+  //   path: '/consult_alt',
+  //   component: () => import('@/pages/Consult_alt.vue'),
+  // },
 ]
 
 let router = createRouter({

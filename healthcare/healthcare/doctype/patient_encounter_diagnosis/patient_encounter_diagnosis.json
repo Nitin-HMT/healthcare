@@ -6,7 +6,11 @@
  "engine": "InnoDB",
  "field_order": [
   "diagnosis",
-  "lifestyle_advise"
+  "lifestyle_advise",
+  "column_break_nmih",
+  "phrase",
+  "comments",
+  "operation_string"
  ],
  "fields": [
   {
@@ -22,11 +26,30 @@
    "fieldname": "lifestyle_advise",
    "fieldtype": "Small Text",
    "label": "Lifestyle Advise"
+  },
+  {
+   "fieldname": "comments",
+   "fieldtype": "Small Text",
+   "label": "Comments"
+  },
+  {
+   "fieldname": "operation_string",
+   "fieldtype": "Small Text",
+   "label": "Operation String"
+  },
+  {
+   "fieldname": "phrase",
+   "fieldtype": "Data",
+   "label": "Phrase"
+  },
+  {
+   "fieldname": "column_break_nmih",
+   "fieldtype": "Column Break"
   }
  ],
  "istable": 1,
  "links": [],
- "modified": "2025-01-07 18:48:28.676242",
+ "modified": "2025-10-03 13:35:06.334137",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter Diagnosis",

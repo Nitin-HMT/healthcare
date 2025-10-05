@@ -1,165 +1,47 @@
-<template>
+<template >
   <!--Nav Bar containing the location and Patient Select and Create, display -->
-  <nav>
-    <div v-if="appoints.length && sel_pat.details.name">
-    </div>
-    <div v-else class="mt-4 md:mx-[200px] flex item-center justify-center gap-3 p-3">
-    <Badge :variant="'solid'" class=" block w-full rounded-full px-2 py-2 font-serif item-center justify-center
-    bg-gradient-to-r from-red-800 to-red-600 hover:from-red-900 hover:to-red-700 text-white transition-all" size="xl" label="No Appointment"/>
-  </div>
-  </nav>
+  <!-- <Sidebar /> -->
   <!--{{ data.appnt_patient }}
    selected patient information display -->
-  <div class="p-3 flex gap-2 gap-x-5 font-sans shadow-md bg-gradient-to-r  from-gray-200/30 from-20% via-gray-200/10 via-60% to-gray-200/60 to-90% rounded-sm space-y-2 justify-between flex-col" v-if="appoints.length && sel_pat.details.name">
-  <span class="flex items-center gap-x-10 text-gray-900" >
-      <Tabs as="div"  
-      :tabs="[
-        {
-          label: 'History',
-          content: Patient_details.list.data[0].medical_history
-        },
-        {
-          label: 'Surgery',
-          content: Patient_details.list.data[0].surgical_history
-        },
-        {
-          label: 'Medication',
-          content: Patient_details.list.data[0].medication
-        },
-        {
-          label: 'Allergies',
-          content: Patient_details.list.data[0].allergies
-        },
-        {
-          label: 'Doctors Notes',
-          content: Patient_details.list.data[0].patient_details
-        },
-      ]">
-      <template #tab-panel="{ tab }">
-        <div class="p-2">
-          {{ tab.content }}
-        </div>
-      </template>
-    </Tabs>
-    <div class="flex items-end justify-end gap-2 col-span-2 mb-1">
-      <!-- <Button
-          @click="updateSearches"
-          :variant="'subtle'"
-          :ref_for="true"
-          theme="green"
-          size="md"
-          label="Button"
-          :loading="false"
-          :loadingText="null"
-          :link="null"
-        >
-        <FeatherIcon class="w-6 h-6 rounded-full text-gray-700"  name="refresh-ccw"/>
-        </Button> -->
+
+  <!-- PENDING--- ROVING PATIENT CREATION AND DISPLAY -->
+   <!-- Display of Symptoms, Diagnsis, Meds etc -->
+    <div class="grid grid-cols-12">
+<div :class="[hist_flag ? 'col-span-5 transition-all duration-700 ease-linear' :'col-span-10 transition-all duration-700 ease-linear']"> <!--< div :class="[hist_flag ? 'col-span-2' :'col-span-10']" >-->
+  <div>
+  <nav v-if="!hist_flag">
+    <!--Search Bar-->
+  <div v-if="appoints.length && sel_pat.details.name ">
+    <div class="md:px-[80px] py-2 mx-6 grid grid-cols-12 gap-2">
+      <div class="col-span-1">
+        <Tooltip text="Clears all Obx, advise, patient etc" :hover-delay="1" :placement="'top'">
         <Button
           @click="clearAll"
-          :variant="'solid'"
+          class="rounded-full hover:bg-red-500"
+          :variant="'ghost'"
           :ref_for="true"
           theme="red"
           size="md"
           label="Button"
           :loading="false"
           :loadingText="null"
+          :disabled="false"
           :link="null"
         >
-        <FeatherIcon class="w-6 h-6 rounded-full text-white"  name="trash-2"/>
-        </Button>
-      </div>
-
-
-     <!-- <p v-if="Patient_details.list.data[0].medical_history">History:{{  Patient_details.list.data[0].medical_history }}</p>
-      <p v-if="Patient_details.list.data[0].surgical_history">Surgery:{{  Patient_details.list.data[0].surgical_history }}</p>
-      <p v-if="Patient_details.list.data[0].medication">Medications:{{  Patient_details.list.data[0].medication }}</p>
-      <p v-if="Patient_details.list.data[0].allergies">Allergies: {{  Patient_details.list.data[0].allergies }}</p>
-      <p class="text-red-700" v-if="Patient_details.list.data[0].patient_details">Notes: {{  Patient_details.list.data[0].patient_details }}</p>
-    -->
-    </span></div>
-  <!-- PENDING--- ROVING PATIENT CREATION AND DISPLAY -->
-   <!-- Display of Symptoms, Diagnsis, Meds etc -->
-  <div class="grid md:grid-cols-3 gap-2 p-1">
-    <ItemCard
-      v-if="categorizedItems.syms.length > 0"
-      @click="symDialogshown=true"
-      title="Observations"
-      :items="categorizedItems.syms"
-      image="/files/symptoms.jpg"
-      underlineColor="font-mono font-bold underline decoration-violet-600 flex items-center justify-between gap-4"
-      cardClass="mt-4 p-3 shadow-md bg-violet-100/80 rounded-sm space-y-2 flex items-center justify-between flex-col hover:bg-violet-200 transition-all"
-    />
-    <ItemCard
-      v-if="categorizedItems.diag.length > 0"
-      @click="diagDialogshown=true"
-      title="Diagnosis"
-      :items="categorizedItems.diag"
-      image="/files/diagnosis.jpg"
-      underlineColor="font-mono font-bold underline decoration-green-600 flex items-center justify-between gap-4"
-      cardClass="mt-4 p-3 shadow-md bg-green-100/80 rounded-sm space-y-2 flex items-center justify-between flex-col hover:bg-green-200 transition-all"
-    />
-    <ItemCard
-      v-if="categorizedItems.lab.length > 0"
-      @click="labDialogshown=true"
-      title="Labs"
-      :items="categorizedItems.lab"
-      image="/files/lab_test_blue_2.jpg"
-      underlineColor="font-mono font-bold underline decoration-blue-600 flex items-center justify-between gap-4"
-      cardClass="mt-4 p-3 shadow-md bg-blue-800/10 rounded-sm space-y-2 flex items-center justify-between flex-col hover:bg-blue-800/20 transition-all"
-    />
-    <ItemCard
-      v-if="categorizedItems.surgery.length > 0"
-      @click="surDialogshown=true"
-      title="Procedures"
-      :items="categorizedItems.surgery"
-      image="/files/surgery _red.jpg"
-      underlineColor="font-mono font-bold underline decoration-red-600 flex items-center justify-between gap-4"
-      cardClass="mt-4 p-3 shadow-md bg-red-100/50 rounded-sm space-y-2 flex items-center justify-between flex-col hover:bg-red-200 transition-all"
-    />
-    <ItemCard
-      v-if="categorizedItems.meds.length > 0"
-      @click="medDialogshown=true"
-      title="Medicine"
-      :items="categorizedItems.meds"
-      image="/files/pill_yellow.jpg"
-      underlineColor="font-mono font-bold underline decoration-amber-600 flex items-center justify-between gap-4"
-      cardClass="col-span-2 mt-4 p-3 shadow-md bg-amber-100/50 rounded-sm space-y-2 flex items-center justify-between flex-col hover:bg-amber-200 transition-all"
-    />
-  </div>
-  <div>
-  <div v-if="appoints.length && sel_pat.details.name" @click="moreinfoDialog=true" class="py-2 m-1 flex items-center justify-between flex-col col-span-2 mt-4 px-3 shadow-md bg-teal-100/50 rounded-sm hover:bg-teal-200 transition-all">
-      <span class="font-mono font-bold underline decoration-teal-600 flex gap-4">Patient History & Additional Information</span>
-      <div class="grid md:grid-cols-7 gap-2 font-sans"> 
-      <div v-if="more_info.add_sym" Class="col-span-2"><p class="font-bold">Further Symptoms: </p>{{more_info.add_sym}}</div>
-      <div v-if="more_info.add_advise" Class="col-span-2"><p class="font-bold">Further Advise: </p>{{more_info.add_advise}}</div>
-      <div v-if="more_info.add_followup"><p class="font-bold">Follow-up:</p> {{more_info.add_followup}} Days</div>
-      <div v-if="more_info.add_referal"><p class="font-bold">Reffered To:</p> {{more_info.add_referal.label}}</div>
-      <div v-if="more_info.pvt_notes"><p class="font-bold">Private Notes:</p> {{more_info.pvt_notes}}</div>
-      <div class="col-span-7" v-if="data.history.length>0">
-              <p class="font-bold">Patient History:</p>
-              <span v-for="(item) in data.history"> 
-                {{item.history_type}}-{{item.label}} {{item.since}} {{item.comment}} | 
-            </span>
-      </div>
-    </div>
-  </div></div>
-  <!-- PENDING- Extra Data eg follow up etc entry-->
-<!--Search Bar-->
-  <div v-if="appoints.length && sel_pat.details.name">
-    <div class="px-[30px] py-8 mx-6 grid grid-cols-12 gap-2">
-      <div class="col-span-10">
+        <FeatherIcon class="w-6 h-6" :class="[appoints[0].gender === 'Female' ? 'text-pink-700 hover:text-red-900 transform-all' :'text-blue-700 hover:text-red-900']"  name="trash-2"/>
+        </Button></Tooltip></div>
+      <div class="col-span-9">
         <Autocomplete 
           :options="all_searches" 
           v-model="data.selected" 
           placeholder="Search for Symptoms, Diagnosis, Medicines, Labs or Procedures" 
           :multiple="true"
-          class="block w-full rounded-full px-2 py-3 font-mono bg-gray-100 border-solid border border-gray-100 hover:bg-gray-200/90 transition-all "
+          class="block w-full rounded-full font-mono bg-gray-100 border-solid border border-gray-100 hover:bg-gray-200/90 transition-all "
         >
         <template #item-prefix="{ option }">
         <img
           :src="option.image.toString()"
-          class="h-6 w-6"
+          class="h-4 w-4"
         >
         </template>
           <template #prefix>
@@ -167,7 +49,7 @@
             class="w-5 font-extrabold text-teal-700"
             name="search"
           />-->
-          <FeatherIcon class="w-6 h-6" :class="[appoints[0].gender === 'Female' ? 'text-pink-700' :'text-blue-700']"  name="search"/>
+          <FeatherIcon class="w-4 h-4" :class="[appoints[0].gender === 'Female' ? 'text-pink-700' :'text-blue-700']"  name="search"/>
           </template>
         </Autocomplete>
       </div>
@@ -178,7 +60,7 @@
           :variant="'subtle'"
           :ref_for="true"
           theme="gray"
-          size="2xl"
+          size="md"
           label="Button"
           :loading="false"
           :loadingText="null"
@@ -189,7 +71,7 @@
         </Button></div><div>
         <Button class= "rounded-full" v-if="doctor_flag"
       :loading="make_opd_prescription.loading"
-      size="2xl"
+      size="md"
       :variant="'subtle'"
       :loadingText="null"
       :disabled="false"
@@ -197,180 +79,323 @@
       @click="submit_confirm=true"
     ><FeatherIcon class="w-6 h-6" :class="[appoints[0].gender === 'Female' ? 'text-pink-700' :'text-blue-700']" name="send"/></Button>
       <Button class="bg-gray-200 p-3 flex items-center justify-between text-xs font-light text-gray-600 rounded-lg" v-if="!doctor_flag">Only Doctors Allowed to Submit</Button>
-  </div></div>
+    </div>
+  </div>
       
     </div>
   </div>
-<!-- ALL DIALOGS-->
-  <Dialog :options="{
-    title: 'Symptoms',
-    size: 'lg'
-    }"
-    v-model="symDialogshown">
-    <template #body-content>
-        <ul class= "space-y-2">
-            <li v-for="(item,index) in data.selected" class="gap-1 hover:bg-violet-300/30 hover:underline" > 
-              <span v-if="item.type=='Complaint'" class="grid md:grid-cols-5 gap-2">
-                <div class="col-span-2 font-serif font-light text-sm flex justify-start items-between pl-3 pt-1">{{item.label}}</div>
-              <FormControl class="col-span-2" v-model="item.additional_attr" type="text" placeholder="Comments" />
-              <div class="flex justify-end items-between pr-6" >
-                <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_line(index)"/></button>
-              </div>
-            </span>
-            </li>
-        </ul>
-    </template>
-</Dialog>
-<Dialog :options="{
-    title: 'Diagnosis',
-    size: 'xl'
-    }"
-    v-model="diagDialogshown">
-    <template #body-content>
-        <ul class= "space-y-2">
-            <!-- <li v-for="(item,index) in data.selected" > 
-              <span v-if="item.type=='Diagnosis'" class="grid md:grid-cols-2 gap-2">
-                {{item.label}} - {{ item.additional_attr }}</span>
-            </li> -->
-            <li v-for="(item,index) in data.selected" class="gap-1 hover:bg-green-200/30 hover:underline" > 
-              <span v-if="item.type=='Diagnosis'" class="grid md:grid-cols-5 gap-2">
-                <div class="col-span-2 font-serif font-light text-sm flex justify-start items-between pl-3 pt-1">
+    <div v-else class="mt-4 md:mx-[200px] flex item-center justify-center gap-3 p-3">
+    <Badge :variant="'solid'" class=" block w-full rounded-full px-2 py-2 font-serif item-center justify-center
+    bg-gradient-to-r from-red-800 to-red-600 hover:from-red-900 hover:to-red-700 text-white transition-all" size="xl" label="No Appointment"/>
+  </div>
+  </nav>
+  <div class=" grid md:grid-cols-3 gap-2 p-1" v-if="appoints.length && sel_pat.details.name">
+    <div class="mt-4 p-3 shadow-md bg-violet-100 rounded-sm flex items-center justify-between flex-col hover:bg-violet-200 transition-all">
+      <span class="font-mono font-bold underline decoration-violet-600 flex items-center justify-between gap-4">
+        <Avatar
+          :shape="'circle'"
+          :ref_for="true"
+          image="/files/symptoms.jpg"
+          label="EY"
+          size="xl"
+          v-if="!hist_flag"
+        />
+        Observations
+      </span>
+      <div class="grid grid-cols-7 gap-2">
+        <div class="col-span-6">
+      <Autocomplete 
+          v-if="!hist_flag"
+          :options="ind_symptoms" 
+          v-model="data.selected" 
+          placeholder="Search for Symptoms" 
+          :multiple="true"
+          class="block w-full rounded-full font-mono bg-gray-100 border-solid border border-gray-100 hover:bg-gray-200/90 transition-all "
+        >
+        <template #item-prefix="{ option }">
+        <img
+          :src="option.image.toString()"
+          class="h-4 w-4"
+        >
+        </template>
+          <template #prefix>
+          <!--<FeatherIcon
+            class="w-5 font-extrabold text-teal-700"
+            name="search"
+          />-->
+          <FeatherIcon class="w-4 h-4" :class="[appoints[0].gender === 'Female' ? 'text-pink-700' :'text-blue-700']"  name="search"/>
+          </template>
+        </Autocomplete>
+      </div><div><div><Button v-if="!hist_flag"
+          @click="add_item.create_new=true"
+          class="rounded-full bg-violet-800"
+          :variant="'solid'"
+          :ref_for="true"
+          
+          size="sm"
+          label="Button"
+          :loading="false"
+          :loadingText="null"
+          :disabled="false"
+          :link="null"
+        >
+        <FeatherIcon class="w-6 h-6 text-white"  name="plus"/>
+        </Button></div></div>
+      </div>
+      <ul v-for="item,index in data.selected" :key="item.value" class="flex items-center justify-between font-sans">
+         
+        <li class="grid grid-cols-7 space-y-2" v-if="item.type=='Complaint'" ><div class="col-span-3">{{ item.label }}</div> 
+          <FormControl v-if="!hist_flag" class="col-span-3" variant="outline" v-model="item.additional_attr" type="text" placeholder="Comments" />
+          <div class="flex justify-end items-between" v-if="!hist_flag" >
+                <button><FeatherIcon class="w-5 h-5 text-red-600" name="x" @click="clear_line(index)"/></button>
+          </div>  
+        </li> 
+      </ul>
+    </div>
+    <div class="mt-4 p-3 shadow-md bg-green-100/80 rounded-sm flex items-center justify-between flex-col hover:bg-green-200 transition-all">
+      <span class="font-mono font-bold underline decoration-green-600 flex items-center justify-between gap-4">
+        <Avatar
+          v-if="!hist_flag"
+          :shape="'circle'"
+          :ref_for="true"
+          image="/files/diagnosis.jpg"
+          label="EY"
+          size="xl"
+        />
+        Diagnosis
+      </span>
+      <ul v-for="item,index in data.selected" :key="item.value" class="flex items-center justify-between font-sans">
+         <li class="grid grid-cols-12 space-y-2" v-if="item.type=='Diagnosis'"><div class="col-span-11">{{ item.label }}</div> 
+          <button v-if="!hist_flag"><FeatherIcon class="w-5 h-5 text-red-600" name="x" @click="clear_line(index)"/></button>
+         </li>
+      </ul>
+    </div>
+    <div class="mt-4 p-3 shadow-md bg-blue-800/10 rounded-sm flex items-center justify-between flex-col hover:bg-blue-800/20 transition-all">
+      <span class="font-mono font-bold underline decoration-blue-600 flex items-center justify-between gap-4">
+        <Avatar
+          v-if="!hist_flag"
+          :shape="'circle'"
+          :ref_for="true"
+          image="/files/lab_test_blue_2.jpg"
+          label="EY"
+          size="xl"
+        />
+        Labs
+      </span>
+      <ul v-for="item,index in data.selected" :key="item.value" class="flex items-center justify-between font-sans">
+        <li class="grid grid-cols-12 space-y-2" v-if="item.type=='labs'"><div class="col-span-11">{{ item.label }}</div>
+          <button v-if="!hist_flag"><FeatherIcon class="w-5 h-5 text-red-600" name="x" @click="clear_line(index)"/></button>
+        </li>
+      </ul>
+    </div>
+    <div class="mt-4 p-3 shadow-md bg-red-100/50 rounded-sm flex items-center justify-between flex-col hover:bg-red-200 transition-all">
+      <span class="font-mono font-bold underline decoration-red-600 flex items-center justify-between gap-4">
+        <Avatar
+          v-if="!hist_flag"
+          :shape="'circle'"
+          :ref_for="true"
+          image="/files/surgery _red.jpg"
+          label="EY"
+          size="xl"
+        />
+        Procedures
+      </span>
+      <ul v-for="item,index in data.selected" :key="item.value" class="flex items-center justify-between font-sans">
+        <li class="grid grid-cols-12 gap-2 space-y-2" v-if="item.type=='surg'">
+                <div class="col-span-6 flex">
                   {{item.label}} 
                 </div>
-                <div class="col-span-2 font-serif font-light text-sm flex justify-start items-between pl-3 pt-1">
-                  {{ item.additional_attr }}
-                </div>
-              <div class="flex justify-end items-between pr-6" >
+                <!-- <DatePicker class="col-span-3"  variant="outline" v-model="item.additional_attr" placeholder="Date"/> -->
+                <FormControl v-if="!hist_flag" class="col-span-6" variant="outline" :type="'date'" v-model="item.additional_attr" placeholder="Date" />
+                <FormControl  v-if="!hist_flag" class="col-span-9" variant="outline" v-model="item.additional_attr_2" type="text" placeholder="Comments" />
+                
+                <div  v-if="!hist_flag" class="flex justify-end items-between" >
                 <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_line(index)"/></button>
-              </div>
-            </span>
-            </li>
-        </ul>
-    </template>
-</Dialog>
-<Dialog :options="{
-    title: 'Labs',
-    size: 'xl'
-    }"
-    v-model="labDialogshown">
-    <template #body-content>
-        <ul class= "space-y-2">
-            <!-- <li v-for="(item,index) in data.selected" > 
-              <span v-if="item.type=='Diagnosis'" class="grid md:grid-cols-2 gap-2">
-                {{item.label}} - {{ item.additional_attr }}</span>
-            </li> -->
-            <li v-for="(item,index) in data.selected" class="gap-1 hover:bg-blue-200/30 hover:underline" > 
-              <span v-if="item.type=='labs'" class="grid md:grid-cols-3 gap-2">
-                <div class="col-span-2 font-serif font-light text-sm flex justify-start items-between pl-3 pt-1">
+              </div></li>
+      </ul>
+    </div>
+    <div class="col-span-2 mt-4 p-3 shadow-md bg-amber-100/50 rounded-sm flex items-center justify-between flex-col hover:bg-amber-200 transition-all">
+      <span class="font-mono font-bold underline decoration-amber-600 flex items-center justify-between gap-4">
+        <Avatar
+        v-if="!hist_flag"
+          :shape="'circle'"
+          :ref_for="true"
+          image="/files/pill_yellow.jpg"
+          label="EY"
+          size="xl"
+        />
+        Medicine
+      </span>
+      <ul v-for="item,index in data.selected" :key="item.value" class="flex font-sans">
+        <li v-if="item.type=='Meds'" class="grid md:grid-cols-7 gap-2 space-y-2">
+                <div :class="[hist_flag ? 'col-span-10' :'col-span-2']" class="font-sans flex justify-start items-between pl-3 pt-1">
                   {{item.label}} 
                 </div>
-              <div class="flex justify-end items-between pr-6" >
-                <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_line(index)"/></button>
+                <Select :options="med_dosage" v-if="!hist_flag" v-model="item.additional_attr" variant="outline" placeholder="Dosage" />
+              <Select :options="med_duration" v-if="!hist_flag" v-model="item.additional_attr_2" variant="outline" placeholder="Duration" />
+              <FormControl class="col-span-2" v-if="!hist_flag" v-model="item.sp_attr" type="text" variant="outline" placeholder="More Information" />
+              <!-- <p class="col-span-2 font-serif font-light text-sm flex justify-end pt-1 items-between">{{ item.sp_attr }}</p> -->
+              <div class="flex justify-end items-between pr-6" v-if="!hist_flag">
+                <button ><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_line(index)"/></button>
               </div>
-            </span>
             </li>
-        </ul>
-    </template>
-</Dialog>
-<Dialog :options="{
-    title: 'Procedures',
-    size: '2xl'
-    }"
-    v-model="surDialogshown">
-    <template #body-content>
-        <ul class= "space-y-2">
-            <!-- <li v-for="(item,index) in data.selected" > 
-              <span v-if="item.type=='surg'" class="grid md:grid-cols-3 gap-2">
-                {{item.label}} 
-              <FormControl :type="'date'" v-model="item.additional_attr" placeholder="Date" />
-              <FormControl v-model="item.additional_attr_2" type="text" placeholder="Comments" /></span>
-            </li> -->
-            <li v-for="(item,index) in data.selected" class="gap-1 hover:bg-red-200/30 hover:underline" > 
-              <span v-if="item.type=='surg'" class="grid md:grid-cols-10 gap-2">
-                <div class="col-span-3 font-serif font-light text-sm flex justify-start items-between pl-3 pt-1">
-                  {{item.label}} 
-                </div>
-                <FormControl class="col-span-3" :type="'date'" v-model="item.additional_attr" placeholder="Date" />
-              <FormControl class="col-span-3" v-model="item.additional_attr_2" type="text" placeholder="Comments" />
-              <div class="flex justify-end items-between pr-6" >
-                <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_line(index)"/></button>
-              </div>
-            </span>
-            </li>
-        </ul>
-    </template>
-</Dialog>
-<Dialog :options="{
-    title: 'Medicine',
-    size: '3xl'
-    }"
-    v-model="medDialogshown">
-    <template #body-content>
-        <ul class= "space-y-2">
-            <!-- <li v-for="(item,index) in data.selected" > 
-              <span v-if="item.type=='Meds'" class="grid md:grid-cols-5 gap-2">
-                <p class="col-span-2">{{item.label}} </p>
-              <FormControl v-model="item.additional_attr" type="text" placeholder="Date" />
-              <Select :options="med_dosage" v-model="item.additional_attr" placeholder="Dosage" />
-              <Select :options="med_duration" v-model="item.additional_attr_2" placeholder="Duration" />
-              <p>{{ item.sp_attr }}</p>
-              </span>
-            </li> -->
-            <li v-for="(item,index) in data.selected" class="gap-1 hover:bg-yellow-100/60 hover:underline" > 
-              <span v-if="item.type=='Meds'" class="grid md:grid-cols-7 gap-2">
-                <div class="col-span-2 font-serif font-light text-sm flex justify-start items-between pl-3 pt-1">
-                  {{item.label}} 
-                </div>
-                <Select :options="med_dosage" v-model="item.additional_attr" placeholder="Dosage" />
-              <Select :options="med_duration" v-model="item.additional_attr_2" placeholder="Duration" />
-              <p class="col-span-2 font-serif font-light text-sm flex justify-end pt-1 items-between">{{ item.sp_attr }}</p>
-              <div class="flex justify-end items-between pr-6">
-                <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_line(index)"/></button>
-              </div>
-            </span>
-            </li>
-        </ul>
-    </template>
-</Dialog>
-<Dialog :options="{
-    title: 'History & More Information',
-    size: '3xl'
-    }"
-    v-model="moreinfoDialog">
-    <template #body-content>
-        <span class="grid md:grid-cols-2 gap-2 p-1 font-sans">
-            
-              <FormControl v-model="more_info.add_sym" type="textarea" placeholder="Further Description of Symptoms, Diagnosis & History" />
-              <FormControl v-model="more_info.add_advise" type="textarea" placeholder="Further Advice" />
-              <FormControl v-model="more_info.add_followup" type="number" placeholder="Follow Up (In Days)" />
-              <Autocomplete :options="referdr" v-model="more_info.add_referal" placeholder="Referred To"/>
-              <FormControl v-model="more_info.pvt_notes" type="textarea" placeholder="Your Private Notes" />
-              <div></div>
-              <div class="col-span-2">
-                Patient History
-              <Autocomplete :options="all_history" v-model="data.history" placeholder="Add History Here" :multiple="true"/>
-            </div>
-          </span>
-          <span>
-            <div class="pt-4">
-              <ul class= "space-y-2">
-              <li v-for="(item,index) in data.history" class="gap-2 hover:bg-teal-200/30 hover:underline" > 
-              <span class="grid md:grid-cols-5 gap-2">
-                <p class="font-serif font-light text-sm flex justify-start items-between pl-3 pt-1">{{item.history_type}}</p>
-                <p class="font-serif font-light text-sm flex justify-start items-between pt-1">{{item.label}}</p>
+          </ul>
+    </div>
+  </div>
+  <div>
+  <div v-if="appoints.length && sel_pat.details.name" class="py-2 m-1 flex items-center justify-between flex-col col-span-2 mt-4 px-3 shadow-md bg-teal-100/50 rounded-sm hover:bg-teal-200 transition-all">
+      <span class="font-mono font-bold underline decoration-teal-600 flex gap-4">Additional Information</span>
+      <div class="grid md:grid-cols-6 gap-2 font-sans pt-2" v-if="!hist_flag">
+            <FormControl class="col-span-2" label="Further Symptoms" variant="outline" v-model="more_info.add_sym" type="textarea" placeholder="Further Description of Symptoms, Diagnosis & History" />
+            <FormControl class="col-span-2" label="Further Advise" variant="outline" v-model="more_info.add_advise" type="textarea" placeholder="Further Advice" />
+            <FormControl v-model="more_info.add_followup" label="Follow-up (In days)" variant="outline" type="number" placeholder="Follow Up (In Days)" />
+            <FormControl type="autocomplete" :options="referdr" label="Referred To" v-model="more_info.add_referal" variant="outline" placeholder="Referred To"/>
+            <div></div> 
+      </div>
+    </div></div></div></div>
+    <div :class="[hist_flag ? 'col-span-7' :'col-span-2']" class=" transition-all duration-700 ease-linear mt-5 ml-2 mb-1 mr-1 p-3 flex gap-2 gap-x-5 font-sans shadow-md bg-gradient-to-r  from-gray-200/30 from-20% via-gray-200/10 via-60% to-gray-200/60 to-90% rounded-sm space-y-2 justify-between flex-col" 
+  v-if="appoints.length && sel_pat.details.name">
+    <span v-if="!hist_flag" class="flex flex-col gap-x-10 text-gray-700" >
+      <span class="font-mono font-bold underline decoration-grey-600 flex items-center justify-between gap-4">
+        <Button @click="hist_flag=true" :variant="'ghost'" theme="gray">
+          <FeatherIcon class="w-6 h-6 font-extrabold" name="chevrons-left"/>
+          <!-- <FeatherIcon class="w-4 h-4" name="edit-2"/> -->
+        </Button>
+        <p v-if="data.history.length">History Summary</p>
+        <p v-else>Expand to Add History or Pvt Notes</p>
+      </span>
+      <p v-for="(item) in data.history" class="gap-2">  
+              <p class="font-serif font-light text-sm pt-1">{{item.label}}</p>
+      </p>
+      <span v-if="dr_notes.length" class="gap-2 font-mono text-base font-bold underline decoration-grey-600 flex items-center justify-between">
+        Your Previous Pvt Notes
+      </span>
+      <p v-for="item in dr_notes" class="gap-2">
+        <p class="font-serif font-light text-sm pt-1">{{item}}</p>
+      </p>
+    </span>
+    <span class="flex flex-col gap-x-10 text-gray-900" v-else >
+    <span class="font-mono font-bold underline decoration-grey-600 grid grid-cols-6">
+      <div class="flex items-start justify-start">
+        <Button @click="hist_flag=false" :variant="'ghost'" theme="gray">
+          <FeatherIcon class="w-6 h-6 font-extrabold" name="chevrons-right"/>
+          <!-- <FeatherIcon class="w-4 h-4" name="edit-2"/> -->
+        </Button></div>
+        <div class="col-span-5 flex items-center justify-center">Detailed History</div>
+      </span>
+    <Tabs as="div"  
+      :tabs="[
+        {
+          label: 'History'
+        },
+        {
+          label: 'Surgery'
+        },
+        {
+          label: 'Medication'
+        },
+        {
+          label: 'Allergies'
+        },
+        {
+          label: 'Doctor\'s Notes',
+         // content: Patient_details.list.data[0].patient_details
+        },
+      ]">
+      <template #tab-panel="{ tab }">
+        <div class="p-2">
+          <div class="grid grid-cols-12 gap-2" v-if="tab.label!='Doctor\'s Notes'">
+            <div class="col-span-11" >
+          <Autocomplete v-if="tab.label!='Doctor\'s Notes'" :options="all_history" v-model="data.history" placeholder="Add History Here" :multiple="true"
+          class="block w-full rounded-full font-mono bg-teal-100 border-solid border border-teal-100 hover:bg-teal-200/90 transition-all " 
+          >
+          <template #prefix>
+          <FeatherIcon class="w-4 h-4" :class="[appoints[0].gender === 'Female' ? 'text-pink-700' :'text-blue-700']"  name="search"/>
+          </template>
+        </Autocomplete></div>    
+        <div><Button v-if="hist_flag"
+          @click="add_item.create_new=true"
+          class="rounded-full bg-gray-900"
+          :variant="'solid'"
+          :ref_for="true"
+          
+          size="sm"
+          label="Button"
+          :loading="false"
+          :loadingText="null"
+          :disabled="false"
+          :link="null"
+        >
+        <FeatherIcon class="w-6 h-6 text-white"  name="plus"/>
+        </Button></div></div>
+          <div v-if="tab.label=='History'" class="p-3">
+            <li v-for="(item,index) in data.history" class="gap-2 hover:bg-teal-200/30 hover:underline">
+              <div v-if="item.history_type=='PED'" class="grid md:grid-cols-4 gap-2">
+              <p class="font-serif font-light text-sm flex justify-start items-between pt-1">{{item.label}}</p>
               <FormControl class="font-serif font-light text-sm flex justify-start items-between pt-1" v-model="item.since" type="text" placeholder="Since" />
               <FormControl class="font-serif font-light text-sm flex justify-start items-between pt-1" v-model="item.comment" type="text" placeholder="Comments" />
               <div class="flex justify-end items-between pt-1 pr-6">
                 <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_Hist_line(index)"/></button>
               </div>
-            </span>
-            </li>
-          </ul>
             </div>
-          </span>
-    </template>
-    
-</Dialog>
+            <div v-else></div>
+            </li>
+          </div>
+          <div v-if="tab.label=='Surgery'" class="p-3">
+            <li v-for="(item) in data.history" class="gap-2 hover:bg-teal-200/30 hover:underline">
+              <div v-if="item.history_type=='Surgical History'" class="grid md:grid-cols-4 gap-2">
+              <p class="font-serif font-light text-sm flex justify-start items-between pt-1">{{item.label}}</p>
+              <FormControl class="font-serif font-light text-sm flex justify-start items-between pt-1" v-model="item.since" type="text" placeholder="Since" />
+              <FormControl class="font-serif font-light text-sm flex justify-start items-between pt-1" v-model="item.comment" type="text" placeholder="Comments" />
+              <div class="flex justify-end items-between pt-1 pr-6">
+                <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_Hist_line(index)"/></button>
+              </div>
+            </div>
+            <div v-else></div>
+            </li>
+          </div>
+          <div v-if="tab.label=='Medication'" class="p-3">
+            <li v-for="(item) in data.history" class="gap-2 hover:bg-teal-200/30 hover:underline">
+              <div v-if="item.history_type=='Medication'" class="grid md:grid-cols-4 gap-2">
+              <p class="font-serif font-light text-sm flex justify-start items-between pt-1">{{item.label}}</p>
+              <FormControl class="font-serif font-light text-sm flex justify-start items-between pt-1" v-model="item.since" type="text" placeholder="Since" />
+              <FormControl class="font-serif font-light text-sm flex justify-start items-between pt-1" v-model="item.comment" type="text" placeholder="Comments" />
+              <div class="flex justify-end items-between pt-1 pr-6">
+                <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_Hist_line(index)"/></button>
+              </div>
+            </div>
+            <div v-else></div>
+            </li>
+          </div>
+          <div v-if="tab.label=='Allergies'" class="p-3">
+            <li v-for="(item) in data.history" class="gap-2 hover:bg-teal-200/30 hover:underline">
+              <div v-if="item.history_type=='Allergy'" class="grid md:grid-cols-4 gap-2">
+              <p class="font-serif font-light text-sm flex justify-start items-between pt-1">{{item.label}}</p>
+              <FormControl class="font-serif font-light text-sm flex justify-start items-between pt-1" v-model="item.since" type="text" placeholder="Since" />
+              <FormControl class="font-serif font-light text-sm flex justify-start items-between pt-1" v-model="item.comment" type="text" placeholder="Comments" />
+              <div class="flex justify-end items-between pt-1 pr-6">
+                <button><FeatherIcon class="w-6 h-6 text-red-600" name="x" @click="clear_Hist_line(index)"/></button>
+              </div>
+            </div>
+            <div v-else></div>
+            </li>
+          </div>
+          
+          <div v-if="tab.label=='Doctor\'s Notes'" class="p-3">
+            <li v-for="item in dr_notes" class="p-1 hover:bg-teal-200/30">
+              {{item}}
+            </li>
+            <FormControl class="pt-2" v-if="tab.label=='Doctor\'s Notes'" v-model="more_info.pvt_notes" type="textarea" variant="outline" label="Add Notes" placeholder="Your Private Notes" />
+          </div>
+        </div>
+      </template>
+    </Tabs>
+    </span>
+  </div>
+</div>
+  <!-- PENDING- Extra Data eg follow up etc entry-->
+  
+<!-- ALL DIALOGS-->
 <Dialog v-model="submit_confirm">
   <template #body-title>
     <h3 class="font-semibold">Confirm Advise Submission</h3>
@@ -466,7 +491,8 @@
 </div>
 <div v-if="add_item.selected_new=='medicine'" class="grid grid-cols-4 gap-3">
 <FormControl v-model="add_item.medicine[0]" type="text" placeholder="Medicine Brand Name" />
-<Select :options="[{label:'Tablet',value:'Tablet',},{label:'Cream',value:'Cream',},{label:'Capsule',value:'Capsule',},{label:'Injection',value:'Injection',},{label:'Syrup',value:'Syrup',}]" 
+<Select :options="[{label:'Tablet',value:'Tablet',},{label:'Cream',value:'Cream',},{label:'Capsule',value:'Capsule',},{label:'Injection',value:'Injection',},{label:'Syrup',value:'Syrup',},
+{label:'Sachet',value:'Sachet',},{label:'Solution',value:'Solution',},{label:'Inhaler',value:'Inhaler',}]" 
 v-model="add_item.medicine[1]" placeholder="Dosage Form" />
 <Select :options="med_dosage" v-model="add_item.medicine[2]" placeholder="Dosage" />
 <Autocomplete :options="med_duration" v-model="add_item.medicine[3]" placeholder="Duration" />
@@ -494,12 +520,13 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
     </Button>
   </template>
 </Dialog>
+
 <!-- {{data.selected}} -->
 </template>
 
 <script setup>
     import { reactive, ref, computed, watch,inject,onMounted } from 'vue';
-    import { Badge, Button, FormControl, Autocomplete,Dialog,FeatherIcon,Select,TabButtons,Tabs } from 'frappe-ui';
+    import { Badge, Avatar,Tooltip, Button, FormControl, Autocomplete,Dialog,FeatherIcon,Select,TabButtons,Tabs } from 'frappe-ui';
     import { createListResource,createResource, ErrorMessage,DateTimePicker } from 'frappe-ui';
     import ItemCard from '@/component/ItemCard.vue';
     import {session,userRole} from '@/data/session';
@@ -530,6 +557,7 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
         add_referal:"",
         
     });
+    const ind_symptoms = ref([]);
     const add_item = reactive({
         create_new : false,
         selected_new: "symptoms",
@@ -542,6 +570,7 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
         allergy:[]
     });
     const referdr=ref([]);
+    let hist_flag=ref(false);
     const all_searches = ref([]);
     const all_history= ref([])
     const appoints = ref([]);
@@ -557,7 +586,9 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
     const patDialogshown = ref(false);
     const moreinfoDialog = ref(false);
     let submit_confirm = ref(false);
-    let create_msg= ref("")
+    let create_msg= ref("");
+    let hist_dict=ref("");
+    let dr_notes=ref([]);
     
     // Function to transform and add to all_searches
     const addToAllSearches = (label, description, type, image, additional_attr,additional_attr_2,sp_attr,added) => {
@@ -572,6 +603,19 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
         sp_attr,
         added
         });
+        if(type=="Complaint"){
+          ind_symptoms.value.push({
+        label,
+        value: label + (description ? "," + description : ""),
+        description: description || label,
+        image,
+        type,
+        additional_attr,
+        additional_attr_2,
+        sp_attr,
+        added
+        });
+        }
     };
     //to hold and update the selected syms, diag etc
     const categorizedItems = computed(() => {
@@ -597,6 +641,8 @@ v-model="add_item.medicine[1]" placeholder="Dosage Form" />
 watch(() => sel_pat.details,
 (details) => {
 appoints.value.splice(0);
+data.history.splice(0);
+dr_notes.value.splice(0);
 let appointment = createListResource({
 doctype: "Patient Appointment",
 fields: ["*"],
@@ -625,7 +671,7 @@ if(appoints.value.length){
 }
 }
 });
-Patient_details = createListResource({
+Patient_details.value = createListResource({
         doctype: "Patient",
         fields: ["*"],
         filters: {
@@ -633,8 +679,13 @@ Patient_details = createListResource({
         },
         pageLength: 1,
         auto: true,
-    }); 
-}
+        transform(data) {
+          pull_hist(data);
+        }  
+    });
+    console.log("I am in watch");
+    }
+  
 );
 
 onMounted(() => {
@@ -675,9 +726,12 @@ Patient_details = createListResource({
         },
         pageLength: 1,
         auto: true,
+        transform(data) {
+          pull_hist(data);
+        }
     }); 
+    console.log("I am in mounted");
 })
-
 
     // getting all the active symptoms-- more filters may be needed and check to see new records?
     const symptoms = createListResource({
@@ -1020,5 +1074,41 @@ Patient_details = createListResource({
     function clear_Hist_line(locater){
       data.history.splice(locater,1);
     }
-    
+function pull_hist(desk){   
+  if(desk[0].pat_hist){
+    let hist=desk[0].pat_hist.replaceAll(/'/g, '"');
+    let hist_str = hist.replaceAll('None', ' ');
+    let x= JSON.parse(hist_str);
+    //PED
+    let ped=x.ped;
+    for(let i = 0; i < ped.length; i++){
+      let u= ped[i].split(">>");
+      let pt = { "label": u[0], "description": u[0], "value": u[0] , "history_type": "PED","history_doctype":"Diagnosis", "since":u[1],"comment":u[2]};
+      data.history.push(pt);
+    }
+    let sur=x.surgery;
+    for(let i = 0; i < sur.length; i++){
+      let u= sur[i].split(">>");
+      let label= u[0].split("-");
+      let pt = { "label": label[0], "description": label[0], "value": u[0] , "history_type": "Surgical History", "history_doctype":"Clinical Procedure Template", "since":u[1],"comment":u[2]};
+      data.history.push(pt);
+    }
+    let med=x.medicine;
+    for(let i = 0; i < med.length; i++){
+      let u= med[i].split(">>");
+      let label= u[0].split("-");
+      let pt = { "label": label[0], "description": label[0], "value": u[0] , "history_type": "Medication","history_doctype":"OPD Medication","since":u[1],"comment":u[2]};
+      data.history.push(pt);
+    }
+    let all=x.allergy;
+    for(let i = 0; i < all.length; i++){
+      let u= all[i].split(">>");
+      let pt = { "label": u[0], "description": u[0], "value": u[0] , "history_type": "Allergy","history_doctype":"Patient Allergy", "since":u[1],"comment":u[2]};
+      data.history.push(pt);
+    }
+    }
+  if(desk[0].patient_details){   
+    dr_notes.value=desk[0].patient_details.split("|");
+  }
+  }
 </script>

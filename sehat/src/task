@@ -1,0 +1,13 @@
+Task:
+1. rewrite appointment library and handling
+2. rewrite vitals library and handling
+3. rewrite patient library and handling
+4. rewrite database update method using frappe ui methods rather than api
+5. patient history correction python
+6. clean up divisions and folder mapping
+7. make sure all queries are singular rather than everyone calling their own
+8. Fix Patient Sidebar
+9. Put all Info Icons Together
+10. Maybe pull the patient history out and put it in consultation instead
+11. login and ui showing
+12. mobile view
