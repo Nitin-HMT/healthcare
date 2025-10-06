@@ -58,7 +58,7 @@
     <div class="p-4 flex flex-col items-start space-y-2">
       <SidebarUserPopover :collapsed="ui.isSidebarCollapsed" />
     </div>
-    <div class="p-4 flex flex-col items-end space-y-2">
+    <div class="mb-12 p-4 flex items-end space-y-2">
       <button
         @click="ui.toggleSidebar"
         class="text-gray-500 hover:text-teal-600 transition"

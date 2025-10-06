@@ -1,8 +1,8 @@
 <template>
  <aside v-show="props.Request_from=='opd_consult'"
-   class="hidden divide-y divide-gray-300 p-1 md:flex flex-col first-line:text-base fixed h-screen inset-y-0 top-0 right-0 bg-white drop-shadow-2xl transition-all duration-300 ease-in-out pt-16"  
+   class="hidden divide-gray-300 p-1 md:flex flex-col first-line:text-base fixed h-screen inset-y-0 top-0 right-0 bg-white drop-shadow-2xl transition-all duration-300 ease-in-out pt-16"  
     :class="patientPanel_flag ? 'w-16' : 'w-64'">
-
+    
 <div class="divide-y divide-gray-300" v-if="!patientPanel_flag && patient.doc">
     <div class="p-4 flex flex-col items-center justify-center space-x-2">
       <div class="rounded-full w-20 h-20 border"
@@ -53,30 +53,27 @@
     class="rounded-full bg-white border border-teal-800 text-teal-800">
     Update Patient</Button></span>
     </div>
-    
-    <aside class="absolute top-20 -left-8 flex flex-col">
-      <Button @click="med_hist_dialog=true" class="h-auto mt-16 -mr-1 bg-white hover:bg-gradient-to-tl from-white via-white to-purple-200 -translate-y-1/2 px-2 py-3 rounded-bl-sm rounded-tl-2xl rounded-none"><span class="leading-none [writing-mode:vertical-rl] rotate-180">Medical History</span></Button>
-      <Button @click="pay_hit_dialog=true" class="h-auto relative top-2 -mr-1 mb-2 bg-white hover:bg-gradient-to-tl from-white via-white to-purple-200 -translate-y-1/2 px-2 py-3 rounded-bl-sm rounded-tl-2xl rounded-none"><span class="leading-none [writing-mode:vertical-rl] rotate-180">Payment History</span></Button>
-      <Button v-if="!patientPanel_flag" @click="patientPanel_flag=true" class="h-auto hover:bg-gradient-to-l from-white via-white to-purple-200 relative top-32 bg-white hover:bg-white -m-1 -translate-y-1/2 px-2 py-10 rounded-l-full"><span class="hover:text-gray-900 leading-none [writing-mode:vertical-rl]"><ChevronsRight/></span></Button>
-    </aside>
   </div>
   <div v-else-if="patientPanel_flag && patient.doc">
-    <div class="leading-none [writing-mode:vertical-rl] p-4 flex flex-grow gap-3 items-center justify-between">
+    <div class="leading-none [writing-mode:vertical-rl] p-2 text-sm flex flex-grow gap-2 items-center justify-between">
       <div class="bg-white rounded-full w-8 h-8 border">
        <User class=" p-2 w-8 h-8" :class="[patient.doc.sex === 'Female' ? 'text-pink-600/80' :'text-blue-700']"/>
       </div>
       {{ patient.doc.patient_name }}, {{patient.doc.aged}}yrs, {{ patient.doc.sex }}
       <div class="text-red-800">{{ patient.doc.blood_group }}</div> 
-     <div class="text-sm flex"><Phone class="w-3 h-3 m-1 rotate-90"/>{{ patient.doc.mobile }}</div>
-    <div class="text-sm flex text-white bg-orange-900 p-1 font-semibold rounded-full" v-if="patient.doc.emergency"><Siren class="w-4 h-4 mb-1 rotate-90"/> {{ patient.doc.emergency }}</div>
-    </div>
-    <aside class="absolute top-20 -left-8 flex flex-col">
-      <Button @click="med_hist_dialog=true" class="h-auto mt-16 -mr-1 bg-white hover:bg-gradient-to-tl from-white via-white to-purple-200 -translate-y-1/2 px-2 py-3 rounded-bl-sm rounded-tl-2xl rounded-none"><span class="leading-none [writing-mode:vertical-rl] rotate-180">Medical History</span></Button>
-      <Button @click="pay_hit_dialog=true" class="h-auto relative top-2 -mr-1 mb-2 bg-white hover:bg-gradient-to-tl from-white via-white to-purple-200 -translate-y-1/2 px-2 py-3 rounded-bl-sm rounded-tl-2xl rounded-none"><span class="leading-none [writing-mode:vertical-rl] rotate-180">Payment History</span></Button>
-      <Button v-if="patientPanel_flag" @click="patientPanel_flag=false" class="h-auto hover:bg-gradient-to-l from-white via-white to-purple-200 relative top-32 bg-white hover:bg-white -m-1 -translate-y-1/2 px-2 py-10 rounded-l-full"><span class="hover:text-gray-900 leading-none [writing-mode:vertical-rl]"><ChevronsLeft/></span></Button>
-      
-    </aside>
+     <div class="text-xs flex"><Phone class="w-3 h-3 m-1 rotate-90"/>{{ patient.doc.mobile }}</div>
+    <div class="text-xs flex text-white bg-orange-900 p-1 font-semibold rounded-full" v-if="patient.doc.emergency"><Siren class="w-4 h-4 mb-1 rotate-90"/> {{ patient.doc.emergency }}</div>
   </div>
+  </div>
+<div class="p-4 flex items-end space-y-2">
+      <button
+        @click="patientPanel_flag= !patientPanel_flag"
+        class="text-teal-700 hover:text-teal-600 transition"
+      >
+        <ChevronsRight class="w-6 h-6" v-if="!patientPanel_flag"/>
+        <ChevronsLeft class="w-6 h-6 " v-if="patientPanel_flag"/>
+      </button>
+    </div>
   </aside>
   <div v-show="props.Request_from=='pat_dash'">
 <div class="grid grid-cols-12 mt-2"v-if="patient.doc">
@@ -148,22 +145,6 @@ You can use symbols to force match (optional):
       </Button>
     </template>
   </Dialog>
-    <Dialog v-model="med_hist_dialog" :options="{size: '4xl'}">
-    <template #body-title>
-      <h3>Medical History</h3>
-    </template>
-    <template #body-content>
-      <MedicalHistory :Pat_id="props.Pat_id" :App_id= "props.App_id" :Request_from= "props.Request_from"/>
-    </template>  
-  </Dialog>
-<Dialog v-model="pay_hit_dialog" :options="{size: '4xl'}">
-    <template #body-title>
-      <h3>Invoice History</h3>
-    </template>
-    <template #body-content>
-      <PaymentHistory :Pat_id="props.Pat_id" :App_id= "props.App_id" :Request_from= "props.Request_from"/>
-    </template>  
-  </Dialog>
   {{error}}
 </template>
 <script setup>
@@ -171,8 +152,6 @@ import { ref,watch,reactive } from 'vue';
 import { User,ChevronsLeft,ChevronsRight,Phone,Siren,Pencil,SquarePlus } from 'lucide-vue-next';
 import {Badge, FormControl,Button,Rating, createDocumentResource,Dialog,Textarea} from 'frappe-ui';
 import { direct_out } from '@/composables/useInteractionNotesDirect.js';
-import MedicalHistory from '@/component/shared/MedicalHistory.vue';
-import PaymentHistory from '@/component/shared/PaymentHistory.vue';
 import { patient_panel } from '@/composables/usePatientStore.js';
 import dayjs from 'dayjs';
 import { createLexicon } from '@/composables/useCreateLexicon.js';

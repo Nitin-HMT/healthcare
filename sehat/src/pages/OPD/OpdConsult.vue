@@ -1,12 +1,15 @@
 <template>
    <!-- {{ route.name }} -->
   <div class="hidden md:flex pt-14">
-    <div class="flex-grow" :class="patientPanel_flag ? 'pr-16' : 'pr-64'">
+    <!--Side Bar with Medical History, Payment History-->
+    <PatientPanel :Pat_id="pat_id" :App_id= "app_id" Collapse= true :Request_from= "route.name"/>
+    <div class="flex-grow" :class="patientPanel_flag ? 'pr-10' : 'pr-60'">
       <!--Top Panel, For Vitals and Labs-->
       <div class="grid grid-cols-2 pr-9 gap-x-1 transition-all duration-300 ease-in-out">
         <VitalsPanel :Pat_id="pat_id" :App_id= "app_id" Collapse= true :Request_from= "route.name" v-if="vitals_flag" class="transition-all duration-300 ease-in-out" />
         <LabSummary :Pat_id="pat_id" :App_id= "app_id" Collapse= true :Request_from= "route.name" v-if="vitals_flag" class="transition-all duration-300 ease-in-out"/>
       </div>
+      <OPDButtons :Pat_id="pat_id" :App_id= "app_id" Collapse= true :Request_from= "route.name"/>
       <Interaction :Pat_id="pat_id" :App_id= "app_id" Collapse= true :Request_from= "route.name" class="pr-9 gap-x-1"/>
   <!--More Information Panel- for OPD Payments, Refferals and App Id-->
       <div class="flex flex-row flex-grow gap-3 border p-1 m-1 mt-2 mr-9 py-4 text-sm bg-white rounded-md drop-shadow-lg">
@@ -33,8 +36,6 @@
         <div class="text-xs text-gray-600 flex justify-self-end items-self-end">{{ app_id }}</div>
       </div>
     </div>
-    <!--Side Bar with Medical History, Payment History-->
-    <PatientPanel :Pat_id="pat_id" :App_id= "app_id" Collapse= true :Request_from= "route.name"/>
   </div>
   <!-- Dialog to make or alter payments-->
   <Dialog v-model="pay_flag">
@@ -53,6 +54,7 @@ import PatientPanel from '@/component/ui/PatientPanel.vue';
 import VitalsPanel from '@/component/shared/VitalsDisplay.vue';
 import Interaction from '@/component/shared/PatientInteraction.vue';
 import LabSummary from '@/component/shared/LabResultsSummary.vue';
+import OPDButtons from '@/component/opd/dashboard/OpdButtons.vue';
 import {Badge, Dialog} from 'frappe-ui';
 import { patient_panel } from '@/composables/usePatientStore.js';
 import { useAppointmentStore } from '@/stores/appointmentStore.js'
