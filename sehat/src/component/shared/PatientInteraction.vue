@@ -1,5 +1,5 @@
 <template>
-<div class="flex-grow border p-1.5 m-1 mt-2 mr-9 py-4 text-sm bg-white rounded-md drop-shadow-lg">
+<div class="flex-grow border p-1.5 m-1 mt-2 py-4 text-sm bg-white rounded-md drop-shadow-lg">
     <div class="grid grid-cols-2 gap-2" v-if="!review">
         <div class="col-span-1 space-y-2">
           <div class="text-md font-semibold">Impression & Advise</div>

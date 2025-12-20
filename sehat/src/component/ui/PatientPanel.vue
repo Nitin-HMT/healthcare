@@ -1,5 +1,5 @@
 <template>
- <aside v-show="props.Request_from=='opd_consult'"
+ <aside v-show="props.Request_from=='opd_consult7'"
    class="hidden divide-gray-300 p-1 md:flex flex-col first-line:text-base fixed h-screen inset-y-0 top-0 right-0 bg-white drop-shadow-2xl transition-all duration-300 ease-in-out pt-16"  
     :class="patientPanel_flag ? 'w-16' : 'w-64'">
     
@@ -75,16 +75,17 @@
       </button>
     </div>
   </aside>
-  <div v-show="props.Request_from=='pat_dash'">
+  <div v-show="props.Request_from=='pat_dash' || props.Request_from=='opd_consult'">
 <div class="grid grid-cols-12 mt-2"v-if="patient.doc">
-    <div class="flex flex-col items-end justify-start space-x-2 p-2">
-      <div class="bg-inherit rounded-full w-12 h-12 border">
+    <div class="flex flex-col items-center justify-start space-x-2 p-2">
+      <div class="bg-white rounded-full w-12 h-12 border">
        <User class="p-2 w-12 h-12" :class="[patient.doc.sex === 'Female' ? 'text-pink-600/80' :'text-blue-700']"/>
       </div>
+      <div class="text-xs text-gray-400 flex flex-row items-center justify-center"><i>{{ Pat_id }}</i></div> 
     </div>
     
     <!-- Middle: Navigation -->
-    <div class="col-span-10 pt-3 flex flex-grow items-center justify-start content-around text-gray-900 bg-inherit mx-1 p-1 text-lg space-y-1">
+    <div class="col-span-4 pt-3 flex flex-grow items-center justify-start content-around text-gray-900 bg-inherit mx-1 p-1 text-lg space-y-1">
       <div>
           <div class="flex flex-grow pb-1">{{ patient.doc.patient_name }}, {{patient.doc.aged}}yrs, {{ patient.doc.sex }}
             <div class="text-red-800 pl-2">{{ patient.doc.blood_group }}</div>
@@ -96,17 +97,61 @@
               <Siren class="w-4 h-4 mr-1"/>{{ patient.doc.emergency }}
             </div>
           </div>
-          <div class="text-xs text-gray-400 flex flex-row px-1 items-end justify-end"><i>{{ Pat_id }}</i></div> 
+          
       </div>   
     </div>
-    <div></div>
+    <div v-show="props.Request_from=='opd_consult'" class="p-1 pb-0.5 col-span-4 items-center justify-center space-x-1 space-y-1.5 capitalize">
+      <div class="text-sm text-gray-600 flex flex-row px-1 items-center justify-start">
+        <Button class="flex items-end justify-end bg-transparent" @click="pat_hit_dialog=true" >
+          <Pencil v-if="result_grouped" class="h-4 text-gray-600"/>
+          <HeartPlus v-else class="h-5 text-gray-600"/>
+        </Button>
+        Chronic/Past Conditions
+      </div>      
+      <div v-if="result_grouped" @click="pat_hit_dialog=true">
+            <span v-for="(item,index) in result_grouped.Allergy"  class="space-x-1">
+              <Badge :variant="'outline'" theme="red" size="sm" v-if="item.Item && !item.new">{{ item.Item[1] }} 
+                <div v-if="item.Qualifier && item.Qualifier[0]">({{item.Qualifier[0].comments}})</div>
+              </Badge>
+          </span>
+            <span v-for="(item,index) in result_grouped.Diagnosis" class="space-x-1">
+              <Badge :variant="'outline'" theme="orange" size="sm" v-if="item.Item && !item.new">{{ item.Item[1] }}
+                <div v-if="item.Qualifier && item.Qualifier[0]">({{item.Qualifier[0].comments}})</div>
+              </Badge>
+          </span>
+            <span v-for="(item,index) in result_grouped.surg" class="space-x-1">
+              <Badge :variant="'outline'" theme="green" size="sm" v-if="item.Item && !item.new">{{ item.Item[2] }}
+                <div v-if="item.Qualifier && item.Qualifier[0]">({{item.Qualifier[0].comments}})</div>
+              </Badge>
+          </span>
+          <span v-for="(item,index) in result_grouped.Meds" class="space-x-1">
+              <Badge :variant="'outline'" theme="blue" size="sm" v-if="item.Item && !item.new" class="flex flex-wrap">{{ item.Item[7]}}<!--({{  (item.Item[3]) }})--></Badge>
+          </span>
+        </div>
+    </div>
+    <div v-show="props.Request_from=='opd_consult'" class="p-1 pb-0.5 col-span-3 items-center justify-center space-x-1 space-y-1.5 capitalize">
+      <div class="text-sm text-gray-600 flex flex-row px-1 items-center justify-start">
+        <Button class="flex items-end justify-end bg-transparent" @click="pat_hit_dialog=true" >
+          <Pencil v-if="result_grouped" class="h-4 text-gray-600"/>
+          <MessageCirclePlus v-else class="h-5 text-gray-600"/>
+        </Button>
+        Pvt Notes
+      </div>      
+      <div class="text-sm text-gray-700 flex flex-row px-1 items-center justify-start">
+        {{ pvtNotes }}
+        </div>
+    </div>
+          
+    
   </div>
   </div>
+
 <Dialog v-model="pat_hit_dialog" :options="{size: '2xl'}">
     <template #body-title>
-      <h3>Patient History</h3>
+      <h3>Patient History & Notes</h3>
     </template>
     <template #body-content>
+      <div class="grid grid-cols-2 gap-1">
       <div class="flex flex-col gap-3" v-show="!history_flag">
         <Textarea v-model="notes" label="Patient History (Hx)" 
         placeholder=
@@ -120,6 +165,10 @@ You can use symbols to force match (optional):
 ! Allergies
 "" Descriptive Comments' class="h-40 rounded-lg text-sm mb-6"
 />
+      </div>
+      <div>
+        <Rating v-model="rating" v-show="false"/>
+      <Textarea v-model="pvtNotes" label="Pvt Notes" placeholder='Your Pvt Notes' class="h-40 rounded-lg text-sm mb-6"/>
       </div>
       <div>
         <div v-if="result_grouped && (result_grouped.Symptoms ||result_grouped.labs)"
@@ -137,19 +186,24 @@ You can use symbols to force match (optional):
           <Button v-if="history_flag" @click="history_flag=false" variant="solid">Back</Button>
         </div>
       </div>
+      <span class="flex flex-row item-center justify-center mt-3" v-show="!history_flag">
+    <Button @click="update_patient();" :loading="patient.get.loading" 
+    class="rounded-full bg-white border border-teal-800 text-teal-800">
+    Update Patient</Button></span>
+    </div>
     </template>
-    <template #actions>
+    <!-- <template #actions>
       <Button @click="update_patient();" :loading="patient.get.loading"
       class="rounded-full bg-white border border-teal-800 text-teal-800" v-show="!history_flag" >
         Confirm
       </Button>
-    </template>
+    </template> -->
   </Dialog>
   {{error}}
 </template>
 <script setup>
 import { ref,watch,reactive } from 'vue';
-import { User,ChevronsLeft,ChevronsRight,Phone,Siren,Pencil,SquarePlus } from 'lucide-vue-next';
+import { User,ChevronsLeft,ChevronsRight,Phone,Siren,Pencil,HeartPlus,MessageCirclePlus } from 'lucide-vue-next';
 import {Badge, FormControl,Button,Rating, createDocumentResource,Dialog,Textarea} from 'frappe-ui';
 import { direct_out } from '@/composables/useInteractionNotesDirect.js';
 import { patient_panel } from '@/composables/usePatientStore.js';
@@ -230,7 +284,8 @@ let res=result_grouped.value
     }
 if(!flag_save){
 patient.setValue.submit({
-    pat_hist: notes.value,
+    pat_hist: notes.value.replace(/(\r\n|\n|\r|;\n)/g, ";\n"),
+    //originalString.replace(/(\r\n|\n|\r)/g, ", ");
     history_updated_on: hist_Date.value,
     rating: rating.value/5,
     patient_details:pvtNotes.value

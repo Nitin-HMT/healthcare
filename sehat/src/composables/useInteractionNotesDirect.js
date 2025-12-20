@@ -7,10 +7,13 @@ const library = useinteractionLibraryStore();
 //({Diplay:step_2[i],Functional:step_2[i],Category:"Unknown",Item:"",
 // Qualifier:[],Unused:[],Symbol:"",Original:step_2[i],start:0,end:0,tokenStart:0,tokenEnd:0})
 export function direct_out() {
+
     const result= ref([]);
     const result_grouped =ref();
     const comments =ref("");
     const stop_submit=ref(false);
+
+    
     function group_meds(meds_lib=[],sel_mode,med){
         for(let i=0;i<meds_lib.length;i++){
             if(meds_lib[i].d_form==sel_mode && meds_lib[i].m_brand==med){
@@ -26,14 +29,45 @@ export function direct_out() {
         // return accumulator;
         // }, {}));
     }
-
+    function new_med_qualifier(key,pos,operator){
+        let dosage = library.med_dosage.get(key);
+        let check=key.replace(/[s]/g,"").replace(/[^a-zA-Z0-9]/g,"");
+        let duration = library.med_duration.get(check);
+        if(result.value[pos].Qualifier.length){
+            if(dosage){
+                result.value[pos].Qualifier[0].dosage=dosage
+                result.value[pos].Functional=result.value[pos].Functional.replace(operator, '').trim().replace(/[ \t]+/g," ")
+            }
+            if(duration){
+                result.value[pos].Qualifier[0].period=duration
+                result.value[pos].Functional=result.value[pos].Functional.replace(operator, '').trim().replace(/[ \t]+/g," ")
+            }
+        }else{
+            if(dosage){
+                result.value[pos].Qualifier=[];
+                result.value[pos].Qualifier.push({dosage:dosage})
+                result.value[pos].Functional=result.value[pos].Functional.replace(operator, '').trim().replace(/[ \t]+/g," ")
+            }
+            if(duration){
+                result.value[pos].Qualifier=[];
+                result.value[pos].Qualifier.push({ period: duration})
+                result.value[pos].Functional=result.value[pos].Functional.replace(operator, '').trim().replace(/[ \t]+/g," ")
+            }
+        }
+        //if initialised, just push on the 0 position the dosage or duration as required
+        // if not then initialise and push
+    }
 
     function normalizeinput(raw){
             let newString=raw;
-            const free_text= raw.match(/"(.*?)"/);
+            let free_text= raw.match(/"(.*?)"/g);
             if(free_text){
-                comments.value=free_text[1]
-                newString = raw.replace('"'+comments.value+'"', '');
+                free_text= free_text.map(item => item.replace(/"/g, ''));
+                for(let x=0;x<free_text.length;x++){
+                    comments.value=comments.value+free_text[x]+";\n"
+                    newString = newString.replace('"'+free_text[x]+'"', '');
+                }
+                
             }
             const step_1=newString.trim().replace(/\r\n?/g, "\n").replace(/\u2028|\u2029/g, "\n").replace(/[ \t]+/g," ").replace(/([@#%^$;,&*!])\1+/g,"$1").toLowerCase();
             const step_2=(step_1.split(/[;,\n]+/).map(part => part.trim()).filter(Boolean));
@@ -50,6 +84,7 @@ export function direct_out() {
                     }
                 }
             }
+            
             if(step_3a.length>0){
             for (let i = 0; i < step_3a.length; i++){
                 step_2.push(step_3a[i]);
@@ -108,6 +143,7 @@ export function direct_out() {
         return result.value;
         }
         function check_med_form(clean_phrase){
+
             const keysIterator = library.dosage_form.keys();
             const form_array = Array.from(keysIterator);
             //console.log(form_array);
@@ -134,15 +170,16 @@ export function direct_out() {
            //     cleanedSpan= rawSpan
             }
             if(full_med_form){
-                text.Display=full_med_form+" "+cleanedText;
+                text.Display=cleanedText;
                 text.Qualifier.splice();
                 text.Qualifier.push({medicine_form:full_med_form})
+                //text.Item=["Meds",cleanedText,full_med_form]
             }else{
                 text.Display=cleanedText;
             }
             text.Functional=cleanedText;
             text.Category=category;
-            
+           // console.log(text.Item)
             return text
         })
         return result.value;
@@ -162,7 +199,7 @@ export function direct_out() {
             const re = /[A-Za-z0-9%+./-]+/g;
             let m;
             while ((m = re.exec(phrase))!==null){
-                tokens.push({text:m[0], start:m.index, end: m.index + m[0].length})
+                tokens.push({text:m[0].replace(/[^a-zA-Z0-9]/g, ""), start:m.index, end: m.index + m[0].length})
             }
             //split each input of doctor on non word characters, keeping letters/digits/percent signs etc, will change as needed may be add ()
             return tokens;
@@ -170,6 +207,7 @@ export function direct_out() {
         function greedyMatch(phrase,maxGram=10){
             const pos =phrase.pos;
             const tokens = tokenize(phrase.Functional);
+            //console.log(tokens);
             const covered = Array(tokens.length).fill(false);
             let i=0;
             while (i<tokens.length){
@@ -179,7 +217,9 @@ export function direct_out() {
                 let entries=[];
                 //try the longest n-gram first
                 for (let n = Math.min(maxGram,tokens.length-i);n>=1;n--){
-                    const key =tokens.slice(i,i + n).map(t=>t.text.toLowerCase()).join(" ");
+                    const key =tokens.slice(i,i + n).map(t=>t.text.toLowerCase()).join("");
+                    const start_token =tokens.slice(i,i + n).map(t=>t.start)
+                    const end_token =tokens.slice(i,i + n).map(t=>t.end)
                     //console.log(i)
                     switch (phrase.Category) {
                         case "Symptoms":
@@ -190,7 +230,12 @@ export function direct_out() {
                                 let d_sel= phrase.Qualifier[0].medicine_form.trim().toLowerCase();
                                 entries = group_meds(library.temp_form_based_meds,d_sel,key);
                             }else{
-                            entries = library.meds_map.get(key)}
+                            entries = library.meds_map.get(key)
+                            }
+                            if(!entries){
+                                let operator=phrase.Display.slice(Math.min(...start_token), Math.max(...end_token))
+                                new_med_qualifier(key,pos,operator)
+                            }
                             break;
                         case "labs":
                             entries = library.lab_map.get(key)
@@ -226,7 +271,7 @@ export function direct_out() {
                     result.value[pos].Item=found.entry
                     result.value[pos].tokenStart=startTok
                     result.value[pos].tokenEnd=endTok
-                    result.value[pos].Display=tokens.slice(startTok,endTok +1).map(t =>t.text).join(" ")
+                    result.value[pos].Display=tokens.slice(startTok,endTok +1).map(t =>t.text).join("")
                     result.value[pos].Unused=leftovers
                     result.value[pos].new=false
                     // this may be pulled out to a separate function to pull off fuzzy matching
@@ -345,30 +390,43 @@ export function direct_out() {
         
         }
         function med_qualifier(pos,found,phrase,leftovers){
+            // console.log(found)
+            // console.log(pos)
+            // console.log(leftovers)
             //first getting default qualifiers and assigning them to display
             let disp = result.value[pos].Display;
             let active_ing= found.entry[3]
             let duration=found.entry[4]
             let dosage=found.entry[5]
             let sp_inst=found.entry[6]
+            let med_form=found.entry[2]
             let full_text=leftovers.map(t => t.text).join(" ");
             const ngrams=buildLeftovers(leftovers)
             for (let i =0; i<ngrams.length;i++){
+               // console.log("i am hit"+ngrams[i]+" xsnxkl")
+                //console.log(result.value[pos].Qualifier)
                 let check=ngrams[i].replace(/[s]/g,"");
-                if(library.med_duration.get(check)){
-                duration = library.med_duration.get(check)
+                let check1=check.replace(/[^a-zA-Z0-9]/g,"");
+                if(library.med_duration.get(check1)){
+                duration = library.med_duration.get(check1)
                 full_text=full_text.replace(ngrams[i],"").trim().replace(/[ \t]+/g," ")
             }
                 
-                if(library.med_dosage.get(ngrams[i])){
+                if(library.med_dosage.get(ngrams[i].replace(/[ \t]+/g,""))){
                     //console.log(check)
-                dosage = library.med_dosage.get(ngrams[i])
+                dosage = library.med_dosage.get(ngrams[i].replace(/[ \t]+/g,""))
                 full_text=full_text.replace(ngrams[i],"").trim().replace(/[ \t]+/g," ")
             }
+            if(library.dosage_form.get(ngrams[i])){
+                    //console.log(check)
+                med_form = library.dosage_form.get(ngrams[i])
+                full_text=full_text.replace(ngrams[i],"").trim().replace(/[ \t]+/g," ")
+            }
+            
             } 
-            result.value[pos].Display=found.entry[2] +" "+ disp+"("+(active_ing?active_ing+" ,":"")+dosage+" ,"+duration+" ,"+(sp_inst?full_text+"; "+sp_inst:full_text)+")";
-            result.value[pos].Qualifier.splice();
-            result.value[pos].Qualifier.push({medicine_form:found.entry[2], 
+            result.value[pos].Display=med_form +" "+ disp+"("+(active_ing?active_ing+" ,":"")+dosage+" ,"+duration+" ,"+(sp_inst?full_text+"; "+sp_inst:full_text)+")";
+            result.value[pos].Qualifier=[];
+            result.value[pos].Qualifier.push({medicine_form:med_form, 
                             dosage: dosage, 
                             period: duration,
                             comments: (full_text)
@@ -390,7 +448,7 @@ export function direct_out() {
         }
         // if greedy match returns unknown- FUZZY MATCHING AND PHONETIC MATCHING (not for medicine) -- V2 development cycle
         for (const i of result.value){
-            if(i.Category=="Unknown" ||i.new ){
+            if( i.new ){
                 i.Item=[i.Category,i.Functional]
                 stop_submit.value=true
                // console.log(i.Item)

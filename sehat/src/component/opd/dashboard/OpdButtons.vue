@@ -1,11 +1,11 @@
 <template>
 <div class="space-x-2 -mb-2 flex flex-grow justify-end items-end ml-6 pr-12 mt-1.5">
-<Button @click="med_hist_dialog=true" class="bg-white text-xs hover:bg-gradient-to-t from-white via-white to-purple-200 rounded-t-xl rounded-none"><span>Medical History</span></Button>
-<Button @click="pay_hit_dialog=true" class="bg-white text-xs  hover:bg-gradient-to-t from-white via-white to-purple-200  rounded-t-xl rounded-none"><span>Payment History</span></Button>
-<Button @click="vital_dialog=true" class="bg-white text-xs hover:bg-gradient-to-t from-white via-white to-purple-200  rounded-t-xl rounded-none"><span>Vitals History</span></Button>
-<Button @click="lab_dialog=true;create_new=false" class="bg-white text-xs hover:bg-gradient-to-t from-white via-white to-purple-200  rounded-t-xl rounded-none"><span>Lab History</span></Button>
-<Button @click="vitalsqueue(app.get(props.App_id))" class="bg-white text-xs hover:bg-gradient-to-t from-white via-white to-purple-200  rounded-t-xl rounded-none"><span>+ Vitals</span></Button>
-<Button @click="lab_dialog=true;create_new=true" class="bg-white text-xs hover:bg-gradient-to-t from-white via-white to-purple-200  rounded-t-xl rounded-none"><span>+ Labs</span></Button>
+<Button @click="med_hist_dialog=true" class="bg-teal-50 text-xs hover:bg-gradient-to-t from-white via-white to-teal-200 rounded-t-xl rounded-none"><span>Medical History</span></Button>
+<Button @click="pay_hit_dialog=true" class="bg-teal-50 text-xs  hover:bg-gradient-to-t from-white via-white to-teal-200  rounded-t-xl rounded-none"><span>Payment History</span></Button>
+<Button @click="vital_dialog=true" class="bg-teal-50 text-xs hover:bg-gradient-to-t from-white via-white to-teal-200  rounded-t-xl rounded-none"><span>Vitals History</span></Button>
+<Button @click="lab_dialog=true;create_new=false" class="bg-teal-50 text-xs hover:bg-gradient-to-t from-white via-white to-teal-200  rounded-t-xl rounded-none"><span>Lab History</span></Button>
+<Button @click="vitalsqueue(app.get(props.App_id))" class="bg-teal-50 text-xs hover:bg-gradient-to-t from-white via-white to-teal-200  rounded-t-xl rounded-none"><span>+ Vitals</span></Button>
+<Button @click="lab_dialog=true;create_new=true" class="bg-teal-50 text-xs hover:bg-gradient-to-t from-white via-white to-teal-200  rounded-t-xl rounded-none"><span>+ Labs</span></Button>
 </div>
   
 

@@ -1,6 +1,6 @@
 <template>
 <div class="transition-all duration-300 ease-in-out">
-  <div v-if="vitals_flag">
+  <div v-if="false">
   <div v-if="vitals_1.data && vitals_1.data.length" class="flex-grow p-1.5 mt-2 pt-2  font-sans text-sm text-gray-900 font-bold leading-5 tracking-wide bg-white rounded-md capitalize drop-shadow-sm border">
   Vitals (Last 12 Hours):
   <div v-for="(item,index) in vitals_1.data" class="font-normal text-base tracking-wide flex flex-wrap p-1 gap-1">

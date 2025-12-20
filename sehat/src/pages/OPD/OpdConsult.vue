@@ -1,18 +1,21 @@
 <template>
    <!-- {{ route.name }} -->
-  <div class="hidden md:flex pt-14">
-    <!--Side Bar with Medical History, Payment History-->
-    <PatientPanel :Pat_id="pat_id" :App_id= "app_id" Collapse= true :Request_from= "route.name"/>
-    <div class="flex-grow" :class="patientPanel_flag ? 'pr-10' : 'pr-60'">
+  <div class="hidden md:flex pt-14 flex-grow">
+    <!--Side Bar with Medical History, Payment History-->    
+    <div class="flex-grow m-2">
+      <div class="bg-white rounded-md drop-shadow-md">
+        <div class="bg-teal-50 rounded-t-md drop-shadow-sm">
+      <PatientPanel :Pat_id="pat_id" :Request_from= "route.name" class="mx-3"/></div>
+      
       <!--Top Panel, For Vitals and Labs-->
-      <div class="grid grid-cols-2 pr-9 gap-x-1 transition-all duration-300 ease-in-out">
+      <!-- <div class="grid grid-cols-2 gap-x-0.5 -mt-1 transition-all duration-300 ease-in-out">
         <VitalsPanel :Pat_id="pat_id" :App_id= "app_id" Collapse= true :Request_from= "route.name" v-if="vitals_flag" class="transition-all duration-300 ease-in-out" />
         <LabSummary :Pat_id="pat_id" :App_id= "app_id" Collapse= true :Request_from= "route.name" v-if="vitals_flag" class="transition-all duration-300 ease-in-out"/>
-      </div>
-      <OPDButtons :Pat_id="pat_id" :App_id= "app_id" Collapse= true :Request_from= "route.name"/>
-      <Interaction :Pat_id="pat_id" :App_id= "app_id" Collapse= true :Request_from= "route.name" class="pr-9 gap-x-1"/>
+      </div> -->
+      <!-- <OPDButtons :Pat_id="pat_id" :App_id= "app_id" Collapse= true :Request_from= "route.name"/> -->
+      <Interaction :Pat_id="pat_id" :App_id= "app_id" Collapse= true :Request_from= "route.name"/></div>
   <!--More Information Panel- for OPD Payments, Refferals and App Id-->
-      <div class="flex flex-row flex-grow gap-3 border p-1 m-1 mt-2 mr-9 py-4 text-sm bg-white rounded-md drop-shadow-lg">
+      <div class="flex flex-row flex-grow gap-3 border p-1 m-1 mt-2 py-4 text-sm bg-white rounded-md drop-shadow-lg">
        <div class="font-sans text-sm text-gray-900 font-bold leading-5">More Information:</div> 
         <div v-for="item in appointStore.payment_pending"  @click="payqueue(item)">
           <div v-if="item.name==app_id" class="flex justify-start items-start gap-3">
@@ -52,7 +55,7 @@
 import { useRoute } from "vue-router";
 import PatientPanel from '@/component/ui/PatientPanel.vue';
 import VitalsPanel from '@/component/shared/VitalsDisplay.vue';
-import Interaction from '@/component/shared/PatientInteraction.vue';
+import Interaction from '@/component/shared/PatientInteraction2.vue';
 import LabSummary from '@/component/shared/LabResultsSummary.vue';
 import OPDButtons from '@/component/opd/dashboard/OpdButtons.vue';
 import {Badge, Dialog} from 'frappe-ui';

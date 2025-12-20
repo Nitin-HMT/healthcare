@@ -126,7 +126,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "Single",
+   "default": "No Result",
    "description": "<b>Single</b>: Results which require only a single input.\n<br>\n<b>Compound</b>: Results which require multiple event inputs.\n<br>\n<b>Descriptive</b>: Tests which have multiple result components with manual result entry.\n<br>\n<b>Grouped</b>: Test templates which are a group of other test templates.\n<br>\n<b>No Result</b>: Tests with no results, can be ordered and billed but no Lab Test will be created. e.g.. Sub Tests for Grouped results",
    "fieldname": "lab_test_template_type",
    "fieldtype": "Select",
@@ -459,7 +459,7 @@
   }
  ],
  "links": [],
- "modified": "2025-03-01 20:18:57.772014",
+ "modified": "2025-12-13 22:31:24.516185",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Lab Test Template",

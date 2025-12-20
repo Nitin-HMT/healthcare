@@ -40,6 +40,7 @@ let interaction_load= ref(false)
       console.log("success")
       //interaction_load.value=false;
       window.open("/app/print/Patient Encounter/"+id.name, "_blank");
+      ///"printview?doctype=Patient%20Encounter&name="+id.name"&trigger_print=1&format=New_Prescription&no_letterhead=1&letterhead=No%20Letterhead&settings=%7B%7D&_lang=en"
       appointStore.setAppointments();
       console.log(id);
       return true;
