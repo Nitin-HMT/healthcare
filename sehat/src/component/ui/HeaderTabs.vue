@@ -7,7 +7,8 @@
       class="px-4 py-2 text-base font-medium whitespace-nowrap rounded-full transition-colors"
       :class="{
         'bg-teal-100 text-teal-700': activePath.startsWith(tab.to),
-        'text-gray-600 hover:text-teal-600 hover:bg-teal-50': !activePath.startsWith(tab.to)
+        'text-gray-600 hover:text-teal-600 hover:bg-teal-50':
+          !activePath.startsWith(tab.to),
       }"
     >
       {{ tab.label }}
@@ -18,8 +19,8 @@
 <script setup>
 const props = defineProps({
   tabs: Array,
-  activePath: String
-})
+  activePath: String,
+});
 </script>
 
 <style scoped>

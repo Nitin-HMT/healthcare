@@ -1,32 +1,32 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { session } from './data/session'
-import { userResource } from '@/data/user'
+import { createRouter, createWebHistory } from "vue-router";
+import { session } from "./data/session";
+import { userResource } from "@/data/user";
 
 const routes = [
   {
-    path: '/opd',
-    name: 'opd',
-    component: () => import('@/pages/OPD/OpdDashboard.vue'),
+    path: "/opd",
+    name: "opd",
+    component: () => import("@/pages/OPD/OpdDashboard.vue"),
   },
   {
-    path: '/',
-    name: 'home',
-    component: () => import('@/pages/OPD/OpdDashboard.vue'),
+    path: "/",
+    name: "home",
+    component: () => import("@/pages/OPD/OpdDashboard.vue"),
   },
   // {
   //   name: 'Login',
   //   path: '/account/login',
   //   component: () => import('@/pages/Login.vue'),
   // },
-   {
-    name: 'opd_consult',
-    path: '/opd/:pat_id/:app_id',
-    component: () => import('@/pages/OPD/OpdConsult.vue'),
+  {
+    name: "opd_consult",
+    path: "/opd/:pat_id/:app_id",
+    component: () => import("@/pages/OPD/OpdConsult.vue"),
   },
   {
-    name: 'pat_dash',
-    path: '/pd/:pat_id',
-    component: () => import('@/pages/PatientDashboard.vue'),
+    name: "pat_dash",
+    path: "/pd/:pat_id",
+    component: () => import("@/pages/PatientDashboard.vue"),
   },
   // {
   //   name: 'Labs',
@@ -58,28 +58,29 @@ const routes = [
   //   path: '/consult_alt',
   //   component: () => import('@/pages/Consult_alt.vue'),
   // },
-]
+];
 
 let router = createRouter({
-  history: createWebHistory('/sehat'),
+  history: createWebHistory("/sehat"),
   routes,
-})
+});
 
 router.beforeEach(async (to, from, next) => {
-  let isLoggedIn = session.isLoggedIn
+  let isLoggedIn = session.isLoggedIn;
   try {
-    await userResource.promise
+    await userResource.promise;
   } catch (error) {
-    isLoggedIn = false
+    isLoggedIn = false;
   }
 
-  if (to.name === 'Login' && isLoggedIn) {
-    next({ name: 'Home' })
-  } else if (!isLoggedIn) {//(to.name !== 'Login' && !isLoggedIn)
-    window.location.href ="/login?redirect-to=/sehat";
+  if (to.name === "Login" && isLoggedIn) {
+    next({ name: "Home" });
+  } else if (!isLoggedIn) {
+    //(to.name !== 'Login' && !isLoggedIn)
+    window.location.href = "/login?redirect-to=/sehat";
   } else {
-    next()
+    next();
   }
-})
+});
 
-export default router
+export default router;

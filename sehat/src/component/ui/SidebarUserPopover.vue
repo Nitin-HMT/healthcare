@@ -5,13 +5,13 @@
         {
           label: 'Switch to Desk',
           onClick: () => {
-            reDirect()
+            reDirect();
           },
         },
         {
           label: 'Logout',
           onClick: () => {
-            session.logout.submit()
+            session.logout.submit();
           },
         },
       ]"
@@ -39,19 +39,19 @@
 </template>
 
 <script setup>
-import { Avatar, Dropdown, Button } from 'frappe-ui'
-import { useRouter } from 'vue-router'
-import { session } from '@/data/session'
-import { useUserStore } from '@/stores/userStore'
+import { Avatar, Dropdown, Button } from "frappe-ui";
+import { useRouter } from "vue-router";
+import { session } from "@/data/session";
+import { useUserStore } from "@/stores/userStore";
 
 const props = defineProps({
-  collapsed: Boolean
-})
+  collapsed: Boolean,
+});
 
-const router = useRouter()
-const user = useUserStore()
+const router = useRouter();
+const user = useUserStore();
 
 function reDirect() {
-  window.location.href = "/app"
+  window.location.href = "/app";
 }
 </script>

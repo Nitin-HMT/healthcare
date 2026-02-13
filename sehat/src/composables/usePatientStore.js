@@ -1,12 +1,13 @@
-import { ref } from 'vue';
-import { createListResource,createResource } from 'frappe-ui';
-import { useAppointmentStore } from '@/stores/appointmentStore.js'
-const appointStore = useAppointmentStore()
+import { ref } from "vue";
+import { createListResource, createResource } from "frappe-ui";
+import { useAppointmentStore } from "@/stores/appointmentStore.js";
+const appointStore = useAppointmentStore();
 
-let patientPanel_flag=ref(false);
-let vitals_flag=ref(true);
-let pvtNotes=ref("");
-let rating =ref(0);
+let patientPanel_flag = ref(false);
+let vitals_flag = ref(true);
+let pvtNotes = ref("");
+let rating = ref(0);
+let pat_hit_dialog = ref(false)
 export function patient_panel() {
-return { patientPanel_flag,pvtNotes,rating,vitals_flag }
+  return { patientPanel_flag, pvtNotes, rating, vitals_flag, pat_hit_dialog };
 }

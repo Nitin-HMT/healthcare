@@ -14,15 +14,21 @@
           label="EY"
           size="xl"
         />
-        <span v-if="!ui.isSidebarCollapsed" class="text-xl font-bold text-white">
-          {{ companyStore.company || 'Doctor@oncloud' }}
+        <span
+          v-if="!ui.isSidebarCollapsed"
+          class="text-xl font-bold text-white"
+        >
+          {{ companyStore.company || "Doctor@oncloud" }}
         </span>
       </div>
     </div>
     <!-- Middle: Navigation -->
     <nav class="flex-1 px-2 space-y-2 text-white">
       <SidebarItem
-        v-if="userStore.role.includes('OPD Doctor') || userStore.role.includes('Receptionist')"
+        v-if="
+          userStore.role.includes('OPD Doctor') ||
+          userStore.role.includes('Receptionist')
+        "
         :icon="Stethoscope"
         label="OPD"
         to="/opd"
@@ -30,28 +36,29 @@
       />
 
       <SidebarItem
-        v-if="userStore.role.includes('OPD Doctor') || userStore.role.includes('Nurse')"
+        v-if="false"
         :icon="Bed"
         label="IPD"
         to="/ipd"
         :collapsed="ui.isSidebarCollapsed"
       />
-
+      <!-- v-if="userStore.role.includes('OPD Doctor') || userStore.role.includes('Nurse')" -->
       <SidebarItem
-        v-if="userStore.role.includes('OPD Doctor')"
+        v-if="false"
         :icon="FlaskConical"
         label="Labs"
         to="/labs"
         :collapsed="ui.isSidebarCollapsed"
       />
-
+      <!-- v-if="userStore.role.includes('OPD Doctor')" -->
       <SidebarItem
-        v-if="userStore.role.includes('Billing') || userStore.role.includes('Accounts')"
+        v-if="false"
         :icon="Coins"
         label="Plan"
         to="/billing"
         :collapsed="ui.isSidebarCollapsed"
       />
+      <!-- v-if="userStore.role.includes('Billing') || userStore.role.includes('Accounts')" -->
     </nav>
 
     <!-- Bottom: Avatar + Collapse Button -->
@@ -64,8 +71,14 @@
         class="text-gray-500 hover:text-teal-600 transition"
         aria-label="Toggle Sidebar"
       >
-        <ChevronsRight class="w-6 h-6 text-white" v-if="ui.isSidebarCollapsed"/>
-        <ChevronsLeft class="w-6 h-6 text-white" v-if="!ui.isSidebarCollapsed"/>
+        <ChevronsRight
+          class="w-6 h-6 text-white"
+          v-if="ui.isSidebarCollapsed"
+        />
+        <ChevronsLeft
+          class="w-6 h-6 text-white"
+          v-if="!ui.isSidebarCollapsed"
+        />
       </button>
     </div>
   </aside>
@@ -75,18 +88,25 @@
 </template>
 
 <script setup>
-import { Avatar } from 'frappe-ui';
-import SidebarItem from './SidebarItem.vue'
-import SidebarUserPopover from './SidebarUserPopover.vue'
-import MobileNavBar from './MobileNavBar.vue'
-import { Stethoscope, FlaskConical, Coins, Bed, ChevronsRight, ChevronsLeft} from 'lucide-vue-next';
-import { useUiStore } from '@/stores/UiStore'
-import { useUserStore } from '@/stores/userStore'
-import { useCompanyStore } from '@/stores/companyStore'
+import { Avatar } from "frappe-ui";
+import SidebarItem from "./SidebarItem.vue";
+import SidebarUserPopover from "./SidebarUserPopover.vue";
+import MobileNavBar from "./MobileNavBar.vue";
+import {
+  Stethoscope,
+  FlaskConical,
+  Coins,
+  Bed,
+  ChevronsRight,
+  ChevronsLeft,
+} from "lucide-vue-next";
+import { useUiStore } from "@/stores/UiStore";
+import { useUserStore } from "@/stores/userStore";
+import { useCompanyStore } from "@/stores/companyStore";
 
-const ui = useUiStore()
-const userStore = useUserStore()
-const companyStore = useCompanyStore()
+const ui = useUiStore();
+const userStore = useUserStore();
+const companyStore = useCompanyStore();
 </script>
 
 <style scoped>

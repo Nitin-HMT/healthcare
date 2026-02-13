@@ -15,7 +15,7 @@
           <div class="text-3xl pl-6 pt-2 text-gray-700">{{ appointStore.appoint_stats[1] }}</div>
         </div>
       </div>
-      <div class="m-2 p-2 bg-white drop-shadow-xl rounded-md grid-cols-4 gap-2 flex" v-show="false">
+      <div class="m-2 p-2 bg-white drop-shadow-xl rounded-md grid-cols-4 gap-2 flex" v-show="true">
         <IndianRupee class="w-10 h-10 pt-2 text-gray-600"/>
         <div class="col-span-3">
           <div class="text-xs text-gray-600">Collection Today</div>
