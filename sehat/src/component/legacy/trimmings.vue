@@ -322,3 +322,33 @@
         @click="time_differnce(start_time),interaction_flag=true"/> 
         <Badge v-else-if="stop_submit" label="New Meds, Add to Lexicon to Proceed" 
         disabled="true" :theme="'red'"/>
+
+//this is for up down search functionality
+
+        function chat_search_S(e) {
+  const ignoredKeys = [
+    "ArrowUp",
+    "ArrowDown",
+    "ArrowLeft",
+    "ArrowRight",
+    "Enter",
+    "Escape",
+    "Shift",
+    "Control",
+    "Alt",
+    "Meta"
+  ];
+
+  if (ignoredKeys.includes(e.key)) {
+    return; // do NOT re-trigger search
+  }
+
+  const chat = interaction.chat;
+
+  if (chat.length > 2 && chat.indexOf('"')) {
+    continuos_input.show_result = true;
+    search_direct(chat);
+  } else {
+    continuos_input.show_result = false;
+  }
+}

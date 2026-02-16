@@ -9,7 +9,15 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "complaints"
+  "complaints",
+  "score",
+  "column_break_grqb",
+  "active",
+  "review",
+  "section_break_nbjv",
+  "coding_system",
+  "medical_alias",
+  "practitioner_lexicon_variance"
  ],
  "fields": [
   {
@@ -20,13 +28,58 @@
    "label": "Complaints",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "score",
+   "fieldtype": "Int",
+   "label": "Score",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "column_break_grqb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "label": "Active"
+  },
+  {
+   "default": "1",
+   "fieldname": "review",
+   "fieldtype": "Check",
+   "label": "Review"
+  },
+  {
+   "fieldname": "section_break_nbjv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "coding_system",
+   "fieldtype": "Table",
+   "label": "Coding System",
+   "options": "Medical Code System"
+  },
+  {
+   "fieldname": "medical_alias",
+   "fieldtype": "Table",
+   "label": "Medical Alias",
+   "options": "Medical Alias"
+  },
+  {
+   "fieldname": "practitioner_lexicon_variance",
+   "fieldtype": "Table",
+   "label": "Practitioner Lexicon Variance",
+   "options": "Practitioner Lexicon Variance"
   }
  ],
  "links": [],
- "modified": "2024-11-29 15:58:37.961892",
+ "modified": "2026-02-16 19:31:24.756436",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Complaint",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

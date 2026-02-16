@@ -3,12 +3,7 @@ import { createListResource } from "frappe-ui";
 import { direct_out } from "@/composables/useInteractionNotesDirect.js";
 
 const {
-  result,
-  interation_direct,
-  result_grouped,
-  comments,
-  library,
-  stop_submit,
+  library
 } = direct_out();
 let lexicon_flag = ref(false);
 let history_flag = ref(false);

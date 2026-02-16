@@ -1,9 +1,10 @@
 import frappe
 from datetime import date
+
 @frappe.whitelist()
-def make_prescripton(patient,appoint,appoint_string,data,comment,reason,result,flag,time):
+def make_prescripton(patient,appoint,appoint_string,data,comment,reason,result,flag,time,hist_result):
     if not patient:
-        frappe.throw("Patient Is Empty, Please Add something")
+        frappe.throw("Patient Is Empty, Please Add Patient")
     app_vitals=appoint_string["Vitals"]
     cur_sex= appoint_string["gender"]
     cur_age= appoint_string["age"]
@@ -13,11 +14,14 @@ def make_prescripton(patient,appoint,appoint_string,data,comment,reason,result,f
     referal_dr=data[2]
     room=data[5]
     request_page=data[6]
+    interaction_hist=data[7]
     cur_sym=[]
     cur_diag=[]
     cur_lab=[]
     cur_proc=[]
     cur_meds=[]
+    history_tab=[]
+
     if not flag:
         for x in result:
             original_phrase=x["Original"]
@@ -52,7 +56,33 @@ def make_prescripton(patient,appoint,appoint_string,data,comment,reason,result,f
                 period=qualifier["period"]
                 #notes=qualifier["comments"]
                 cur_meds.append({"medicine":label, "medicine_form":form, "dosage":dose, "period":period,"comments":notes,"phrase":original_phrase,"operation_string":str(x) })
-   
+        for y in hist_result:
+            original_phrase=y["Original"]
+            q=y["Qualifier"]
+            i=y["Item"]
+            notes=""
+            advise=""
+            if len(q) > 0:
+                qualifier=q[0]
+                notes=qualifier["comments"]
+            if y["Category"] == "Diagnosis":
+                label=y["Functional"]
+                if len(i) > 2:
+                    advise=i[2]
+                history_tab.append({"history_type":"PED", "history_doctype": "Diagnosis","details":label, "comments": notes,"lifestyle_advise":advise,"phrase":original_phrase,"operation_string":str(y)})
+            if y["Category"] == "Allergy":
+                label=y["Functional"]
+                history_tab.append({"history_type":"Allergy", "history_doctype": "Patient Allergy","details":label, "comments": notes,"lifestyle_advise":advise,"phrase":original_phrase,"operation_string":str(y)})
+            if y["Category"] == "surg":
+                label=y["Functional"]
+                history_tab.append({"history_type":"Surgical History", "history_doctype": "Clinical Procedure Template","details":label, "comments": notes,"lifestyle_advise":advise,"phrase":original_phrase,"operation_string":str(y)})
+            if y["Category"] == "Meds":
+                label=y["Functional"]
+                if len(i) > 3:
+                    med_str=i[3] +" | "+ qualifier["dosage"] + " | " + qualifier["period"] +" | "+ notes
+                history_tab.append({"history_type":"Medication", "history_doctype": "OPD Medication","details":label, "comments": med_str,"lifestyle_advise":advise,"phrase":original_phrase,"operation_string":str(y)})
+            
+
     # [{name: "", qty: ""}]
     new_prescription = frappe.new_doc("Patient Encounter")
     new_prescription.appointment = appoint
@@ -74,7 +104,9 @@ def make_prescripton(patient,appoint,appoint_string,data,comment,reason,result,f
     new_prescription.follow_up = interaction_follow
     new_prescription.refer_to= referal_dr
     new_prescription.stream_of_thought_input=interact_notes
+    new_prescription.pat_hist_string=interaction_hist
     new_prescription.transcription_result=str(result)
+    new_prescription.history_transcription_result=str(hist_result)
     new_prescription.transcription_failed=flag
     new_prescription.reason=reason
     new_prescription.consult_time=time
@@ -84,11 +116,13 @@ def make_prescripton(patient,appoint,appoint_string,data,comment,reason,result,f
         new_prescription.set("lab_test_prescription", cur_lab)
         new_prescription.set("procedure_prescription", cur_proc)
         new_prescription.set("opd_medication", cur_meds)
-        new_prescription.further_description = comment
+        new_prescription.set("patient_history",history_tab)
+        new_prescription.further_advice = comment
     new_prescription.insert(ignore_permissions=True)
     new_prescription.submit()
     #return new_order
     return new_prescription
+
 @frappe.whitelist()
 def make_symptoms(name):
     if not name:
@@ -97,6 +131,7 @@ def make_symptoms(name):
     new_symptom.complaints=name
     new_symptom.insert(ignore_permissions=True)
     return new_symptom
+
 @frappe.whitelist()
 def make_diagnosis(name,desc):
     if not name:
@@ -106,6 +141,7 @@ def make_diagnosis(name,desc):
     new_diagnosis.lifestyle_advise=desc
     new_diagnosis.insert(ignore_permissions=True)
     return new_diagnosis
+
 @frappe.whitelist()
 def make_labs(name):
     if not name:
@@ -116,6 +152,7 @@ def make_labs(name):
     new_labs.department="Diagnostic"
     new_labs.insert(ignore_permissions=True)
     return new_labs
+
 @frappe.whitelist()
 def make_medicine(name,form,dosage,duration,generic,sp_inst):
     if not name:
@@ -129,6 +166,7 @@ def make_medicine(name,form,dosage,duration,generic,sp_inst):
     new_medicine.special_instruction=sp_inst
     new_medicine.insert(ignore_permissions=True)
     return new_medicine
+
 @frappe.whitelist()
 def make_refer(name,desc):
     if not name:
@@ -139,6 +177,7 @@ def make_refer(name,desc):
         new_refer.more_information=desc
     new_refer.insert(ignore_permissions=True)
     return new_refer
+
 @frappe.whitelist()
 def make_allergy(name):
     if not name:
@@ -274,12 +313,6 @@ def cancel_sales_inv(inv):
     new_lab = frappe.get_doc('Sales Invoice', inv)
     new_lab.cancel()
     return new_lab
-
-
-
-
-
-
 
 # Under development
 @frappe.whitelist()

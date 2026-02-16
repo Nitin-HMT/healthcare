@@ -147,9 +147,13 @@ let med_history = createListResource({
     }
   },
 });
-function printed(prescription) {
-  window.open("/app/print/Patient Encounter/" + prescription, "_blank");
-  // /printview?doctype=Patient Encounter&name=OC-APP-0525-002&trigger_print=1&format=New_Prescription&no_letterhead=1&letterhead=No Letterhead&settings={}&_lang=en
+function printed(idx) {
+  window.open(
+    "/printview?doctype=Patient Encounter&name=" +
+      idx +
+      "&trigger_print=1&format=New_Prescription&no_letterhead=1&letterhead=No Letterhead&settings={}&_lang=en",
+    "_blank",
+  );
 }
 onMounted(() => {
   med_history.fetch();

@@ -1,13 +1,11 @@
 <template>
   <!-- Release 1<br />
-   α 1- patient history fix <br/>
-   α 2- Direct Print, all over<br/>
-   α 3. comment/delete edit not working properly<br/>
-   α 4- search arrow search (chatgpt)
    α 5- Schema Change & logout
+   allergy not getting added to history
   -->
   <!--   
   β 1.Stop Submit if Medicine dosage isnt updated- and update the same if blanks - UPDATE FUNCTION NEEDS TO BE MADE<br/>
+    a. i removed doctor pvt notes from patient panel, need to fix that, and fix the whole patient panel now
   γ 2. Develop *Fuzy Match* and Aliases or Near Matches, abbreviations, may be lookup using generic name as well<br/>
   β 3. Develop Medical Templates/Treatment Plans/Energy Points<br/>
   β 4. make the font smaller or better fitting for smaller screens and larger prescription<br/>
@@ -18,18 +16,27 @@
   <div
     class="flex-grow border pt-2 text-sm bg-white rounded-b-lg border-x-8 border-teal-50"
   >
-    <Progress
+    <!-- <Progress
       size="md"
       :value="submit_progress"
       label=""
       :intervals="false"
       :interval-count="4"
       class="px-20 pb-1"
-    />
+      v-if="false"
+    /> -->
+    <!-- Custom Progress Bar -->
+    <div class="px-20 pb-1 rounded-full">
+    <div class="h-1 w-full bg-gray-200 rounded-full overflow-hidden">
+    <div
+      :style="{ width: submit_progress+ '%' }"
+      class="h-full bg-teal-800 transition-all duration-1000 ease-out rounded-full"
+    ></div>
+  </div></div>
     <!--Structured Notes -->
     <div class="px-2">
       <div class="text-base font-semibold pb-1">Interaction Notes</div>
-      <div class="col-span-1 grid grid-cols-4 gap-2 gap-x-3 tracking-wide">
+      <div class="col-span-1 grid grid-cols-4 gap-2 gap-x-3 tracking-wide" :key="result_grouped">
         <!-- Unknown Terms Display -->
         <div
           class="col-span-4 grid grid-cols-6 gap-1 border-gray-800 rounded-lg pb-1"
@@ -104,10 +111,7 @@
                 {{ item.Functional }}
               </div>
               <div v-else class="align-baseline flex gap-x-2">
-                {{ item.Item[1]
-                }}<slot v-if="item.Qualifier[0]">
-                  | {{ item.Qualifier[0].comments }}</slot
-                >
+                {{ item.note}}
               </div>
             </div>
           </div>
@@ -137,16 +141,14 @@
                 {{ item.Functional }}
               </div>
               <div v-else class="align-baseline flex gap-x-2">
-                {{ item.Item[1]
-                }}<slot v-if="item.Qualifier[0]">
-                  | {{ item.Qualifier[0].comments }}</slot
-                >
+                {{ item.note}}
               </div>
               <Switch
                 size="sm"
                 label=""
                 :disabled="false"
                 v-model="item.is_historic"
+                @click="change_history(item)"
               />
             </div>
           </div>
@@ -177,13 +179,14 @@
                 {{ item.Functional }}
               </div>
               <div v-else class="align-baseline flex gap-x-2 Capitalise">
-                {{ item.Functional }}
+                {{ item.note}}
               </div>
               <Switch
                 size="sm"
                 label=""
-                :disabled="true"
+                :disabled="false"
                 v-model="item.is_historic"
+                @click="change_history(item)"
               />
             </div>
           </div>
@@ -217,10 +220,7 @@
                 {{ item.Functional }}
               </div>
               <div v-else class="align-baseline flex gap-x-2">
-                {{ item.Item[2]
-                }}<slot v-if="item.Qualifier[0]">
-                  | {{ item.Qualifier[0].comments }}</slot
-                >
+                {{ item.note}}
               </div>
             </div>
           </div>
@@ -250,16 +250,14 @@
                 {{ item.Functional }}
               </div>
               <div v-else class="align-baseline flex gap-x-2 Capitalise">
-                {{ item.Item[2]
-                }}<slot v-if="item.Qualifier[0]">
-                  | {{ item.Qualifier[0].comments }}</slot
-                >
+                {{ item.note}}
               </div>
               <Switch
                 size="sm"
                 label=""
                 :disabled="false"
                 v-model="item.is_historic"
+                @click="change_history(item)"
               />
             </div>
           </div>
@@ -313,23 +311,17 @@
                 </div>
                 <div v-else class="col-span-2 flex gap-x-2">
                   <div class="flex">
-                    <div v-if="item.Qualifier[0]" class="pr-0.5">
-                      {{ item.Qualifier[0].medicine_form }}
-                    </div>
-                    {{ item.Item[7]
-                    }}<slot v-if="item.Qualifier[0]">
-                      | {{ item.Qualifier[0].dosage }} |
-                      {{ item.Qualifier[0].period }} |
-                      {{ item.Qualifier[0].comments }}</slot
-                    >
+                    {{ item.note}}
                   </div>
-                </div>
+                
                 <Switch
                   size="sm"
                   label=""
                   :disabled="false"
                   v-model="item.is_historic"
+                  @click="change_history(item)"
                 />
+              </div>
               </div>
             </div>
           </div>
@@ -343,13 +335,29 @@
             More Information:
           </p>
           <div class="flex flex-col gap-y-2 align-baseline">
-            <div v-if="comments" class="flex">
-              <!-- <Pencil
-                class="h-4 text-teal-800 cursor-pointer -mr-1"
-                @click="phraseCorrection(comments)"
-              /> -->
-              <b>Comments:</b> {{ comments }}
+            <div
+            class="grid grid-cols-1 gap-1 py-0.5"
+            v-if="result_grouped && result_grouped.Comments"
+          >
+            <b
+              class="text-sm font-medium px-1 gap-2 pl-1 my-0.5 flex-grow"
+            >
+              Comments:
+          </b>
+            <div
+              v-for="(item, index) in result_grouped.Comments"
+              class="flex gap-x-2 pt-0.5 pl-2 align-baseline"
+            >
+              <Pencil
+                class="h-4 text-teal-800 cursor-pointer -mr-2"
+                @click="phraseCorrection(item)"
+              />
+              <div class="align-baseline flex gap-x-2">
+                {{ item.Item }}
+              </div>
             </div>
+          </div>
+
             <div class="grid grid-cols-2 gap-2">
               <FormControl
                 variant="outline"
@@ -451,24 +459,30 @@
                     placeholder='You can use symbols to force match (optional): 
 @ symptoms, # Meds, $ labs, ^ Diagnosis, * Procedure, ! Allergy, "" Descriptive Comments'
                     class="w-full h-20 resize-none text-sm col-span-9"
-                    @keyup.enter.stop="chat_Append(interaction.chat)"
+                    @keydown.stop="handleKeydown"
                     @focus="togglePopover()"
-                    @keyup.stop="chat_search(interaction.chat)"
+                    @input="chat_search"
                     v-model="interaction.chat"
                   />
+                  <!-- @keyup.stop="chat_search(interaction.chat)" -->
                 </template>
                 <template #body-main v-if="continuos_input.show_result">
                   <div
-                    v-for="(item, index) in all_search"
-                    class="p-1 px-2 text-xs text-gray-900 hover:bg-gray-100/80 rounded-sm"
-                  >
+  v-for="(item, index) in all_search"
+  :key="index"
+  :ref="el => resultRefs[index] = el"
+  @click="selectItem(item)"
+  :class="[
+    'p-1 px-2 text-xs text-gray-900 rounded-sm cursor-pointer',
+    activeIndex === index
+      ? 'bg-gray-100/50 font-semibold hover:bg-gray-200'
+      : 'hover:bg-gray-200'
+  ]"
+>
+
                     <div v-if="item[0] == 'Meds'" class="grid grid-cols-6">
                       <div
                         class="col-span-2 flex items-center gap-x-1"
-                        @click="
-                          interaction.chat = item[2] + ' ' + item[7];
-                          continuos_input.show_result = false;
-                        "
                       >
                         <!-- +' '+item[5]+' '+item[4] -->
                         <Avatar
@@ -488,10 +502,6 @@
                     </div>
                     <div
                       v-else-if="item[0] == 'Symptoms'"
-                      @click="
-                        interaction.chat = item[1];
-                        chat_Append(interaction.chat);
-                      "
                     >
                       <div class="flex items-center gap-x-1">
                         <Avatar
@@ -504,10 +514,7 @@
                     </div>
                     <div
                       v-else-if="item[0] == 'Diagnosis'"
-                      @click="
-                        interaction.chat = item[1];
-                        chat_Append(interaction.chat);
-                      "
+            
                     >
                       <div class="flex items-center gap-x-1">
                         <Avatar
@@ -520,10 +527,7 @@
                     </div>
                     <div
                       v-else-if="item[0] == 'labs'"
-                      @click="
-                        interaction.chat = item[2];
-                        chat_Append(interaction.chat);
-                      "
+
                     >
                       <div class="flex items-center gap-x-1">
                         <Avatar
@@ -536,10 +540,6 @@
                     </div>
                     <div
                       v-else-if="item[0] == 'surg'"
-                      @click="
-                        interaction.chat = item[2];
-                        chat_Append(interaction.chat);
-                      "
                     >
                       <div class="flex items-center gap-x-1">
                         <Avatar
@@ -552,10 +552,6 @@
                     </div>
                     <div
                       v-else-if="item[0] == 'Allergy'"
-                      @click="
-                        interaction.chat = item[1];
-                        chat_Append(interaction.chat);
-                      "
                     >
                       <div class="flex items-center gap-x-1">
                         <Avatar
@@ -582,11 +578,17 @@
               Confirm
             </div>
           </div>
-          <div
+          <div v-if="false"
             class="text-xs text-gray-600 font-light font-mono mt-2 flex items-end justify-end"
           >
             {{ interaction.notes }}
           </div>
+          <div v-if="false"
+            class="text-xs text-gray-600 font-light font-mono mt-2 flex items-end justify-end"
+          >
+            Hx-> {{ interaction.history }}
+          </div>
+          
         </div>
       </div>
     </div>
@@ -691,7 +693,7 @@
             interaction_flag = false;
             submit_choice = false;
             submit_comments = '';
-            submit_progress = 10;
+            submit_progress = 15;
           "
           class="rounded-full text-xs ml-2"
           :variant="'solid'"
@@ -807,7 +809,7 @@
     <template #body-content>
       <div class="flex items-center justify-center flex-col">
         <div class="text-sm text-gray-500">
-          Processing, Please don't take any Action...
+          Processing, Please Wait...
         </div>
         <Spinner class="w-12 text-gray-500" v-if="lexicon_stop_flag" />
       </div>
@@ -929,7 +931,7 @@
   </Dialog>
 </template>
 <script setup>
-import { reactive, ref, watch } from "vue";
+import { reactive, ref, watch, onMounted, nextTick } from "vue";
 import {
   Avatar,
   Textarea,
@@ -942,6 +944,7 @@ import {
   Progress,
   Spinner,
   Popover,
+  createDocumentResource
 } from "frappe-ui";
 import { referral } from "@/composables/useReferralUtils.js";
 import { direct_out } from "@/composables/useInteractionNotesDirect.js";
@@ -963,7 +966,8 @@ const route = useRoute();
 const app_id = route.params.app_id;
 const pat_id = route.params.pat_id;
 const { appoint_flag } = appoint();
-
+const activeIndex = ref(-1);
+const resultRefs = ref([]);
 const router = useRouter();
 const start_time = dayjs();
 const time_diff = ref("");
@@ -972,13 +976,9 @@ const prescription_created = ref(false);
 
 const { referdr, make_newRef, selrefdr, refer_create, error_ref } = referral();
 const {
-  result,
   interation_direct,
-  result_grouped,
-  comments,
   library,
-  stop_submit,
-  new_terms,
+  comments
 } = direct_out();
 const { search_direct, search_result, all_search } = suggest();
 const {
@@ -1001,7 +1001,7 @@ const submit_choice = ref(false);
 const submit_sp_dialog_flag = ref(true);
 const submit_comments = ref("");
 const lexicon_stop_flag = ref(false); // double control on lexicon dialog, stops from popping up during batch create
-const submit_progress = ref(10);
+const submit_progress = ref(1);
 const under_operation = reactive({
   Display: "",
   Category: "",
@@ -1013,6 +1013,8 @@ const under_operation = reactive({
   correction: "",
   original: "",
   symbol: "",
+  pos:1000000,
+  is_historic: false
 });
 const props = defineProps({
   Pat_id: String,
@@ -1020,10 +1022,18 @@ const props = defineProps({
   Room_id: String,
   Request_from: String,
 });
+
+const result = ref([]);
+const result_hist = ref([]);
+const result_grouped = ref();
+const stop_submit = ref(false);
+const new_terms = ref(false);
+
 const interaction = reactive({
   //notes:"Fever 2d; Seasonal Flu, CBC \n Inhalation, tab azithromycin OD x5d \n Amputation of Toe",
   //notes:'"plenty of rest required" fever;@bloody nose;cough 2 days;seasonal flu more comment;cbc;test;stamlo 5mg test test;thyronorm 75 once daily 3 months;exercise;amputation of toe comment',
   notes: "",
+  history:"",
   chat: "",
   follow_up: null,
 });
@@ -1040,10 +1050,14 @@ function print(idx) {
     "_blank",
   );
 }
+watch(all_search, () => {
+  activeIndex.value = -1;
+  resultRefs.value = [];
+});
 
 function create_new_element(phrase) {
   lexicon_flag.value = true;
-  under_operation.Display = phrase.Display;
+  under_operation.Display = phrase.note;
   under_operation.Category = phrase.Item[0];
   under_operation.Name = phrase.Item[1];
   if (under_operation.Category == "Meds" && phrase.Qualifier.length) {
@@ -1052,68 +1066,77 @@ function create_new_element(phrase) {
     under_operation.med_panel[3] = phrase.Qualifier[0].period;
   }
 }
-function phraseCorrection(item) {
+function phraseCorrection(item, history_flag=false) {
   correction.value = true;
   under_operation.original = item.Original || '"' + item + '"';
   under_operation.correction = item.Original || '"' + item + '"';
+  under_operation.pos =item.pos[0];
+  under_operation.is_historic=item.is_historic;
+  if(history_flag){
+    under_operation.is_historic=!under_operation.is_historic;
+  }
 }
 function remove_phrase() {
-  const step_1 = interaction.notes
-    .trim()
-    .replace(/\r\n?/g, "\n")
-    .replace(/\u2028|\u2029/g, "\n")
-    .replace(/[ \t]+/g, " ")
-    .replace(/([@#%^$;,&*!])\1+/g, "$1")
-    .toLowerCase();
-  const new_string = step_1
-    .replace(under_operation.original + ";", "")
-    .trim()
-    .replace(/\r\n?/g, "\n")
-    .replace(/\u2028|\u2029/g, "\n")
-    .replace(/[ \t]+/g, " ")
-    .toLowerCase()
-    .replace(/([@#%^$;,&*!])\1+/g, "$1");
-  interaction.notes = new_string;
-  interation_direct(new_string);
+  if(!under_operation.is_historic){
+  result.value.splice(under_operation.pos,1);
+  interaction.notes="";
+    for(let i in result.value){
+    if(result.value[i].Category!="Junk"){
+    interaction.notes = interaction.notes +result.value[i].note+ "; ";}
+  }
+    result.value=renormalise_input(result.value);
+    
+  }else{
+    result_hist.value.splice(under_operation.pos,1);
+    interaction.history =""
+    for(let i in result_hist.value){
+      if(result_hist.value[i].Category!="Junk"){
+      interaction.history = interaction.history +result_hist.value[i].note+ "; ";}
+    }
+    result_hist.value=renormalise_input(result_hist.value);
+  }
+  result_grouped.value = groupby_category([...result_hist.value, ...result.value]);
   correction.value = false;
   under_operation.original = "";
   under_operation.correction = "";
+  under_operation.pos=1000000;
+  under_operation.is_historic=false;
+
 }
 function correct_phrase() {
-  const step_1 = interaction.notes
-    .trim()
-    .replace(/\r\n?/g, "\n")
-    .replace(/\u2028|\u2029/g, "\n")
-    .replace(/[ \t]+/g, " ")
-    .replace(/([@#%^$;,&*!])\1+/g, "$1")
-    .toLowerCase();
-  const new_string = step_1
-    .replace(under_operation.original + ";", under_operation.correction + ";")
-    .trim()
-    .replace(/\r\n?/g, "\n")
-    .replace(/\u2028|\u2029/g, "\n")
-    .replace(/[ \t]+/g, " ")
-    .replace(/([@#%^$;,&*!])\1+/g, "$1")
-    .toLowerCase();
-  interaction.notes = new_string;
-  interation_direct(new_string);
+
+if(!under_operation.is_historic){
+  result.value.splice(under_operation.pos,1);
+  interaction.notes="";
+  for(let i in result.value){
+    if(result.value[i].Category!="Junk"){
+    interaction.notes = interaction.notes +result.value[i].note+ "; ";}
+  }
+  chat_Append(under_operation.correction);
+}else{
+  result_hist.value.splice(under_operation.pos,1);
+  interaction.history =""
+  for(let i in result_hist.value){
+    if(result_hist.value[i].Category!="Junk"){
+      interaction.history = interaction.history +result_hist.value[i].note+ "; ";}
+    }
+    chat_Append(under_operation.correction,false,true);
+  }
   correction.value = false;
   under_operation.original = "";
   under_operation.correction = "";
+  under_operation.pos=1000000;
+  under_operation.is_historic=false;
+
 }
 async function make_prescription(correct_flag) {
   const data = ref([]);
   const create_flag = ref(false);
-
-  //step 4: Then submit it, if errored response, stop, if all clear then go ahead
-  //step 5: if all okay, then print prescription
-  //step 6: if template is selected as yes, then continue showing the pop-up and ask for template details
-  //step 7: if template then print button and template
-  //step 8: if no template then print and list of patients
-  //step 9: after tempate made, step 8 - patient list
-  //step 10: Progress bar for all of the above
   await library.refresh_library();
-  interation_direct(interaction.notes);
+  let final_str = chat_Append(interaction.notes,true);
+  let final_history = chat_Append(interaction.history,true,true);
+  patient_x.setValue.submit({
+    pat_hist: interaction.history.replace(/(\r\n|\n|\r|;\n)/g, ";\n")})
   data.value = [
     interaction.notes,
     interaction.follow_up,
@@ -1122,15 +1145,18 @@ async function make_prescription(correct_flag) {
     props.App_id,
     props.Room_id,
     props.Request_from,
+    interaction.history
   ];
   submit_progress.value = 75;
+
   create_flag.value = await make_newInteraction(
     correct_flag,
     data.value,
-    result.value,
+    final_str,
     comments.value,
     submit_comments.value,
     time_diff.value,
+    final_history
   );
   if (create_flag.value) {
     //new prescription
@@ -1176,46 +1202,97 @@ watch(lexicon_flag, async (lexicon_flag) => {
     under_operation.med_panel = ["", "", "", "", ""];
     setTimeout(() => {
       // refreshing after 2 secs of new lex creation
-      interation_direct(interaction.notes);
+      chat_Append(interaction.history,true,true);
+      chat_Append(interaction.notes,true,false);
     }, 2000);
   }
 });
-function chat_Append(chat) {
+
+function chat_Append(chat, bulk_run=false,history=false) {
   // adding to interaction summary the individual chat
-  if (chat.length > 1) {
-    interaction.notes = interaction.notes + chat.trim() + "; ";
-    interation_direct(interaction.notes);
+  
+  let r=""
+  if (chat?.length > 1) {
+    chat=chat.trim()
+    submit_progress.value += 2
+    if(bulk_run){
+      if(!history){
+      result.value=[];
+      interaction.notes =""}
+      else{
+        result_hist.value=[];
+        interaction.history ="";
+      }
+      result_grouped.value=[];
+    }
+    if(!history){
+    let x= interation_direct(chat);
+    for(let i in x){
+      if(x[i].Category=="Allergy"){
+      result_hist.value.push(x[i]);
+      x[i].is_historic=true;
+      interaction.history = interaction.history +x[i].note+ "; ";
+      result_hist.value=renormalise_input(result_hist.value);
+    }
+      else if(x[i].Category!="Junk"){
+      result.value.push(x[i]);
+      x[i].is_historic=false;
+      interaction.notes = interaction.notes +x[i].note+ "; ";}
+    }
+    result.value=renormalise_input(result.value);
+    r=result.value;
+    
+    //console.log(result.value);
+  }else{
+    let y= interation_direct(chat);
+    for(let i in y){
+      result_hist.value.push(y[i]);
+      y[i].is_historic=true;
+      if(y[i].Category!="Junk"){
+      interaction.history = interaction.history +y[i].note+ "; ";}
+    }
+    result_hist.value=renormalise_input(result_hist.value);
+    //console.log(result.value);
+    r=result_hist.value;
+  }
     interaction.chat = "";
     continuos_input.show_result = false;
-    //new_lexiconcheck()
+    
   }
+  result_grouped.value = groupby_category([...result_hist.value, ...result.value]);
+  //renormalise_input([...result_hist.value, ...result.value])
+  return r;
 }
 
 async function new_lexiconcheck() {
   //check and create new lexicons
   if (result.value && submit_choice.value) {
     // only approved transcription will be added to lexicon
+    //rechecking for any missed entries
+    chat_Append(interaction.history,true,true);
+    chat_Append(interaction.notes,true,false);
     let count = 1;
-    for (const key in result.value) {
+    let full_array= [...result_hist.value, ...result.value]
+    full_array=renormalise_input(full_array)
+    for (const key in full_array) {
       lexicon_stop_flag.value = true;
-      if (result.value[key].new && result.value[key].Category == "Unknown") {
+      if (full_array[key].new && full_array[key].Category == "Unknown") {
         //adding unknowns to comment
         interaction.notes = interaction.notes
           .replace(
-            result.value[key].Original + ";",
-            '"' + result.value[key].Original + '";',
+            full_array[key].Original + ";",
+            '"' + full_array[key].Original + '";',
           )
           .trim();
-        interation_direct(interaction.notes);
       } else if (
-        result.value[key].new &&
-        result.value[key].Category == "Meds"
+        full_array[key].new &&
+        full_array[key].Category == "Meds"
       ) {
         lexicon_stop_flag.value = false;
         break; // breaking just incase of new meds added
-      } else if (result.value[key].new) {
+      } else if (full_array[key].new) {
         submit_sp_dialog_flag.value = false;
-        create_new_element(result.value[key]);
+        create_new_element(full_array[key]);
         await make_newLexicon(under_operation);
         count++;
         //  all other
@@ -1228,11 +1305,11 @@ async function new_lexiconcheck() {
       //   break;
       //  }
       //
-      if (key == result.value.length - 1) {
-        interation_direct(interaction.notes);
+      if (key == full_array.length - 1) {
         setTimeout(
           () => {
-            interation_direct(interaction.notes);
+            chat_Append(interaction.history,true,true);
+            chat_Append(interaction.notes,true,false);
             submit_progress.value = 50;
             lexicon_stop_flag.value = false;
           },
@@ -1245,15 +1322,174 @@ async function new_lexiconcheck() {
   }
   return;
 }
+function chat_search() {
+  const chat = interaction.chat;
 
-function chat_search(chat) {
-  // suggestion program trigger
   if (chat.length > 2 && chat.indexOf('"')) {
     continuos_input.show_result = true;
-    //console.log("iam being called"+chat);
     search_direct(chat);
   } else {
     continuos_input.show_result = false;
   }
 }
+
+function groupby_category(final_array) {
+    return final_array.reduce((acc, item) => {
+      if (!acc[item.Category]) {
+        acc[item.Category] = [];
+      }
+      acc[item.Category].push(item);
+      return acc;
+    }, {});
+  }
+function renormalise_input(input){
+  if(input.length>0){
+    stop_submit.value = false;
+    new_terms.value = false;
+    let count =0;
+
+    for (const i of input) {
+      if (i.new && i.Functional.length>1) {
+        if (i.Category == "Meds") {
+          stop_submit.value = true;
+        } else {
+          new_terms.value = true;
+        }
+        // console.log(i.Item)
+        // here we will start the fuzzy match in v2, fuzzy match will also introduce abbrv etc
+      }
+      //renumbering
+      i.pos.splice(0);
+      i.pos.push(count)
+      count++;
+    }
+  }
+  return input;
+}
+
+//patient history workings
+let patient_x = createDocumentResource({
+  doctype: 'Patient',
+  name: props.Pat_id,
+  setValue: {
+    onSuccess(id) {
+      patient_x.reload()
+     // pat_hit_dialog.value=false
+    },
+    onError(errors) {
+      //error.value=errors;
+    },
+  },
+})
+function change_history(node){
+if(node.Category!="Allergy"){
+  chat_Append(node.Original,false,node.is_historic);
+  phraseCorrection(node, true);
+  correction.value=false;
+  remove_phrase()}
+else{
+  node.is_historic=true;
+}
+}
+
+onMounted(() => {
+lexicon_stop_flag.value=true;
+  setTimeout(async() => {
+      // refreshing after 2 secs of new lex creation
+      patient_x.reload()
+      interaction.history=patient_x.doc?.pat_hist;
+      await library.refresh_library();
+      chat_Append(interaction.history,true,true);
+      lexicon_stop_flag.value=false;
+    }, 2500);
+  
+  // You can also perform API calls here
+  
+});
+
+
+function handleKeydown(e) {
+  if (!continuos_input.show_result || !all_search.value?.length) {
+    // If dropdown closed → Enter behaves normally
+    if (e.key === "Enter") {
+      chat_Append(interaction.chat);
+    }
+    return;
+  }
+
+  switch (e.key) {
+    case "ArrowDown":
+      e.preventDefault();
+      activeIndex.value =
+        (activeIndex.value + 1) % all_search.value.length;
+      scrollIntoView();
+      break;
+
+    case "ArrowUp":
+      e.preventDefault();
+      activeIndex.value =
+        (activeIndex.value - 1 + all_search.value.length) %
+        all_search.value.length;
+      scrollIntoView();
+      break;
+
+    case "Enter":
+      e.preventDefault();
+      if (activeIndex.value >= 0) {
+        selectItem(all_search.value[activeIndex.value]);
+      } else {
+        chat_Append(interaction.chat);
+      }
+      break;
+
+    case "Escape":
+      continuos_input.show_result = false;
+      activeIndex.value = -1;
+      break;
+  }
+}
+
+
+function scrollIntoView() {
+  nextTick(() => {
+    const el = resultRefs.value[activeIndex.value];
+    el?.scrollIntoView({ block: "nearest" });
+  });
+}
+
+function selectItem(item) {
+  if (item[0] === "Meds") {
+    interaction.chat = item[2] + " " + item[7];
+    continuos_input.show_result = false;
+  }
+
+  else if (item[0] === "Symptoms") {
+    interaction.chat = item[1];
+    chat_Append(interaction.chat);
+  }
+
+  else if (item[0] === "Diagnosis") {
+    interaction.chat = item[1];
+    chat_Append(interaction.chat);
+  }
+
+  else if (item[0] === "labs") {
+    interaction.chat = item[2];
+    chat_Append(interaction.chat);
+  }
+
+  else if (item[0] === "surg") {
+    interaction.chat = item[2];
+    chat_Append(interaction.chat);
+  }
+
+  else if (item[0] === "Allergy") {
+    interaction.chat = item[1];
+    chat_Append(interaction.chat);
+  }
+
+  activeIndex.value = -1;
+}
+
+
 </script>

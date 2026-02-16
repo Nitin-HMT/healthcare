@@ -18,6 +18,7 @@ export function createInteraction() {
     comments,
     reason,
     consult_time,
+    history
   ) => {
 
     return new Promise((resolve, reject) => {
@@ -42,6 +43,7 @@ export function createInteraction() {
             result: result,
             flag: failed_trans,
             time: consult_time,
+            hist_result: history,
           };
         },
 

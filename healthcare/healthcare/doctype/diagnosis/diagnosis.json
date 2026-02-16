@@ -48,7 +48,6 @@
   {
    "fieldname": "codification",
    "fieldtype": "Section Break",
-   "hidden": 1,
    "label": "Medical Coding"
   },
   {
@@ -59,7 +58,7 @@
   }
  ],
  "links": [],
- "modified": "2025-01-07 01:45:02.781767",
+ "modified": "2026-02-16 19:37:26.702613",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Diagnosis",

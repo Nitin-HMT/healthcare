@@ -102,6 +102,7 @@
   "clinical_notes",
   "transcription_failed",
   "transcription_result",
+  "history_transcription_result",
   "reason",
   "dashboard_tab"
  ],
@@ -656,14 +657,11 @@
    "description": "Entries in this section will be added to permanent history of the patient",
    "fieldname": "patient_history",
    "fieldtype": "Table",
-   "hidden": 1,
    "label": "Pre- Existing Conditions",
    "options": "Patient History"
   },
   {
    "allow_on_submit": 1,
-   "fetch_from": "patient.pat_hist",
-   "fetch_if_empty": 1,
    "fieldname": "pat_hist_string",
    "fieldtype": "Small Text",
    "label": "Patient History",
@@ -729,6 +727,11 @@
    "fieldname": "consult_time",
    "fieldtype": "Int",
    "label": "Consult Time"
+  },
+  {
+   "fieldname": "history_transcription_result",
+   "fieldtype": "Long Text",
+   "label": "History Transcription Result"
   }
  ],
  "is_submittable": 1,
@@ -742,7 +745,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2025-10-05 01:25:10.883814",
+ "modified": "2026-02-16 14:52:45.604692",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",

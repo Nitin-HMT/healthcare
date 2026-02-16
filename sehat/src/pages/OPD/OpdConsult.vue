@@ -15,13 +15,13 @@
           :App_id="app_id"
           Collapse="true"
           :Request_from="route.name"
-        v-if="!pat_hit_dialog"/>
+        />
         <PatientHistory
           :Pat_id="pat_id"
           :App_id="app_id"
           Collapse="true"
           :Request_from="route.name"
-        v-if="pat_hit_dialog"/>
+        v-if="false"/>
       </div>
       <MoreInformation
           :Pat_id="pat_id"

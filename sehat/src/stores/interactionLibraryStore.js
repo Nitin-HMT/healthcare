@@ -89,14 +89,14 @@ export const useinteractionLibraryStore = defineStore("library", () => {
             .trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
-          ["Diagnosis", d.diagnosis, d.lifestyle_advise],
+          ["Diagnosis", d.diagnosis, d.lifestyle_advise,d.diagnosis],
         );
         diag_map.value.set(
           d.diagnosis
             .trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
-          ["Diagnosis", d.diagnosis, d.lifestyle_advise],
+          ["Diagnosis", d.diagnosis, d.lifestyle_advise,d.diagnosis],
         );
         diag_db.value.push({
           label: d.diagnosis,

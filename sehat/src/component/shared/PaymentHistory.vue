@@ -116,8 +116,16 @@ let sales_inv = createListResource({
   },
 });
 function printed(prescription) {
-  window.open("/app/print/Sales Invoice/" + prescription, "_blank");
+  window.open(
+    "/printview?doctype=Sales Invoice&name=" +
+      prescription +
+      "&trigger_print=1&format=Patient Bill&no_letterhead=1&letterhead=No Letterhead&settings={}&_lang=en",
+    "_blank",
+  );
+
+  //window.open("/app/print/Sales Invoice/" + prescription, "_blank");
   // /printview?doctype=Patient Encounter&name=OC-APP-0525-002&trigger_print=1&format=New_Prescription&no_letterhead=1&letterhead=No Letterhead&settings={}&_lang=en
+// /printview?doctype=Sales Invoice&name=ACC-SINV-2026-00008&trigger_print=1&format=Sales Auditing Voucher&no_letterhead=1&letterhead=No Letterhead&settings={}&_lang=en
 }
 onMounted(() => {
   sales_inv.fetch();

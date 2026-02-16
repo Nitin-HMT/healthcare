@@ -80,12 +80,14 @@ export function direct_out() {
   function normalizeinput(raw) {
     let newString = raw;
     let free_text = raw.match(/"(.*?)"/g);
+    let new_free_text= ""
     if (free_text) {
+      new_free_text =free_text.join(";")
       free_text = free_text.map((item) => item.replace(/"/g, ""));
       for (let x = 0; x < free_text.length; x++) {
-        comments.value = comments.value + free_text[x] + ";\n";
+        comments.value = comments.value + free_text[x]+", ";
         newString = newString.replace('"' + free_text[x] + '"', "");
-      }
+      }      
     }
     const step_1 = newString
       .trim()
@@ -94,10 +96,12 @@ export function direct_out() {
       .replace(/[ \t]+/g, " ")
       .replace(/([@#%^$;,&*!])\1+/g, "$1")
       .toLowerCase();
+      //console.log(step_1);
     const step_2 = step_1
       .split(/[;,\n]+/)
       .map((part) => part.trim())
       .filter(Boolean);
+      //console.log(step_2);
     //Now search for special characters and split them
     let step_3a = [];
     for (let i = 0; i < step_2.length; i++) {
@@ -131,7 +135,27 @@ export function direct_out() {
         tokenEnd: 0,
         new: true,
         negation: false,
-        is_historic: false
+        is_historic: false,
+        note:step_2[i]
+      });
+    }
+    if(comments.value.length>0){
+      result.value.push({
+        pos: [step_2.length+1000],
+        Display: new_free_text,
+        Functional: new_free_text,
+        Category: "Comments",
+        Item: comments.value,
+        Qualifier: [],
+        Unused: [],
+        Symbol: "",
+        Original: new_free_text,
+        tokenStart: 0,
+        tokenEnd: 0,
+        new: false,
+        negation: false,
+        is_historic: false,
+        note:new_free_text
       });
     }
     return result.value;
@@ -149,7 +173,7 @@ export function direct_out() {
     result.value = raw_array.map((text) => {
       const rawText = text.Original;
       //Default No Symbol
-      let category = "Unknown";
+      let category = text.Category;
       let cleanedText = text.Original;
       // let cleanedSpan = rawSpan;
       let symbol;
@@ -333,6 +357,7 @@ export function direct_out() {
           .join("");
         result.value[pos].Unused = leftovers;
         result.value[pos].new = false;
+        result.value[pos].note= found.entry[found.entry.length - 1]
         // this may be pulled out to a separate function to pull off fuzzy matching
         if (leftovers.length || category == "Meds" || category == "Allergy") {
           switch (category) {
@@ -354,7 +379,7 @@ export function direct_out() {
             case "Allergy":
               result.value[pos].Display = result.value[pos].Functional;
               result.value[pos].is_historic = true;
-              diag_qualifier(pos, found, leftovers);
+              //diag_qualifier(pos, found, leftovers);
               break;
             default:
               console.log(
@@ -430,7 +455,9 @@ export function direct_out() {
         result.value[pos].Qualifier.splice();
         result.value[pos].Qualifier.push({ comments: final_string });
         result.value[pos].Display =
-          result.value[pos].Display + " (Negative " + leftovers.join(" ") + ")";
+          result.value[pos].Display + " |Negative|" + leftovers.join(" ");
+        result.value[pos].note =
+          result.value[pos].note + " |Negative|" + leftovers.join(" ");
         result.value[pos].Unused = [];
         result.value[pos].negation = true;
         //console.log(ngrams[i])
@@ -442,7 +469,9 @@ export function direct_out() {
       result.value[pos].Qualifier.splice();
       result.value[pos].Qualifier.push({ comments: leftovers.join(" ") });
       result.value[pos].Display =
-        result.value[pos].Display + " (" + leftovers.join(" ") + ")";
+        result.value[pos].Display + "|" + leftovers.join(" ");
+      result.value[pos].note =
+        result.value[pos].note + "|" + leftovers.join(" ");
       result.value[pos].Unused = [];
       result.value[pos].negation = false;
     }
@@ -454,7 +483,9 @@ export function direct_out() {
     result.value[pos].Qualifier.splice();
     result.value[pos].Qualifier.push({ comments: leftovers.join(" ") });
     result.value[pos].Display =
-      result.value[pos].Display + " (" + leftovers.join(" ") + ")";
+      result.value[pos].Display + "|" + leftovers.join(" ");
+    result.value[pos].note =
+      result.value[pos].note + "|" + leftovers.join(" ");
     result.value[pos].Unused = [];
   }
   function diag_qualifier(pos, found, leftovers) {
@@ -462,7 +493,9 @@ export function direct_out() {
     leftovers = leftovers.map((t) => t.text);
     result.value[pos].Qualifier.push({ comments: leftovers.join(" ") });
     result.value[pos].Display =
-      result.value[pos].Display + " (" + leftovers.join(" ") + ")";
+      result.value[pos].Display + "|" + leftovers.join(" ");
+    result.value[pos].note =
+      result.value[pos].note + "|" + leftovers.join(" ");
     result.value[pos].Unused = [];
   }
   function med_qualifier(pos, found, phrase, leftovers) {
@@ -512,14 +545,25 @@ export function direct_out() {
       med_form +
       " " +
       disp +
-      "(" +
-      (active_ing ? active_ing + " ," : "") +
+      "|" +
+      (active_ing ? active_ing + " |" : "") +
       dosage +
-      " ," +
+      " |" +
       duration +
-      " ," +
+      " |" +
       (sp_inst ? full_text + "; " + sp_inst : full_text) +
-      ")";
+      "";
+    result.value[pos].note =
+      med_form +
+      " " +
+      result.value[pos].note +
+      "|" +
+      dosage +
+      " |" +
+      duration +
+      " |" +
+      (full_text) +
+      "";
     result.value[pos].Qualifier = [];
     result.value[pos].Qualifier.push({
       medicine_form: med_form,
@@ -535,30 +579,33 @@ export function direct_out() {
     result_grouped.value = [];
     stop_submit.value = false;
     new_terms.value = false;
-    //console.log(input.value);
+
     const phrases = normalizeinput(input);
-    //console.log(phrases);
+
     const sp_phrases = sp_charcters_input(phrases);
     const med_phrases = check_med_form(sp_phrases);
-    for (const p of med_phrases) {
-      greedyMatch(p);
+    for (const p of med_phrases) { 
+      if(p.Functional.length>1){     
+        greedyMatch(p);}
+      else{
+        p.Category="Junk";
+      }
     }
     // if greedy match returns unknown- FUZZY MATCHING AND PHONETIC MATCHING (not for medicine) -- V2 development cycle
     for (const i of result.value) {
-      if (i.new) {
+      if (i.new && i.Functional.length>1) {
         i.Item = [i.Category, i.Functional];
         if (i.Category == "Meds") {
           stop_submit.value = true;
         } else {
           new_terms.value = true;
         }
-
         // console.log(i.Item)
         // here we will start the fuzzy match in v2, fuzzy match will also introduce abbrv etc
       }
     }
     result_grouped.value = groupby_category(result.value);
-    console.log("interaction")
+    return result.value;
   };
   return {
     result,
