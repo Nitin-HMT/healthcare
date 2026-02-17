@@ -11,11 +11,21 @@
  "engine": "InnoDB",
  "field_order": [
   "diagnosis",
+  "score",
+  "department",
+  "active",
+  "review",
+  "category",
   "column_break_2",
   "estimated_duration",
   "lifestyle_advise",
+  "temp_code_type",
+  "temp_code",
+  "temp_alias",
   "codification",
-  "codification_table"
+  "codification_table",
+  "medical_alias",
+  "practitioner_lexicon_variance"
  ],
  "fields": [
   {
@@ -47,18 +57,74 @@
   },
   {
    "fieldname": "codification",
-   "fieldtype": "Section Break",
-   "label": "Medical Coding"
+   "fieldtype": "Section Break"
   },
   {
    "allow_in_quick_entry": 1,
    "fieldname": "lifestyle_advise",
    "fieldtype": "Small Text",
    "label": "Lifestyle Advise"
+  },
+  {
+   "fieldname": "medical_alias",
+   "fieldtype": "Table",
+   "label": "Medical Alias",
+   "options": "Medical Alias"
+  },
+  {
+   "fieldname": "practitioner_lexicon_variance",
+   "fieldtype": "Table",
+   "label": "Practitioner Lexicon Variance",
+   "options": "Practitioner Lexicon Variance"
+  },
+  {
+   "fieldname": "score",
+   "fieldtype": "Int",
+   "label": "Score",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Medical Department"
+  },
+  {
+   "default": "1",
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "label": "Active"
+  },
+  {
+   "default": "1",
+   "fieldname": "review",
+   "fieldtype": "Check",
+   "label": "Review"
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "label": "Category",
+   "options": "Chronic\nAcute\nBoth"
+  },
+  {
+   "fieldname": "temp_code_type",
+   "fieldtype": "Data",
+   "label": "temp_code_type"
+  },
+  {
+   "fieldname": "temp_code",
+   "fieldtype": "Data",
+   "label": "temp_code"
+  },
+  {
+   "fieldname": "temp_alias",
+   "fieldtype": "Data",
+   "label": "temp_alias"
   }
  ],
  "links": [],
- "modified": "2026-02-16 19:37:26.702613",
+ "modified": "2026-02-17 17:01:55.441937",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Diagnosis",

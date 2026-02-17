@@ -14,11 +14,23 @@
         class="capitalize text-sm py-2 my-1 px-1 rounded-md"
         :key="item.name"
       >
-        <div
+        <div v-if="!item.trp_failed"
           @click="item.expanded = !item.expanded"
           class="grid grid-cols-2 border font-semibold bg-gradient-to-t from-teal-900/85 to-teal-600 text-white py-1.5 px-2 mb-2 rounded-md"
         >
           <div>{{ item.format_date }} ({{ item.date }})</div>
+          <div class="flex justify-end items-end">
+            {{ item.doctor }}
+            <ChevronDown class="h-4" v-show="!item.expanded" />
+            <ChevronUp class="h-4" v-show="item.expanded" />
+          </div>
+        </div>
+        <div v-else
+          @click="item.expanded = !item.expanded"
+          class="grid grid-cols-3 border font-semibold bg-gradient-to-l from-teal-900/85 to-gray-700 text-white py-1.5 px-2 mb-2 rounded-md"
+        >
+          <div>{{ item.format_date }} ({{ item.date }})</div>
+          <div class="flex justify-end items-end font-medium">Transcription Failed</div>
           <div class="flex justify-end items-end">
             {{ item.doctor }}
             <ChevronDown class="h-4" v-show="!item.expanded" />
@@ -138,6 +150,7 @@ let med_history = createListResource({
           imp: d.stream_of_thought_input,
           doctor: d.practitioner_name,
           hist: d.pat_hist_string,
+          trp_failed: d.transcription_failed,
           name: d.name,
           refer: firstElements[0],
           follow: d.follow_up,

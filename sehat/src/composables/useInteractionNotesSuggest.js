@@ -61,7 +61,7 @@ export function suggest() {
     const symbolMap = {
       "@": "Symptoms",
       "#": "Meds",
-      $: "labs",
+      "$": "labs",
       "^": "Diagnosis",
       "*": "surg",
       "!": "Allergy",
@@ -260,6 +260,9 @@ export function suggest() {
     const med_phrases = check_med_form(sp_phrases);
     for (const p of sp_phrases) {
       greedyMatch(p);
+    }
+    if (all_search.value?.length > 10) {
+          all_search.value.splice(10)
     }
     // if greedy match returns unknown- FUZZY MATCHING AND PHONETIC MATCHING (not for medicine) -- V2 development cycle
   };

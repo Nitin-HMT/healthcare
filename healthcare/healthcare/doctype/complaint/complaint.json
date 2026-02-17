@@ -11,13 +11,17 @@
  "field_order": [
   "complaints",
   "score",
+  "department",
   "column_break_grqb",
   "active",
   "review",
+  "temp_code_type",
+  "temp_code",
+  "temp_alias",
   "section_break_nbjv",
-  "coding_system",
   "medical_alias",
-  "practitioner_lexicon_variance"
+  "practitioner_lexicon_variance",
+  "codification_table"
  ],
  "fields": [
   {
@@ -56,12 +60,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "coding_system",
-   "fieldtype": "Table",
-   "label": "Coding System",
-   "options": "Medical Code System"
-  },
-  {
    "fieldname": "medical_alias",
    "fieldtype": "Table",
    "label": "Medical Alias",
@@ -72,10 +70,37 @@
    "fieldtype": "Table",
    "label": "Practitioner Lexicon Variance",
    "options": "Practitioner Lexicon Variance"
+  },
+  {
+   "fieldname": "codification_table",
+   "fieldtype": "Table",
+   "label": "Medical Codes",
+   "options": "Codification Table"
+  },
+  {
+   "fieldname": "temp_code_type",
+   "fieldtype": "Data",
+   "label": "temp_code_type"
+  },
+  {
+   "fieldname": "temp_code",
+   "fieldtype": "Data",
+   "label": "temp_code"
+  },
+  {
+   "fieldname": "temp_alias",
+   "fieldtype": "Small Text",
+   "label": "temp_alias"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Medical Department"
   }
  ],
  "links": [],
- "modified": "2026-02-16 19:31:24.756436",
+ "modified": "2026-02-17 16:40:57.619344",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Complaint",

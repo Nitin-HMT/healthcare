@@ -473,7 +473,7 @@
   :ref="el => resultRefs[index] = el"
   @click="selectItem(item)"
   :class="[
-    'p-1 px-2 text-xs text-gray-900 rounded-sm cursor-pointer',
+    'py-1.5 px-2 text-xs text-gray-900 rounded-sm cursor-pointer',
     activeIndex === index
       ? 'bg-gray-100/50 font-semibold hover:bg-gray-200'
       : 'hover:bg-gray-200'
@@ -495,7 +495,7 @@
                       <div>{{ item[5] }}</div>
                       <div>{{ item[4] }}</div>
                       <div
-                        class="col-span-2 flex item-end justify-end text-gray-700"
+                        class="col-span-2 text-2xs flex item-end justify-end text-gray-700"
                       >
                         {{ item[3] }}
                       </div>
@@ -578,12 +578,12 @@
               Confirm
             </div>
           </div>
-          <div v-if="false"
+          <div v-if="true"
             class="text-xs text-gray-600 font-light font-mono mt-2 flex items-end justify-end"
           >
             {{ interaction.notes }}
           </div>
-          <div v-if="false"
+          <div v-if="true"
             class="text-xs text-gray-600 font-light font-mono mt-2 flex items-end justify-end"
           >
             Hx-> {{ interaction.history }}
@@ -659,7 +659,7 @@
 
       <div class="flex flex-row items-center justify-center">
         <Button
-          @click="final_submission_dialog = true"
+          @click="final_submission_dialog = true; make_prescription(submit_choice)"
           v-if="submit_choice == false && submit_comments.length > 0"
           :loading="interaction_load"
           class="rounded-full text-xs bg-white border border-red-800 text-red-800 hover:bg-red-800/30"
@@ -668,7 +668,7 @@
         </Button>
         <!-- make_prescription(true); -->
         <Button
-          @click="final_submission_dialog = true"
+          @click="final_submission_dialog = true; make_prescription(submit_choice)"
           v-if="
             submit_choice == true &&
             new_terms == false &&
@@ -824,7 +824,7 @@
       <div />
     </template>
     <template #body-content>
-      <div
+      <!-- <div
         class="flex items-center justify-center flex-col"
         v-if="
           prescription_created == false &&
@@ -832,7 +832,7 @@
           error_interaction.length < 1
         "
       >
-        <!-- make_prescription(true) -->
+
         <div class="text-md text-gray-800 capitalize">
           Are you sure you want to submit?
         </div>
@@ -847,8 +847,8 @@
             >Yes</Button
           >
         </div>
-      </div>
-      <div v-else class="grid grid-cols-2 px-2 border">
+      </div> -->
+      <div class="grid grid-cols-2 px-2 border">
         <div
           v-if="interaction_load && !prescription_created"
           class="py-12 flex items-center justify-center flex-col"
@@ -1129,14 +1129,33 @@ if(!under_operation.is_historic){
   under_operation.is_historic=false;
 
 }
+ function remake_original(phrase_array){
+  let final_ph=""
+  if(phrase_array?.length>0){
+    for(let i=0;i<phrase_array?.length;i++){
+      final_ph= (final_ph ?? "") +phrase_array[i]?.Original+ "; ";
+    }
+  }
+  return final_ph
+ }
+
+
 async function make_prescription(correct_flag) {
   const data = ref([]);
   const create_flag = ref(false);
   await library.refresh_library();
   let final_str = chat_Append(interaction.notes,true);
   let final_history = chat_Append(interaction.history,true,true);
+  if(!correct_flag){
+    //transcription_Failed
+    interaction.notes="";
+    interaction.history="";
+    interaction.history=remake_original(result_hist.value);
+    interaction.notes=remake_original(result.value);
+  }
+  if(interaction.history?.length>0){
   patient_x.setValue.submit({
-    pat_hist: interaction.history.replace(/(\r\n|\n|\r|;\n)/g, ";\n")})
+    pat_hist: interaction.history})}
   data.value = [
     interaction.notes,
     interaction.follow_up,
@@ -1231,13 +1250,13 @@ function chat_Append(chat, bulk_run=false,history=false) {
       if(x[i].Category=="Allergy"){
       result_hist.value.push(x[i]);
       x[i].is_historic=true;
-      interaction.history = interaction.history +x[i].note+ "; ";
+      interaction.history = (interaction.history ?? "") + x[i].note + "; ";;
       result_hist.value=renormalise_input(result_hist.value);
     }
       else if(x[i].Category!="Junk"){
       result.value.push(x[i]);
       x[i].is_historic=false;
-      interaction.notes = interaction.notes +x[i].note+ "; ";}
+      interaction.notes = (interaction.notes ?? "") +x[i].note+ "; ";}
     }
     result.value=renormalise_input(result.value);
     r=result.value;
@@ -1249,16 +1268,15 @@ function chat_Append(chat, bulk_run=false,history=false) {
       result_hist.value.push(y[i]);
       y[i].is_historic=true;
       if(y[i].Category!="Junk"){
-      interaction.history = interaction.history +y[i].note+ "; ";}
+      interaction.history = (interaction.history ?? "") + y[i].note + "; ";}
     }
     result_hist.value=renormalise_input(result_hist.value);
     //console.log(result.value);
     r=result_hist.value;
+  }    
   }
-    interaction.chat = "";
-    continuos_input.show_result = false;
-    
-  }
+  interaction.chat = "";
+  continuos_input.show_result = false;
   result_grouped.value = groupby_category([...result_hist.value, ...result.value]);
   //renormalise_input([...result_hist.value, ...result.value])
   return r;

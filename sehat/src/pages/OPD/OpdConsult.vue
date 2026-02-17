@@ -16,12 +16,6 @@
           Collapse="true"
           :Request_from="route.name"
         />
-        <PatientHistory
-          :Pat_id="pat_id"
-          :App_id="app_id"
-          Collapse="true"
-          :Request_from="route.name"
-        v-if="false"/>
       </div>
       <MoreInformation
           :Pat_id="pat_id"
@@ -38,7 +32,6 @@
 import { useRoute } from "vue-router";
 import PatientPanel from "@/component/ui/PatientPanel.vue";
 import Interaction from "@/component/shared/PatientInteraction2.vue";
-import PatientHistory from "@/component/shared/PatientHistory.vue";
 import MoreInformation from "@/component/shared/OpdMoreInfo.vue";
 import { patient_panel } from "@/composables/usePatientStore.js";
 import { computed} from "vue";

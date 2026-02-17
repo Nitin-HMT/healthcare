@@ -709,6 +709,7 @@
   },
   {
    "default": "0",
+   "description": "The User has marked this interaction's transcription as failed",
    "fieldname": "transcription_failed",
    "fieldtype": "Check",
    "label": "Transcription Failed"
@@ -745,7 +746,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2026-02-16 14:52:45.604692",
+ "modified": "2026-02-17 15:10:27.000592",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",
