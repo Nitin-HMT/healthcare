@@ -10,11 +10,17 @@
  "field_order": [
   "lab_test_name",
   "department",
+  "nursing_checklist_template",
+  "temp_system",
+  "temp_panel_comp",
   "column_break_3",
   "disabled",
-  "nursing_checklist_template",
-  "company",
-  "co_abbr",
+  "review",
+  "test_type",
+  "score",
+  "temp_code_type",
+  "temp_code",
+  "temp_alias",
   "billing_section",
   "column_break_hih3",
   "link_existing_item",
@@ -51,10 +57,13 @@
   "sample",
   "sample_uom",
   "sample_qty",
+  "fasting",
   "column_break_33",
   "sample_details",
   "codification",
   "codification_table",
+  "medical_alias",
+  "practitioner_lexicon_variance",
   "worksheet_legend_tab",
   "worksheet_section",
   "worksheet_instructions",
@@ -340,7 +349,6 @@
    "collapsible": 1,
    "fieldname": "codification",
    "fieldtype": "Tab Break",
-   "hidden": 1,
    "label": "Medical Coding"
   },
   {
@@ -389,7 +397,6 @@
    "depends_on": "eval:doc.lab_test_template_type != 'Imaging'",
    "fieldname": "sample_collection_tab",
    "fieldtype": "Tab Break",
-   "hidden": 1,
    "label": "Sample Collection"
   },
   {
@@ -430,22 +437,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "company",
-   "fieldtype": "Link",
-   "label": "Clinic",
-   "options": "Company",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "company.abbr",
-   "fetch_if_empty": 1,
-   "fieldname": "co_abbr",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "label": "co_abbr",
-   "read_only": 1
-  },
-  {
    "default": "0",
    "fieldname": "min_normal_range",
    "fieldtype": "Float",
@@ -456,10 +447,71 @@
    "fieldname": "max_normal_range",
    "fieldtype": "Float",
    "label": "Max Normal Range"
+  },
+  {
+   "default": "1",
+   "fieldname": "review",
+   "fieldtype": "Check",
+   "label": "Review"
+  },
+  {
+   "fieldname": "test_type",
+   "fieldtype": "Select",
+   "label": "Test Type",
+   "options": "Laboratory\nImaging\nProcedure"
+  },
+  {
+   "fieldname": "score",
+   "fieldtype": "Int",
+   "label": "Score",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "temp_code_type",
+   "fieldtype": "Data",
+   "label": "temp_code_type"
+  },
+  {
+   "fieldname": "temp_code",
+   "fieldtype": "Data",
+   "label": "temp_code"
+  },
+  {
+   "fieldname": "temp_alias",
+   "fieldtype": "Data",
+   "label": "temp_alias"
+  },
+  {
+   "fieldname": "medical_alias",
+   "fieldtype": "Table",
+   "label": "Medical Alias",
+   "options": "Medical Alias"
+  },
+  {
+   "fieldname": "practitioner_lexicon_variance",
+   "fieldtype": "Table",
+   "label": "Practitioner Lexicon Variance",
+   "options": "Practitioner Lexicon Variance"
+  },
+  {
+   "fieldname": "temp_system",
+   "fieldtype": "Data",
+   "label": "temp_system"
+  },
+  {
+   "fieldname": "temp_panel_comp",
+   "fieldtype": "Data",
+   "label": "temp_panel_comp"
+  },
+  {
+   "default": "0",
+   "fieldname": "fasting",
+   "fieldtype": "Check",
+   "label": "Fasting"
   }
  ],
  "links": [],
- "modified": "2025-12-13 22:31:24.516185",
+ "modified": "2026-02-18 18:37:36.591467",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Lab Test Template",

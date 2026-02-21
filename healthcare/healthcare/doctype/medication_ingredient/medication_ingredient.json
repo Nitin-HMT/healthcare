@@ -8,6 +8,7 @@
  "engine": "InnoDB",
  "field_order": [
   "medication",
+  "salt_name",
   "strength",
   "strength_uom"
  ],
@@ -15,10 +16,9 @@
   {
    "fetch_from": "medication.strength",
    "fieldname": "strength",
-   "fieldtype": "Float",
+   "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Strength",
-   "reqd": 1
+   "label": "Strength"
   },
   {
    "fetch_from": "medication.strength_uom",
@@ -26,8 +26,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Strength UOM",
-   "options": "UOM",
-   "reqd": 1
+   "options": "UOM"
   },
   {
    "fieldname": "medication",
@@ -36,11 +35,18 @@
    "label": "Medication",
    "options": "Medication",
    "reqd": 1
+  },
+  {
+   "fetch_from": "medication.primary_salt_name",
+   "fieldname": "salt_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Salt Name"
   }
  ],
  "istable": 1,
  "links": [],
- "modified": "2023-03-27 13:34:21.387111",
+ "modified": "2026-02-21 13:49:51.489618",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Medication Ingredient",

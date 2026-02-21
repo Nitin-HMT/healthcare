@@ -14,8 +14,11 @@
   "is_combination",
   "column_break_4",
   "disabled",
+  "primary_salt_name",
   "strength",
   "strength_uom",
+  "number_of_active_ingredients",
+  "temp_generic_breakup",
   "combinations_section",
   "combinations",
   "item_details",
@@ -29,6 +32,8 @@
   "default_interval_uom",
   "section_break_36",
   "reference_url",
+  "column_break_krfb",
+  "temp_brand_names",
   "change_in_item",
   "medical_coding_section",
   "codification_table",
@@ -48,14 +53,14 @@
    "fieldtype": "Data",
    "label": "Generic Name",
    "no_copy": 1,
+   "reqd": 1,
    "unique": 1
   },
   {
    "fieldname": "medication_class",
    "fieldtype": "Link",
    "label": "Medication Class",
-   "options": "Medication Class",
-   "reqd": 1
+   "options": "Medication Class"
   },
   {
    "fieldname": "column_break_4",
@@ -63,18 +68,16 @@
   },
   {
    "fieldname": "strength",
-   "fieldtype": "Float",
+   "fieldtype": "Data",
    "label": "Strength",
    "no_copy": 1,
-   "precision": "2",
-   "reqd": 1
+   "precision": "2"
   },
   {
    "fieldname": "strength_uom",
    "fieldtype": "Link",
    "label": "Strength UOM",
-   "options": "UOM",
-   "reqd": 1
+   "options": "UOM"
   },
   {
    "fieldname": "defaults_section",
@@ -149,8 +152,7 @@
    "fieldname": "dosage_form",
    "fieldtype": "Link",
    "label": "Dosage Form",
-   "options": "Dosage Form",
-   "reqd": 1
+   "options": "Dosage Form"
   },
   {
    "fieldname": "column_break_16",
@@ -212,10 +214,34 @@
    "fieldname": "section_break_sbkz",
    "fieldtype": "Section Break",
    "hidden": 1
+  },
+  {
+   "fieldname": "number_of_active_ingredients",
+   "fieldtype": "Int",
+   "label": "Number of Active Ingredients"
+  },
+  {
+   "fieldname": "temp_generic_breakup",
+   "fieldtype": "Small Text",
+   "label": "temp_generic_breakup"
+  },
+  {
+   "fieldname": "column_break_krfb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "temp_brand_names",
+   "fieldtype": "Long Text",
+   "label": "temp_brand_names"
+  },
+  {
+   "fieldname": "primary_salt_name",
+   "fieldtype": "Data",
+   "label": "Primary Salt Name"
   }
  ],
  "links": [],
- "modified": "2024-11-29 16:01:42.615333",
+ "modified": "2026-02-21 13:48:29.067084",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Medication",

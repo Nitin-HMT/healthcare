@@ -9,17 +9,26 @@
   "dosage_form",
   "medicine_brand",
   "generic_name",
-  "clinic",
-  "company",
-  "clinic_abbr",
+  "medication_class",
+  "score",
+  "review",
+  "temp_coded_salt_name",
   "column_break_xvys",
-  "enabled",
+  "disabled",
+  "primary_salt_name",
   "strength",
   "uom",
-  "special_instruction",
+  "is_combination",
+  "number_of_active_ingredients",
+  "manufacturer",
   "section_break_sgbn",
   "default_duration",
-  "default_dosage"
+  "default_dosage",
+  "column_break_ndjl",
+  "special_instruction",
+  "tables_tab",
+  "medication_ingredient",
+  "practitioner_lexicon_variance"
  ],
  "fields": [
   {
@@ -31,28 +40,33 @@
    "set_only_once": 1
   },
   {
-   "allow_in_quick_entry": 1,
    "fieldname": "generic_name",
-   "fieldtype": "Data",
-   "label": "Generic Name"
+   "fieldtype": "Link",
+   "label": "Generic Name",
+   "options": "Medication"
   },
   {
    "fieldname": "column_break_xvys",
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "generic_name.strength",
+   "fetch_if_empty": 1,
    "fieldname": "strength",
-   "fieldtype": "Float",
-   "label": "Strength"
+   "fieldtype": "Data",
+   "label": "Primary Salt Strength"
   },
   {
+   "fetch_from": "generic_name.strength_uom",
    "fieldname": "uom",
    "fieldtype": "Link",
-   "label": "Strength UOM",
+   "label": "Primary Salt Strength UOM",
    "options": "UOM"
   },
   {
    "allow_in_quick_entry": 1,
+   "fetch_from": "generic_name.dosage_form",
+   "fetch_if_empty": 1,
    "fieldname": "dosage_form",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -66,6 +80,8 @@
   },
   {
    "allow_in_quick_entry": 1,
+   "fetch_from": "generic_name.default_prescription_duration",
+   "fetch_if_empty": 1,
    "fieldname": "default_duration",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -74,32 +90,13 @@
   },
   {
    "allow_in_quick_entry": 1,
+   "fetch_from": "generic_name.default_prescription_dosage",
+   "fetch_if_empty": 1,
    "fieldname": "default_dosage",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Default Dosage",
    "options": "Prescription Dosage"
-  },
-  {
-   "fieldname": "clinic",
-   "fieldtype": "Link",
-   "hidden": 1,
-   "label": "Clinic",
-   "options": "Company"
-  },
-  {
-   "fetch_from": "company.abbr",
-   "fieldname": "clinic_abbr",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "label": "Clinic Abbr",
-   "read_only": 1
-  },
-  {
-   "default": "1",
-   "fieldname": "enabled",
-   "fieldtype": "Check",
-   "label": "Enabled"
   },
   {
    "allow_in_quick_entry": 1,
@@ -108,15 +105,87 @@
    "label": "Special Instruction"
   },
   {
-   "fieldname": "company",
+   "fetch_from": "generic_name.medication_class",
+   "fieldname": "medication_class",
    "fieldtype": "Link",
-   "label": "Company",
-   "options": "Company"
+   "label": "Medication Class",
+   "options": "Medication Class"
+  },
+  {
+   "default": "0",
+   "fetch_from": "generic_name.is_combination",
+   "fetch_if_empty": 1,
+   "fieldname": "is_combination",
+   "fieldtype": "Check",
+   "label": "Is Combination"
+  },
+  {
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
+  },
+  {
+   "fieldname": "score",
+   "fieldtype": "Int",
+   "label": "Score",
+   "non_negative": 1
+  },
+  {
+   "fetch_from": "generic_name.number_of_active_ingredients",
+   "fieldname": "number_of_active_ingredients",
+   "fieldtype": "Int",
+   "label": "Number of Active Ingredients",
+   "non_negative": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "review",
+   "fieldtype": "Check",
+   "label": "Review"
+  },
+  {
+   "fieldname": "column_break_ndjl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "temp_coded_salt_name",
+   "fieldtype": "Data",
+   "label": "temp_coded_salt_name"
+  },
+  {
+   "fieldname": "primary_salt_name",
+   "fieldtype": "Link",
+   "label": "Primary Salt Name",
+   "options": "Medication"
+  },
+  {
+   "fieldname": "manufacturer",
+   "fieldtype": "Link",
+   "label": "Manufacturer",
+   "options": "Manufacturer"
+  },
+  {
+   "fieldname": "tables_tab",
+   "fieldtype": "Tab Break",
+   "label": "Tables"
+  },
+  {
+   "fieldname": "medication_ingredient",
+   "fieldtype": "Table",
+   "label": "Medication Ingredient",
+   "options": "Medication Ingredient"
+  },
+  {
+   "fieldname": "practitioner_lexicon_variance",
+   "fieldtype": "Table",
+   "label": "Practitioner Lexicon Variance",
+   "options": "Practitioner Lexicon Variance"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-23 13:02:14.353730",
+ "modified": "2026-02-21 12:51:15.015016",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "OPD Medication",

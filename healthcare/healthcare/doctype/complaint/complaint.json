@@ -14,6 +14,7 @@
   "department",
   "column_break_grqb",
   "active",
+  "disabled",
   "review",
   "temp_code_type",
   "temp_code",
@@ -97,10 +98,16 @@
    "fieldtype": "Link",
    "label": "Department",
    "options": "Medical Department"
+  },
+  {
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
   }
  ],
  "links": [],
- "modified": "2026-02-17 16:40:57.619344",
+ "modified": "2026-02-18 18:58:56.921982",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Complaint",

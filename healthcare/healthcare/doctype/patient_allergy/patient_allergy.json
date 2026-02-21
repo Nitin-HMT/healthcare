@@ -6,17 +6,77 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_k97z"
+  "score",
+  "temp_code_type",
+  "temp_code",
+  "temp_alias",
+  "codification_table",
+  "column_break_ozmb",
+  "disabled",
+  "review",
+  "medical_alias",
+  "practitioner_lexicon_variance"
  ],
  "fields": [
   {
-   "fieldname": "section_break_k97z",
-   "fieldtype": "Section Break"
+   "fieldname": "score",
+   "fieldtype": "Int",
+   "label": "Score",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "temp_code_type",
+   "fieldtype": "Data",
+   "label": "temp_code_type"
+  },
+  {
+   "fieldname": "temp_code",
+   "fieldtype": "Data",
+   "label": "temp_code"
+  },
+  {
+   "fieldname": "temp_alias",
+   "fieldtype": "Small Text",
+   "label": "temp_alias"
+  },
+  {
+   "fieldname": "column_break_ozmb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
+  },
+  {
+   "default": "1",
+   "fieldname": "review",
+   "fieldtype": "Check",
+   "label": "Review"
+  },
+  {
+   "fieldname": "medical_alias",
+   "fieldtype": "Table",
+   "label": "Medical Alias",
+   "options": "Medical Alias"
+  },
+  {
+   "fieldname": "practitioner_lexicon_variance",
+   "fieldtype": "Table",
+   "label": "Practitioner Lexicon Variance",
+   "options": "Practitioner Lexicon Variance"
+  },
+  {
+   "fieldname": "codification_table",
+   "fieldtype": "Table",
+   "label": "Medical Codes",
+   "options": "Codification Table"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-15 14:53:34.452269",
+ "modified": "2026-02-21 15:03:27.129601",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Allergy",

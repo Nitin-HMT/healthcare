@@ -271,7 +271,6 @@
   {
    "fieldname": "drug_prescription",
    "fieldtype": "Table",
-   "hidden": 1,
    "label": "IPD Drug Prescription",
    "options": "Drug Prescription"
   },
@@ -746,7 +745,7 @@
    "link_fieldname": "admission_encounter"
   }
  ],
- "modified": "2026-02-17 15:10:27.000592",
+ "modified": "2026-02-20 17:12:05.570633",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Encounter",

@@ -6,5 +6,6 @@ from frappe.model.document import Document
 
 
 class OPDMedication(Document):
-	def before_validate(self):
-		self.oc_code_name = f"{self.clinic_abbr}-{self.medicine_brand}"
+	# def before_validate(self):
+	# 	self.oc_code_name = f"{self.clinic_abbr}-{self.medicine_brand}"
+    pass

@@ -23,7 +23,7 @@ class ClinicalProcedureTemplate(Document):
 
 	def validate(self):
 		self.enable_disable_item()
-		self.item_code= self.template+"-"+self.co_abbr
+		self.item_code= self.template
 
 	def after_insert(self):
 		if not self.link_existing_item:
