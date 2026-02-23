@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:medication_class",
  "creation": "2020-03-24 15:55:53.302910",
@@ -19,7 +20,7 @@
   }
  ],
  "links": [],
- "modified": "2024-11-29 16:02:55.583746",
+ "modified": "2026-02-22 18:47:13.097073",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Medication Class",

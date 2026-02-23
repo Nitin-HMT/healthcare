@@ -3,7 +3,7 @@
  "allow_copy": 1,
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "format:{lab_test_name}-{co_abbr}",
+ "autoname": "format:{lab_test_name}",
  "creation": "2016-03-29 17:35:36.761223",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -276,7 +276,7 @@
    "label": "Disabled"
   },
   {
-   "default": "0",
+   "default": "1",
    "fieldname": "sample_qty",
    "fieldtype": "Float",
    "label": "Quantity"
@@ -511,7 +511,7 @@
   }
  ],
  "links": [],
- "modified": "2026-02-18 18:37:36.591467",
+ "modified": "2026-02-21 19:12:02.042271",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Lab Test Template",

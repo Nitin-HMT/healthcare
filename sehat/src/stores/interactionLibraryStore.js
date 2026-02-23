@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { createListResource } from "frappe-ui";
-import { ref } from "vue";
+import { ref,shallowRef } from "vue";
 
 const full_db = ref(new Map());
 const sym_db = ref([]);
@@ -28,6 +28,10 @@ export const useinteractionLibraryStore = defineStore("library", () => {
   const symptoms = createListResource({
     doctype: "Complaint",
     fields: ["*"],
+    filters: {
+      disabled: false,
+    },
+    orderBy: "score asc",
     auto: true,
     pageLength: 500000,
     transform(data) {
@@ -69,6 +73,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
             .replace(/[^a-zA-Z0-9]/g, ""),
           d.name,
         );
+        console.log("i building all medical lexicon")
         form_db.value.push({
           label: d.name,
           value: d.name,
@@ -81,6 +86,10 @@ export const useinteractionLibraryStore = defineStore("library", () => {
     doctype: "Diagnosis",
     fields: ["*"],
     auto: true,
+    filters: {
+      disabled: false,
+    },
+    orderBy: "score asc",
     pageLength: 500000,
     transform(data) {
       data.forEach((d) => {
@@ -109,6 +118,10 @@ export const useinteractionLibraryStore = defineStore("library", () => {
   const labs = createListResource({
     doctype: "Lab Test Template",
     fields: ["*"],
+    filters: {
+      disabled: false,
+    },
+    orderBy: "score asc",
     auto: true,
     pageLength: 500000,
     transform(data) {
@@ -145,6 +158,10 @@ export const useinteractionLibraryStore = defineStore("library", () => {
   const medicine = createListResource({
     doctype: "OPD Medication",
     fields: ["*"],
+    filters: {
+      disabled: false,
+    },
+    orderBy: "score desc",
     auto: true,
     pageLength: 500000,
     transform(data) {
@@ -196,6 +213,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
             d.default_dosage,
             d.special_instruction,
             d.medicine_brand,
+            d.manufacturer
           ],
         );
         //working to build a collection based on medicine form
@@ -228,6 +246,10 @@ export const useinteractionLibraryStore = defineStore("library", () => {
   const surg = createListResource({
     doctype: "Clinical Procedure Template",
     fields: ["*"],
+    filters: {
+      disabled: false,
+    },
+    orderBy: "score asc",
     auto: true,
     pageLength: 500000,
     transform(data) {
@@ -280,6 +302,10 @@ export const useinteractionLibraryStore = defineStore("library", () => {
   const allergy = createListResource({
     doctype: "Patient Allergy",
     fields: ["*"],
+    filters: {
+      disabled: false,
+    },
+    orderBy: "score asc",
     auto: true,
     pageLength: 20000,
     transform(data) {
@@ -350,7 +376,14 @@ export const useinteractionLibraryStore = defineStore("library", () => {
     },
   });
 
+let refreshing = false;
+
 async function refresh_library() {
+  if (refreshing) return;
+  refreshing = true;
+
+  reset_library();
+
   await Promise.all([
     symptoms.fetch(),
     dosage_form_1.fetch(),
@@ -362,6 +395,34 @@ async function refresh_library() {
     allergy.fetch(),
     duration.fetch(),
   ]);
+
+  refreshing = false;
+}
+
+function reset_library() {
+  // Clear all Maps
+  full_db.value.clear();
+  sym_map.value.clear();
+  diag_map.value.clear();
+  lab_map.value.clear();
+  meds_map.value.clear();
+  meds_form_map.value.clear();
+  surg_map.value.clear();
+  med_dosage.value.clear();
+  all_allergy.value.clear();
+  med_duration.value.clear();
+  dosage_form.value.clear();
+
+  // Reset all reactive arrays
+  sym_db.value = [];
+  diag_db.value = [];
+  lab_db.value = [];
+  med_db.value = [];
+  surg_db.value = [];
+  dosage_db.value = [];
+  allergy_db.value = [];
+  duration_db.value = [];
+  form_db.value = [];
 }
 
   return {

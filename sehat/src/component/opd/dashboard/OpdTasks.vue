@@ -3,7 +3,7 @@
     <div class="grid grid-cols-3">Quick Tasks</div>
   </div>
   <div class="grid grid-cols-2 gap-1" v-if="!vital_flag && !pay_flag">
-    <div class="" v-if="appointStore.vitals_pending.length > 0">
+    <div :class="[userStore.pay_settings?'':'col-span-2']" v-if="appointStore.vitals_pending.length > 0">
       <ol
         class="rounded-xl text-sm font-medium border gap-2 py-2 my-1 bg-gradient-to-r from-teal-700/80 to-teal-700/90 text-white"
       >
@@ -29,7 +29,7 @@
         </ol>
       </div>
     </div>
-    <div class="" v-if="appointStore.payment_pending.length > 0" v-show="true">
+    <div class="" v-if="appointStore.payment_pending.length > 0" v-show="userStore.pay_settings">
       <ol
         class="rounded-xl grid grid-cols-2 text-sm font-medium border gap-2 py-2 my-1 bg-gradient-to-r from-teal-700/90 to-teal-700/80 text-white"
       >
@@ -61,7 +61,7 @@
     <div
       class="col-span-2"
       v-if="appointStore.payment_complete.length > 0"
-      v-show="true"
+      v-show="userStore.pay_settings"
     >
       <ol
         class="rounded-xl grid grid-cols-2 text-sm font-medium border gap-2 py-2 my-1 bg-gradient-to-r from-gray-700/70 from-0% to-teal-700/90 to-90% text-white"
@@ -151,8 +151,10 @@ import Vitals from "@/component/shared/VitalsEntry.vue";
 import Payments from "@/component/opd/dashboard/OpdPayment.vue";
 import { vitals } from "@/composables/useVitals.js";
 import { payment } from "@/composables/useOpdPayment.js";
+import { useUserStore } from "@/stores/userStore";
 
 const appointStore = useAppointmentStore();
+const userStore = useUserStore();
 const exp_pay_hist = ref(false);
 const {
   make_newVital,

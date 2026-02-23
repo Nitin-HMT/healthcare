@@ -261,8 +261,8 @@ export function suggest() {
     for (const p of sp_phrases) {
       greedyMatch(p);
     }
-    if (all_search.value?.length > 10) {
-          all_search.value.splice(10)
+    if (all_search.value?.length > 12) {
+          all_search.value.splice(12)
     }
     // if greedy match returns unknown- FUZZY MATCHING AND PHONETIC MATCHING (not for medicine) -- V2 development cycle
   };

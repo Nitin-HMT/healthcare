@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "prompt",
  "creation": "2024-12-06 01:37:54.107040",
@@ -15,7 +16,9 @@
   "disabled",
   "review",
   "medical_alias",
-  "practitioner_lexicon_variance"
+  "practitioner_lexicon_variance",
+  "temp_allergens",
+  "cross_reactivity"
  ],
  "fields": [
   {
@@ -72,11 +75,21 @@
    "fieldtype": "Table",
    "label": "Medical Codes",
    "options": "Codification Table"
+  },
+  {
+   "fieldname": "temp_allergens",
+   "fieldtype": "Data",
+   "label": "temp_allergens"
+  },
+  {
+   "fieldname": "cross_reactivity",
+   "fieldtype": "Data",
+   "label": "Cross Reactivity"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-02-21 15:03:27.129601",
+ "modified": "2026-02-22 16:44:25.806190",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Allergy",

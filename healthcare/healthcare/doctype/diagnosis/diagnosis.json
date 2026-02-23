@@ -13,7 +13,6 @@
   "diagnosis",
   "score",
   "department",
-  "active",
   "disabled",
   "review",
   "category",
@@ -92,12 +91,6 @@
   },
   {
    "default": "1",
-   "fieldname": "active",
-   "fieldtype": "Check",
-   "label": "Active"
-  },
-  {
-   "default": "1",
    "fieldname": "review",
    "fieldtype": "Check",
    "label": "Review"
@@ -131,7 +124,7 @@
   }
  ],
  "links": [],
- "modified": "2026-02-18 18:59:34.563805",
+ "modified": "2026-02-21 19:18:01.321957",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Diagnosis",

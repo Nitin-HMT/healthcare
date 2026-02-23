@@ -1,6 +1,7 @@
 {
  "actions": [],
- "autoname": "format:{dosage_form} {medicine_brand}-{clinic_abbr}",
+ "allow_import": 1,
+ "autoname": "format:{medicine_brand} {dosage_form}",
  "creation": "2024-12-05 18:15:37.012642",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -150,7 +151,7 @@
   },
   {
    "fieldname": "temp_coded_salt_name",
-   "fieldtype": "Data",
+   "fieldtype": "Small Text",
    "label": "temp_coded_salt_name"
   },
   {
@@ -185,7 +186,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-02-21 12:51:15.015016",
+ "modified": "2026-02-22 22:18:29.206434",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "OPD Medication",

@@ -34,6 +34,7 @@ export const session = reactive({
     onSuccess() {
       userResource.reset();
       session.user = sessionUser();
+      console.log("logout successful")
       router.replace({ name: "Login" });
     },
   }),

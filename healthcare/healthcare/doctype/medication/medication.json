@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:generic_name",
  "creation": "2020-03-24 15:56:36.583587",
@@ -8,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "generic_name",
+  "full_generic_name_for_coded_id",
   "medication_class",
   "abbr",
   "national_drug_code",
@@ -137,8 +139,7 @@
   },
   {
    "fieldname": "section_break_36",
-   "fieldtype": "Section Break",
-   "hidden": 1
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "abbr",
@@ -238,10 +239,15 @@
    "fieldname": "primary_salt_name",
    "fieldtype": "Data",
    "label": "Primary Salt Name"
+  },
+  {
+   "fieldname": "full_generic_name_for_coded_id",
+   "fieldtype": "Small Text",
+   "label": "Full Generic Name for Coded id"
   }
  ],
  "links": [],
- "modified": "2026-02-21 13:48:29.067084",
+ "modified": "2026-02-22 20:51:24.647728",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Medication",

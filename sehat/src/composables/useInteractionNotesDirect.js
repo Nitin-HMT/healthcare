@@ -554,9 +554,8 @@ export function direct_out() {
       (sp_inst ? full_text + "; " + sp_inst : full_text) +
       "";
     result.value[pos].note =
+      result.value[pos].note + " " +
       med_form +
-      " " +
-      result.value[pos].note +
       "|" +
       dosage +
       " |" +

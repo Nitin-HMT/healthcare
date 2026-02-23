@@ -285,10 +285,10 @@
                   class="bg-yellow-300 rounded-full cursor-pointer px-1.5 flex flex-wrap"
                   @click="create_new_element(item)"
                 >
+                  {{ item.Functional }}
                   <div v-if="item.Qualifier[0]" class="pr-0.5">
                     {{ item.Qualifier[0].medicine_form }}
                   </div>
-                  {{ item.Functional }}
                 </div>
                 <div
                   v-else-if="
@@ -306,8 +306,9 @@
                     class="bg-yellow-300 rounded-full cursor-pointer px-1.5"
                     @click="create_new_element(item)"
                   >
-                    {{ item.Qualifier[0].medicine_form }}{{ item.Item[7] }}
+                   {{ item.Item[7] }} {{ item.Qualifier[0].medicine_form }}
                   </div>
+                  <i class="text-2xs">Please Add Qualifiers</i>
                 </div>
                 <div v-else class="col-span-2 flex gap-x-2">
                   <div class="flex">
@@ -480,7 +481,7 @@
   ]"
 >
 
-                    <div v-if="item[0] == 'Meds'" class="grid grid-cols-6">
+                    <div v-if="item[0] == 'Meds'" class="grid grid-cols-8">
                       <div
                         class="col-span-2 flex items-center gap-x-1"
                       >
@@ -490,10 +491,12 @@
                           :image="'/files/pill_yellow.jpg'"
                           size="xs"
                         />
-                        {{ item[2] }} {{ item[7] }}
+                        {{ item[7] }} {{ item[2] }}
                       </div>
                       <div>{{ item[5] }}</div>
                       <div>{{ item[4] }}</div>
+                      <div class="col-span-2 text-2xs flex item-start 
+                      justify-start text-gray-600">{{ item[8] }}</div>
                       <div
                         class="col-span-2 text-2xs flex item-end justify-end text-gray-700"
                       >
@@ -1143,7 +1146,7 @@ if(!under_operation.is_historic){
 async function make_prescription(correct_flag) {
   const data = ref([]);
   const create_flag = ref(false);
-  await library.refresh_library();
+  //await library.refresh_library();
   let final_str = chat_Append(interaction.notes,true);
   let final_history = chat_Append(interaction.history,true,true);
   if(!correct_flag){
@@ -1477,33 +1480,33 @@ function scrollIntoView() {
 
 function selectItem(item) {
   if (item[0] === "Meds") {
-    interaction.chat = item[2] + " " + item[7];
+    interaction.chat = item[7] + " " + item[2];
     continuos_input.show_result = false;
   }
 
   else if (item[0] === "Symptoms") {
     interaction.chat = item[1];
-    chat_Append(interaction.chat);
+    continuos_input.show_result = false;
   }
 
   else if (item[0] === "Diagnosis") {
     interaction.chat = item[1];
-    chat_Append(interaction.chat);
+    continuos_input.show_result = false;
   }
 
   else if (item[0] === "labs") {
     interaction.chat = item[2];
-    chat_Append(interaction.chat);
+    continuos_input.show_result = false;
   }
 
   else if (item[0] === "surg") {
     interaction.chat = item[2];
-    chat_Append(interaction.chat);
+    continuos_input.show_result = false;
   }
 
   else if (item[0] === "Allergy") {
     interaction.chat = item[1];
-    chat_Append(interaction.chat);
+    continuos_input.show_result = false;
   }
 
   activeIndex.value = -1;

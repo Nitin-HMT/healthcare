@@ -24,7 +24,7 @@
             <div>Name</div>
             <div>Doctor</div>
             <div>Status</div>
-            <div class="flex justify-end items-end">Payment</div>
+            <div class="flex justify-end items-end" v-if="userStore.pay_settings">Payment</div>
           </div>
           <div
             v-for="item in appointment.list.data"
@@ -37,10 +37,10 @@
                 item.status
               }}</Badge>
             </div>
-            <div v-show="!item.fee_valid" class="flex justify-end items-end">
+            <div v-show="!item.fee_valid" class="flex justify-end items-end" v-if="userStore.pay_settings">
               {{ formatCurrency(item.paid_amount, "INR") }}
             </div>
-            <div v-show="item.fee_valid" class="flex justify-end items-end">
+            <div v-show="item.fee_valid" class="flex justify-end items-end" v-if="userStore.pay_settings">
               Free Follow-Up
             </div>
           </div>
@@ -70,7 +70,7 @@
           <div>Labs History</div>
           <LabHistory :Pat_id="pat_id"  :Request_from= "route.name"/>
         </div>         -->
-      <div class="m-1 bg-white rounded-xl drop-shadow-lg p-2">
+      <div class="m-1 bg-white rounded-xl drop-shadow-lg p-2" v-if="userStore.pay_settings">
         <div>Payment History</div>
         <PaymentHistory :Pat_id="pat_id" :Request_from="route.name" />
       </div>
@@ -83,6 +83,8 @@ import MedicalHistory from "@/component/shared/MedicalHistory.vue";
 import PaymentHistory from "@/component/shared/PaymentHistory.vue";
 import LabHistory from "@/component/shared/LabHistory.vue";
 import VitalsHistory from "@/component/shared/VitalsHistory.vue";
+import { useUserStore } from "@/stores/userStore";
+
 import {
   Badge,
   FormControl,
@@ -106,7 +108,7 @@ import { formatCurrency } from "@/utils.js";
 import PatientPanel from "@/component/ui/PatientPanel.vue";
 const route = useRoute();
 const pat_id = route.params.pat_id;
-
+const userStore = useUserStore();
 let appointment = createListResource({
   doctype: "Patient Appointment",
   fields: ["*"],

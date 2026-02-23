@@ -1,138 +1,34 @@
 <template>
- <aside v-show="props.Request_from=='opd_consult7'"
-   class="hidden divide-gray-300 p-1 md:flex flex-col first-line:text-base fixed h-screen inset-y-0 top-0 right-0 bg-white drop-shadow-2xl transition-all duration-300 ease-in-out pt-16"  
-    :class="patientPanel_flag ? 'w-16' : 'w-64'">
-    
-<div class="divide-y divide-gray-300" v-if="!patientPanel_flag && patient.doc">
-    <div class="p-4 flex flex-col items-center justify-center space-x-2">
-      <div class="rounded-full w-20 h-20 border"
-      :class="[patient.doc.sex === 'Other' ? 'bg-yellow-300' :'bg-white']"
-      >
-       <User class=" p-2 w-20 h-20" :class="[patient.doc.sex === 'Female' ? 'text-pink-600/80' :'text-blue-700']"/>
-     
-      </div>
-    </div>
-    <div class="text-xs text-gray-400 flex flex-row px-1 items-center justify-center"><i>{{ Pat_id }}</i></div> 
-    <!-- Middle: Navigation -->
-    <div class="flex flex-col items-center justify-center text-gray-900 bg-white mx-1 p-1 text-base space-y-1">
-     <div>{{ patient.doc.patient_name }}, {{patient.doc.aged}}yrs, {{ patient.doc.sex }}</div>
-      <div class="text-red-800">{{ patient.doc.blood_group }}</div> 
-     <div class="text-sm flex"><Phone class="w-3 h-3 mr-1"/>{{ patient.doc.mobile }}</div>
-     <div class="text-sm flex text-white bg-orange-500 p-1 font-semibold rounded-full" v-if="patient.doc.emergency"><Siren class="w-4 h-4 mr-1"/>{{ patient.doc.emergency }}</div>
-    </div>
-
-    <!-- Bottom: Avatar + Collapse Button -->
-    <div class="p-1 pb-0.5 items-center justify-center space-x-1 space-y-1.5 capitalize">
-      <div class="text-sm text-gray-600 flex flex-row px-1 items-center justify-center">
-        Chronic/Past Conditions
-        <Button class="flex items-end justify-end bg-white" @click="pat_hit_dialog=true" >
-          <Pencil v-if="result_grouped" class="h-4 text-gray-600"/>
-          <SquarePlus v-else class="h-5 text-gray-600"/>
-        </Button>
-      </div>
-      <div v-if="result_grouped" @click="pat_hit_dialog=true">
-            <span v-for="(item,index) in result_grouped.Allergy"  class="space-x-1">
-              <Badge :variant="'outline'" theme="red" size="sm" v-if="item.Item && !item.new">{{ item.Display }}</Badge>
-          </span>
-            <span v-for="(item,index) in result_grouped.Meds" class="space-x-1">
-              <Badge :variant="'outline'" theme="blue" size="sm" v-if="item.Item && !item.new" class="flex flex-wrap">{{ item.Item[7]}}<!--({{  (item.Item[3]) }})--></Badge>
-          </span>
-            <span v-for="(item,index) in result_grouped.Diagnosis" class="space-x-1">
-              <Badge :variant="'outline'" theme="orange" size="sm" v-if="item.Item && !item.new">{{ item.Display }}</Badge>
-          </span>
-            <span v-for="(item,index) in result_grouped.surg" class="space-x-1">
-              <Badge :variant="'outline'" theme="green" size="sm" v-if="item.Item && !item.new">{{ item.Display }}</Badge>
-          </span>
-          </div>
-    </div>      
-    <div class="p-2 flex flex-col items-center justify-center space-x-1 space-y-1.5">
-      <Rating v-model="rating" v-show="false"/>
-      <Textarea :variant="'outline'" size="sm" placeholder="Your Pvt Notes" class="h-20" v-model="pvtNotes" />
-    <span class="flex flex-row item-center justify-center mt-3" v-show="!history_flag">
-    <Button @click="update_patient();" :loading="patient.get.loading" 
-    class="rounded-full bg-white border border-teal-800 text-teal-800">
-    Update Patient</Button></span>
-    </div>
-  </div>
-  <div v-else-if="patientPanel_flag && patient.doc">
-    <div class="leading-none [writing-mode:vertical-rl] p-2 text-sm flex flex-grow gap-2 items-center justify-between">
-      <div class="bg-white rounded-full w-8 h-8 border">
-       <User class=" p-2 w-8 h-8" :class="[patient.doc.sex === 'Female' ? 'text-pink-600/80' :'text-blue-700']"/>
-      </div>
-      {{ patient.doc.patient_name }}, {{patient.doc.aged}}yrs, {{ patient.doc.sex }}
-      <div class="text-red-800">{{ patient.doc.blood_group }}</div> 
-     <div class="text-xs flex"><Phone class="w-3 h-3 m-1 rotate-90"/>{{ patient.doc.mobile }}</div>
-    <div class="text-xs flex text-white bg-teal-700 ml-2 p-1 
-            rounded-full" v-if="patient.doc.emergency">
-              <Siren class="w-3 h-3 mr-1"/>{{ patient.doc.emergency }}
-            </div>
-  </div>
-  </div>
-<div class="p-4 flex items-end space-y-2">
-      <button
-        @click="patientPanel_flag= !patientPanel_flag"
-        class="text-teal-700 hover:text-teal-600 transition"
-      >
-        <ChevronsRight class="w-6 h-6" v-if="!patientPanel_flag"/>
-        <ChevronsLeft class="w-6 h-6 " v-if="patientPanel_flag"/>
-      </button>
-    </div>
-  </aside>
   <div v-show="props.Request_from=='pat_dash' || props.Request_from=='opd_consult'">
-<div class="grid grid-cols-12 mt-2"v-if="patient.doc">
-    <div class="flex flex-col items-center justify-start space-x-2 p-2">
-      <div class="bg-white rounded-full w-12 h-12 border">
-       <User class="p-2 w-12 h-12" :class="[patient.doc.sex === 'Female' ? 'text-pink-600/80' :'text-blue-700']"/>
+<div class="grid grid-cols-12 mt-1"v-if="patient.doc">
+    <div class="flex flex-col items-center justify-start space-x-1 pt-1 pb-0.5">
+      <div class="bg-white rounded-full w-9 h-9 border" v-if="patient.doc.sex != 'Other'">
+       <User class="p-2 w-9 h-9" :class="[patient.doc.sex === 'Female' ? 'text-pink-600/80' :'text-blue-700']"/>
       </div>
-      <div class="text-xs text-gray-400 flex flex-row items-center justify-center"><i>{{ Pat_id }}</i></div> 
+      <div class="bg-white rounded-full w-9 h-9 border" v-else>
+       <User class="p-2 w-9 h-9 text-yellow-600"/>
+      </div>
+      <div class="text-2xs text-gray-400 flex flex-row items-center justify-center"><i>{{ Pat_id }}</i></div> 
     </div>
     
     <!-- Middle: Navigation -->
-    <div class="col-span-4 pt-3 flex flex-grow items-center justify-start content-around text-gray-900 bg-inherit mx-1 p-1 text-lg space-y-1">
+    <div class="col-span-8 pt-3 flex flex-grow items-center justify-start 
+    content-around text-gray-900 bg-inherit mx-1 p-1 text-base space-y-1">
       <div>
           <div class="flex flex-grow pb-1">{{ patient.doc.patient_name }}, {{patient.doc.aged}}yrs, {{ patient.doc.sex }}
             <div class="text-red-800 pl-2">{{ patient.doc.blood_group }}</div>
-          </div>
-          <div class="flex flex-row pb-1">
-            <div class="text-sm flex"><Phone class="w-3 h-3 mr-1"/>{{ patient.doc.mobile }}</div>
-            <div class="text-xs flex text-white bg-teal-700 ml-2 p-1 
+          
+          <div class="flex flex-row">
+            <div class="text-sm flex"><Phone class="w-3 h-4 mx-1"/>{{ patient.doc.mobile }}</div>
+            <div class="text-xs flex text-white bg-teal-700 ml-2 -mt-1.5 p-1 
             rounded-full" v-if="patient.doc.emergency">
               <Siren class="w-3 h-3 mr-1"/>{{ patient.doc.emergency }}
             </div>
+          </div>
           </div>
           
       </div>   
     </div>
-    <div v-show="false" class="p-1 pb-0.5 col-span-4 items-center justify-center space-x-1 space-y-1.5 capitalize">
-      <div class="text-sm text-gray-600 flex flex-row px-1 items-center justify-start">
-        <Button class="flex items-end justify-end bg-transparent" @click="pat_hit_dialog=true" >
-          <Pencil v-if="result_grouped" class="h-4 text-gray-600"/>
-          <HeartPlus v-else class="h-5 text-gray-600"/>
-        </Button>
-        Chronic/Past Conditions
-      </div>      
-      <div v-if="result_grouped" @click="pat_hit_dialog=true">
-            <span v-for="(item,index) in result_grouped.Allergy"  class="space-x-1">
-              <Badge :variant="'outline'" theme="red" size="sm" v-if="item.Item && !item.new">{{ item.Item[1] }} 
-                <div v-if="item.Qualifier && item.Qualifier[0]">({{item.Qualifier[0].comments}})</div>
-              </Badge>
-          </span>
-            <span v-for="(item,index) in result_grouped.Diagnosis" class="space-x-1">
-              <Badge :variant="'outline'" theme="orange" size="sm" v-if="item.Item && !item.new">{{ item.Item[1] }}
-                <div v-if="item.Qualifier && item.Qualifier[0]">({{item.Qualifier[0].comments}})</div>
-              </Badge>
-          </span>
-            <span v-for="(item,index) in result_grouped.surg" class="space-x-1">
-              <Badge :variant="'outline'" theme="green" size="sm" v-if="item.Item && !item.new">{{ item.Item[2] }}
-                <div v-if="item.Qualifier && item.Qualifier[0]">({{item.Qualifier[0].comments}})</div>
-              </Badge>
-          </span>
-          <span v-for="(item,index) in result_grouped.Meds" class="space-x-1">
-              <Badge :variant="'outline'" theme="blue" size="sm" v-if="item.Item && !item.new" class="flex flex-wrap">{{ item.Item[7]}}<!--({{  (item.Item[3]) }})--></Badge>
-          </span>
-        </div>
-    </div>
-    <div class="col-span-4"/>
     <div v-if="false" v-show="props.Request_from=='opd_consult'" class="p-1 pb-0.5 col-span-3 items-center justify-center space-x-1 space-y-1.5 capitalize">
       <div class="text-sm text-gray-600 flex flex-row px-1 items-center justify-start">
         <Button class="flex items-end justify-end bg-transparent" @click="pat_hit_dialog=true" >

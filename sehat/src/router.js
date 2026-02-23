@@ -13,11 +13,11 @@ const routes = [
     name: "home",
     component: () => import("@/pages/OPD/OpdDashboard.vue"),
   },
-  // {
-  //   name: 'Login',
-  //   path: '/account/login',
+   {
+     name: 'Login',
+     path: '/login?redirect-to=/sehat',
   //   component: () => import('@/pages/Login.vue'),
-  // },
+   },
   {
     name: "opd_consult",
     path: "/opd/:pat_id/:app_id",

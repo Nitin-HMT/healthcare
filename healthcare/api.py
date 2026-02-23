@@ -54,8 +54,8 @@ def make_prescripton(patient,appoint,appoint_string,data,comment,reason,result,f
                 form=qualifier["medicine_form"]
                 dose=qualifier["dosage"]
                 period=qualifier["period"]
-                #notes=qualifier["comments"]
-                cur_meds.append({"medicine":label, "medicine_form":form, "dosage":dose, "period":period,"comments":notes,"phrase":original_phrase,"operation_string":str(x) })
+                sp_notes=qualifier["comments"]
+                cur_meds.append({"medicine":label, "medicine_form":form, "dosage":dose, "period":period,"comments":sp_notes,"phrase":original_phrase,"operation_string":str(x) })
         for y in hist_result:
             original_phrase=y["Original"]
             q=y["Qualifier"]

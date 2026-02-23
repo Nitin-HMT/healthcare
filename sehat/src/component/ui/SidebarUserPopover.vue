@@ -2,12 +2,18 @@
   <div>
     <Dropdown
       :options="[
-        {
-          label: 'Switch to Desk',
-          onClick: () => {
-            reDirect();
-          },
-        },
+        // {
+        //   label: 'Switch to Desk',
+        //   onClick: () => {
+        //     reDirect();
+        //   },
+        // },
+        // {
+        //   label: 'Settings',
+        //   onClick: () => {
+        //     reDirect();
+        //   },
+        // },
         {
           label: 'Logout',
           onClick: () => {

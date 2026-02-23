@@ -151,9 +151,10 @@
     <div v-else>
       <Badge
         :variant="'solid'"
-        class="mt-2 block w-full rounded-full px-2 py-2 font-serif item-center justify-center bg-gradient-to-r from-red-800 to-red-600 hover:from-red-900 hover:to-red-700 text-white transition-all"
+        class="mt-2 block w-full rounded-full px-2 py-2 font-serif item-center justify-center border border-teal-800
+         bg-gradient-to-l from-white to-teal-50 text-teal-900 transition-all"
         size="xl"
-        label="No Appointments"
+        label="No Appointments Scheduled"
       />
     </div>
   </div>
@@ -166,6 +167,7 @@ import { appoint } from "@/composables/useAppointmentUtils.js";
 const { appoint_flag, cancel_appoint, appoint_cancel_load } = appoint();
 import { Plus, User, Check, CheckCheck, RotateCw } from "lucide-vue-next";
 import { usePatientStore } from "@/stores/patientStore";
+
 
 const appointStore = useAppointmentStore();
 const patientStore = usePatientStore();

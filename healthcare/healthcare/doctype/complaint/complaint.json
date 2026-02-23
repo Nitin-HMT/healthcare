@@ -13,7 +13,6 @@
   "score",
   "department",
   "column_break_grqb",
-  "active",
   "disabled",
   "review",
   "temp_code_type",
@@ -43,12 +42,6 @@
   {
    "fieldname": "column_break_grqb",
    "fieldtype": "Column Break"
-  },
-  {
-   "default": "1",
-   "fieldname": "active",
-   "fieldtype": "Check",
-   "label": "Active"
   },
   {
    "default": "1",
@@ -107,7 +100,7 @@
   }
  ],
  "links": [],
- "modified": "2026-02-18 18:58:56.921982",
+ "modified": "2026-02-21 19:17:41.909572",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Complaint",

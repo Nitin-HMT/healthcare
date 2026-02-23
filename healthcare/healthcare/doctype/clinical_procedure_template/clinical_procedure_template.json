@@ -2,7 +2,7 @@
  "actions": [],
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "format:{template}-{co_abbr}",
+ "autoname": "format:{template}",
  "creation": "2017-10-05 14:59:55.438359",
  "description": "Procedure Template",
  "doctype": "DocType",
@@ -42,6 +42,7 @@
   "sample_uom",
   "sample_qty",
   "sample",
+  "is_sample_collected",
   "column_break_21",
   "sample_details",
   "change_in_item",
@@ -393,10 +394,16 @@
    "fieldname": "admission_required",
    "fieldtype": "Check",
    "label": "Admission Required"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_sample_collected",
+   "fieldtype": "Check",
+   "label": "Is Sample Collected"
   }
  ],
  "links": [],
- "modified": "2026-02-18 18:53:03.332399",
+ "modified": "2026-02-22 15:30:19.346906",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Clinical Procedure Template",
