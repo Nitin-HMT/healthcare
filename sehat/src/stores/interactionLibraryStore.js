@@ -163,7 +163,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
     },
     orderBy: "score desc",
    // auto: true,
-    pageLength: 5,
+    pageLength: 50000,
     transform(data) {
       data.forEach((d, index, array) => {
         full_db.value.set(
