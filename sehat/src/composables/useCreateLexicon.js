@@ -12,6 +12,44 @@ export function createLexicon() {
   let error_lexicon = ref("");
   let lexicon_load = ref(false);
 
+    const update_Lexicon = (under_operation) => {
+      let category = under_operation.Category;
+      let name = under_operation.Name;
+      let med_panel = under_operation.med_panel || [];
+      lexicon_load.value = true;
+      let med_form = med_panel[0]?.value ?? med_panel[0];
+      let dosage = med_panel[2]?.value ?? med_panel[2];
+      let duration = med_panel[3]?.value ?? med_panel[3];
+      let sp_comments = med_panel[4];
+
+      if (category === "Meds") {
+        let meds = createListResource({
+          doctype: "OPD Medication",
+          setValue: {
+            onSuccess: (id) => {
+                lexicon_flag.value = false;
+                history_flag.value = false;
+                lexicon_id.value = id.name;
+                return
+            },
+            onError(error) {
+              error_lexicon.value = error;
+            },
+          },
+        });
+
+        meds.setValue.submit({
+          name: name,
+          // dosage_form: med_form,
+          default_duration: duration,
+          default_dosage: dosage,
+          special_instruction: sp_comments,
+        });
+        lexicon_load.value = false;
+      }
+
+    }
+
   const make_newLexicon = (under_operation) => {
     return new Promise((resolve, reject) => {
       let category = under_operation.Category;
@@ -225,6 +263,7 @@ export function createLexicon() {
   return {
     make_newLexicon,
     error_lexicon,
+    update_Lexicon,
     lexicon_flag,
     lexicon_load,
     lexicon_id,

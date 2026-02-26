@@ -14,8 +14,8 @@ export function direct_out() {
   const new_terms = ref(false);
 
   function group_meds(meds_lib = [], sel_mode, med) {
-    for (let i = 0; i < meds_lib.length; i++) {
-      if (meds_lib[i].d_form == sel_mode && meds_lib[i].m_brand == med) {
+    for (let i = meds_lib.length; i >=0; i--) {
+      if (meds_lib[i]?.d_form == sel_mode && meds_lib[i]?.m_brand == med) {
         return meds_lib[i].f_string;
       }
     }
@@ -97,7 +97,8 @@ export function direct_out() {
       .replace(/([@#%^$;,&*!])\1+/g, "$1")
       .toLowerCase();
       //console.log(step_1);
-    const step_2 = step_1
+    const step_1a = step_1.replace(/null/g,'')
+    const step_2 = step_1a
       .split(/[;,\n]+/)
       .map((part) => part.trim())
       .filter(Boolean);
@@ -542,25 +543,17 @@ export function direct_out() {
       }
     }
     result.value[pos].Display =
-      med_form +
-      " " +
-      disp +
-      "|" +
+      med_form +" " +
+      disp +"|" +
       (active_ing ? active_ing + " |" : "") +
-      dosage +
-      " |" +
-      duration +
-      " |" +
-      (sp_inst ? full_text + "; " + sp_inst : full_text) +
-      "";
+      (dosage ? dosage + " |" : "") +
+      (duration ? duration + " |" : "") +
+      (sp_inst ? full_text + "; " + sp_inst : full_text) +"";
     result.value[pos].note =
       result.value[pos].note + " " +
-      med_form +
-      "|" +
-      dosage +
-      " |" +
-      duration +
-      " |" +
+      med_form +"|" +
+      (dosage ? dosage + " |" : "") +
+      (duration ? duration + " |" : "") +
       (full_text) +
       "";
     result.value[pos].Qualifier = [];
@@ -584,7 +577,7 @@ export function direct_out() {
     const sp_phrases = sp_charcters_input(phrases);
     const med_phrases = check_med_form(sp_phrases);
     for (const p of med_phrases) { 
-      if(p.Functional.length>1){     
+      if(p.Functional.length>1){  
         greedyMatch(p);}
       else{
         p.Category="Junk";

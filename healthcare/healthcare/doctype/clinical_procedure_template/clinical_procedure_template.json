@@ -339,6 +339,7 @@
    "label": "Post Procedure Care"
   },
   {
+   "default": "2",
    "fieldname": "score",
    "fieldtype": "Int",
    "label": "Score",
@@ -403,7 +404,7 @@
   }
  ],
  "links": [],
- "modified": "2026-02-22 15:30:19.346906",
+ "modified": "2026-02-25 22:43:08.941221",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Clinical Procedure Template",

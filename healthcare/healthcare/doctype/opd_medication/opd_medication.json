@@ -127,6 +127,7 @@
    "label": "Disabled"
   },
   {
+   "default": "4",
    "fieldname": "score",
    "fieldtype": "Int",
    "label": "Score",
@@ -186,7 +187,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-02-22 22:18:29.206434",
+ "modified": "2026-02-25 19:06:14.298254",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "OPD Medication",

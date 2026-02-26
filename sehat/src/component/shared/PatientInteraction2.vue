@@ -818,6 +818,19 @@
       </div>
     </template>
   </Dialog>
+  <Dialog v-model="library.loading_library" :options="{ size: 'md' }">
+    <template #body-title>
+      <div />
+    </template>
+    <template #body-content>
+      <div class="flex items-center justify-center flex-col">
+        <div class="text-sm text-gray-500">
+          Building Libraries, Please Wait...
+        </div>
+        <Spinner class="w-12 text-gray-500" v-if="library.loading_library" />
+      </div>
+    </template>
+  </Dialog>
   <Dialog
     v-model="final_submission_dialog"
     :options="{ size: '4xl' }"
@@ -976,6 +989,7 @@ const start_time = dayjs();
 const time_diff = ref("");
 const final_submission_dialog = ref(false);
 const prescription_created = ref(false);
+const first_history_passed = ref(false);
 
 const { referdr, make_newRef, selrefdr, refer_create, error_ref } = referral();
 const {
@@ -1017,7 +1031,8 @@ const under_operation = reactive({
   original: "",
   symbol: "",
   pos:1000000,
-  is_historic: false
+  is_historic: false,
+  New: false,
 });
 const props = defineProps({
   Pat_id: String,
@@ -1063,12 +1078,14 @@ function create_new_element(phrase) {
   under_operation.Display = phrase.note;
   under_operation.Category = phrase.Item[0];
   under_operation.Name = phrase.Item[1];
+  under_operation.New = phrase.new;
   if (under_operation.Category == "Meds" && phrase.Qualifier.length) {
     under_operation.med_panel[0] = phrase.Qualifier[0].medicine_form;
     under_operation.med_panel[2] = phrase.Qualifier[0].dosage;
     under_operation.med_panel[3] = phrase.Qualifier[0].period;
   }
 }
+
 function phraseCorrection(item, history_flag=false) {
   correction.value = true;
   under_operation.original = item.Original || '"' + item + '"';
@@ -1413,19 +1430,18 @@ else{
 }
 }
 
-onMounted(() => {
-lexicon_stop_flag.value=true;
-  setTimeout(async() => {
-      // refreshing after 2 secs of new lex creation
-      patient_x.reload()
-      interaction.history=patient_x.doc?.pat_hist;
-      await library.refresh_library();
-      chat_Append(interaction.history,true,true);
-      lexicon_stop_flag.value=false;
-    }, 2500);
-  
-  // You can also perform API calls here
-  
+onMounted(()=>{
+  library.refresh_library();
+  first_history_passed.value=false;
+})
+
+watch(library, (newState, oldState) => {
+  if(newState.loading_library==false && first_history_passed.value==false){
+    patient_x.reload()
+    interaction.history=patient_x.doc?.pat_hist;
+    chat_Append(interaction.history,true,true);
+    first_history_passed.value=true;
+  }
 });
 
 

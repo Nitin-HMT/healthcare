@@ -78,6 +78,7 @@
    "options": "Practitioner Lexicon Variance"
   },
   {
+   "default": "2",
    "fieldname": "score",
    "fieldtype": "Int",
    "label": "Score",
@@ -124,7 +125,7 @@
   }
  ],
  "links": [],
- "modified": "2026-02-21 19:18:01.321957",
+ "modified": "2026-02-25 22:42:23.493835",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Diagnosis",

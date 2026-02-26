@@ -23,6 +23,7 @@ const duration_db = ref([]);
 const dosage_form = ref(new Map());
 const form_db = ref([]);
 const temp_form_based_meds = ref([]);
+const loading_library=ref(false);
 
 export const useinteractionLibraryStore = defineStore("library", () => {
   const symptoms = createListResource({
@@ -32,8 +33,8 @@ export const useinteractionLibraryStore = defineStore("library", () => {
       disabled: false,
     },
     orderBy: "score asc",
-    auto: true,
-    pageLength: 500000,
+   // auto: true,
+    pageLength: 1000,
     transform(data) {
       data.forEach((d) => {
         full_db.value.set(
@@ -61,7 +62,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
   const dosage_form_1 = createListResource({
     doctype: "Dosage Form",
     fields: ["*"],
-    auto: true,
+    // auto: true,
     pageLength: 2000,
     transform(data) {
       for (let d of data) {
@@ -73,7 +74,6 @@ export const useinteractionLibraryStore = defineStore("library", () => {
             .replace(/[^a-zA-Z0-9]/g, ""),
           d.name,
         );
-        console.log("i building all medical lexicon")
         form_db.value.push({
           label: d.name,
           value: d.name,
@@ -85,12 +85,12 @@ export const useinteractionLibraryStore = defineStore("library", () => {
   const diagnosis = createListResource({
     doctype: "Diagnosis",
     fields: ["*"],
-    auto: true,
+   // auto: true,
     filters: {
       disabled: false,
     },
     orderBy: "score asc",
-    pageLength: 500000,
+    pageLength: 1000,
     transform(data) {
       data.forEach((d) => {
         full_db.value.set(
@@ -122,8 +122,8 @@ export const useinteractionLibraryStore = defineStore("library", () => {
       disabled: false,
     },
     orderBy: "score asc",
-    auto: true,
-    pageLength: 500000,
+   // auto: true,
+    pageLength: 1000,
     transform(data) {
       data.forEach((d) => {
         full_db.value.set(
@@ -162,10 +162,10 @@ export const useinteractionLibraryStore = defineStore("library", () => {
       disabled: false,
     },
     orderBy: "score desc",
-    auto: true,
-    pageLength: 500000,
+   // auto: true,
+    pageLength: 5,
     transform(data) {
-      data.forEach((d) => {
+      data.forEach((d, index, array) => {
         full_db.value.set(
           d.medicine_brand
             .trim()
@@ -199,11 +199,11 @@ export const useinteractionLibraryStore = defineStore("library", () => {
           ],
         );
         meds_form_map.value.set(
-          d.dosage_form.trim().toLowerCase() +
             d.medicine_brand
               .trim()
               .toLowerCase()
-              .replace(/[^a-zA-Z0-9]/g, ""),
+              .replace(/[^a-zA-Z0-9]/g, "")+
+              d.dosage_form.trim().toLowerCase(),
           [
             "Meds",
             d.name,
@@ -239,7 +239,13 @@ export const useinteractionLibraryStore = defineStore("library", () => {
           value: d.name,
           description: d.generic_name,
         });
+        if (index === array.length - 1) {
+        //console.log("Last element count: "+index);
+        loading_library.value=false;
+    }
       });
+      console.log(meds_form_map.value);
+      console.log(temp_form_based_meds.value);
     },
   });
   //console.log(temp_form_based_meds.value)
@@ -250,7 +256,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
       disabled: false,
     },
     orderBy: "score asc",
-    auto: true,
+   // auto: true,
     pageLength: 500000,
     transform(data) {
       data.forEach((d) => {
@@ -279,7 +285,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
   const dosage = createListResource({
     doctype: "Prescription Dosage",
     fields: ["*"],
-    auto: true,
+   // auto: true,
     pageLength: 2000,
     transform(data) {
       for (let d of data) {
@@ -306,7 +312,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
       disabled: false,
     },
     orderBy: "score asc",
-    auto: true,
+  //  auto: true,
     pageLength: 20000,
     transform(data) {
       for (let d of data) {
@@ -355,7 +361,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
   const duration = createListResource({
     doctype: "Prescription Duration",
     fields: ["*"],
-    auto: true,
+  //  auto: true,
     pageLength: 2000,
     transform(data) {
       for (let d of data) {
@@ -379,11 +385,12 @@ export const useinteractionLibraryStore = defineStore("library", () => {
 let refreshing = false;
 
 async function refresh_library() {
-  if (refreshing) return;
-  refreshing = true;
-
-  reset_library();
-
+  if (refreshing){
+    return
+  }else{
+    refreshing =true;
+    loading_library.value=true;
+      reset_library();
   await Promise.all([
     symptoms.fetch(),
     dosage_form_1.fetch(),
@@ -395,8 +402,10 @@ async function refresh_library() {
     allergy.fetch(),
     duration.fetch(),
   ]);
+}
+refreshing = false;
 
-  refreshing = false;
+
 }
 
 function reset_library() {
@@ -423,6 +432,7 @@ function reset_library() {
   allergy_db.value = [];
   duration_db.value = [];
   form_db.value = [];
+  temp_form_based_meds.value =[];
 }
 
   return {
@@ -448,5 +458,6 @@ function reset_library() {
     form_db,
     temp_form_based_meds,
     refresh_library,
+    loading_library,
   };
 });

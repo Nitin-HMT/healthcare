@@ -159,19 +159,33 @@
       Please Select a Type
     </div>
     <Button
-      @click="make_newLexicon(props.Phrase)"
-      v-if="
-        (props.Phrase.Category != 'Meds' &&
+      @click="make_newLexicon(props.Phrase);lexicon_load=true"
+      v-if="(props.Phrase.New) &&
+        ((props.Phrase.Category != 'Meds' &&
           props.Phrase.Category != 'Unknown') ||
         (props.Phrase.Category == 'Meds' &&
           props.Phrase.med_panel[0] &&
           props.Phrase.med_panel[2] &&
-          props.Phrase.med_panel[3])
+          props.Phrase.med_panel[3]))
       "
       :loading="lexicon_load"
       class="rounded-full bg-white border border-teal-800 text-teal-800"
     >
       Add to Medical Lexicon
+    </Button>
+
+    <Button
+      @click="update_Lexicon(props.Phrase);lexicon_load=true"
+      v-if="(!props.Phrase.New) &&
+        ((props.Phrase.Category == 'Meds' &&
+          props.Phrase.med_panel[0] &&
+          props.Phrase.med_panel[2] &&
+          props.Phrase.med_panel[3]))
+      "
+      :loading="lexicon_load"
+      class="rounded-full bg-white border border-teal-800 text-teal-800"
+    >
+      Update Medicine
     </Button>
   </div>
 </template>
@@ -195,10 +209,11 @@ const library = useinteractionLibraryStore();
 const props = defineProps({
   Phrase: Object,
 });
-
+//const success=ref(false);
 const {
   make_newLexicon,
   error_lexicon,
+  update_Lexicon,
   lexicon_flag,
   lexicon_load,
   lexicon_id,

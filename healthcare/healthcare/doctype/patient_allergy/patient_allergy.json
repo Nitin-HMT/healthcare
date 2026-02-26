@@ -22,6 +22,7 @@
  ],
  "fields": [
   {
+   "default": "2",
    "fieldname": "score",
    "fieldtype": "Int",
    "label": "Score",
@@ -89,7 +90,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-02-22 16:44:25.806190",
+ "modified": "2026-02-25 22:43:40.464220",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Patient Allergy",
