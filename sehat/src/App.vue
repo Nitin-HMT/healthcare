@@ -11,9 +11,15 @@ const library = useinteractionLibraryStore();
 const ui = useUiStore();
 const user =useUserStore();
 
-  //building medical lexicon
-  if(user.name){
+setTimeout(() => {
+      // refreshing after 2 secs of new lex creation
+      //console.log(user.);
+      if(user.role){
 library.refresh_library();}
+      //OPD Doctor
+    }, 100);
+  //building medical lexicon
+  
 </script>
 
 <template>
