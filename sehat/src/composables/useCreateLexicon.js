@@ -1,10 +1,8 @@
 import { ref } from "vue";
 import { createListResource } from "frappe-ui";
-import { direct_out } from "@/composables/useInteractionNotesDirect.js";
+import { useinteractionLibraryStore } from "@/stores/interactionLibraryStore.js";
+const library = useinteractionLibraryStore();
 
-const {
-  library
-} = direct_out();
 let lexicon_flag = ref(false);
 let history_flag = ref(false);
 let lexicon_id = ref([]);
@@ -72,7 +70,10 @@ export function createLexicon() {
           insert: {
             onSuccess: async (id) => {
               try {
-                await library.refresh_library(); // 🔒 wait till DB is visible
+               library.full_map.set(id.name.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, ""),
+               ["Symptoms", id.name],);
+               library.sym_map.set(id.name.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, ""),
+               ["Symptoms", id.name],);
                 resolve(id.name); // 🎟️ DONE
                 lexicon_flag.value = false;
                 history_flag.value = false;
@@ -100,7 +101,10 @@ export function createLexicon() {
           insert: {
             onSuccess: async (id) => {
               try {
-                await library.refresh_library();
+                library.full_map.set(id.diagnosis.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, ""),
+                ["Diagnosis", id.diagnosis, id.lifestyle_advise,id.diagnosis],);
+                library.diag_map.set(id.diagnosis.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, ""),
+                ["Diagnosis", id.diagnosis, id.lifestyle_advise,id.diagnosis],);
                 resolve(id.name);
                 lexicon_flag.value = false;
                 history_flag.value = false;
@@ -134,7 +138,10 @@ export function createLexicon() {
                 lexicon_flag.value = false;
                 history_flag.value = false;
                 lexicon_id.value = id.name;
-                await library.refresh_library();
+                library.full_map.set(id.lab_test_name.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, ""),
+                ["labs", id.name, id.lab_test_name],);
+                library.lab_map.set(id.lab_test_name.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, ""),
+                ["labs", id.name, id.lab_test_name],);
                 resolve(id.name);
               } catch (e) {
                 reject(e);
@@ -166,7 +173,21 @@ export function createLexicon() {
           insert: {
             onSuccess: async (id) => {
               try {
-                await library.refresh_library();
+                library.full_map.set(id.medicine_brand.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, ""),
+                          ["Meds",id.name,id.dosage_form,id.generic_name,
+                            id.default_duration,id.default_dosage,
+                            id.special_instruction,id.medicine_brand,
+                          ],);
+                library.meds_map.set(id.medicine_brand.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, ""),
+                          ["Meds",id.name,id.dosage_form,id.generic_name,
+                            id.default_duration,id.default_dosage,
+                            id.special_instruction,id.medicine_brand,
+                          ],);
+                library.meds_form_map.set(id.medicine_brand.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, "")+id.dosage_form.trim().toLowerCase(),
+                          ["Meds",id.name,id.dosage_form,id.generic_name,
+                            id.default_duration,id.default_dosage,
+                            id.special_instruction,id.medicine_brand,
+                          ],);
                 resolve(id.name);
                 lexicon_flag.value = false;
                 history_flag.value = false;
@@ -201,7 +222,10 @@ export function createLexicon() {
           insert: {
             onSuccess: async (id) => {
               try {
-                await library.refresh_library();
+                library.full_map.set(id.template.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, ""),
+                ["surg", id.name, id.template],);
+                library.surg_map.set(id.template.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, ""),
+                ["surg", id.name, id.template],);
                 resolve(id.name);
                 lexicon_flag.value = false;
                 history_flag.value = false;
@@ -234,7 +258,10 @@ export function createLexicon() {
           insert: {
             onSuccess: async (id) => {
               try {
-                await library.refresh_library();
+                library.full_map.set(id.name.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, ""),
+                ["Allergy", id.name],);
+                library.all_allergy.set(id.name.trim().toLowerCase().replace(/[^a-zA-Z0-9]/g, ""),
+                ["Allergy", id.name],);
                 resolve(id.name);
                 lexicon_flag.value = false;
                 history_flag.value = false;

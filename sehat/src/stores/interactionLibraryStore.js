@@ -2,27 +2,20 @@ import { defineStore } from "pinia";
 import { createListResource } from "frappe-ui";
 import { ref,shallowRef } from "vue";
 
-const full_db = ref(new Map());
-const sym_db = ref([]);
+const full_map = ref(new Map());
 const sym_map = ref(new Map());
 const diag_map = ref(new Map());
-const diag_db = ref([]);
 const lab_map = ref(new Map());
-const lab_db = ref([]);
 const meds_map = ref(new Map());
 const meds_form_map = ref(new Map());
-const med_db = ref([]);
 const surg_map = ref(new Map());
-const surg_db = ref([]);
 const dosage_db = ref([]);
 const med_dosage = ref(new Map());
 const all_allergy = ref(new Map());
-const allergy_db = ref([]);
 const med_duration = ref(new Map());
 const duration_db = ref([]);
 const dosage_form = ref(new Map());
 const form_db = ref([]);
-const temp_form_based_meds = ref([]);
 const loading_library=ref(false);
 
 export const useinteractionLibraryStore = defineStore("library", () => {
@@ -37,7 +30,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
     pageLength: 1000,
     transform(data) {
       data.forEach((d) => {
-        full_db.value.set(
+        full_map.value.set(
           d.complaints
             .trim()
             .toLowerCase()
@@ -51,11 +44,6 @@ export const useinteractionLibraryStore = defineStore("library", () => {
             .replace(/[^a-zA-Z0-9]/g, ""),
           ["Symptoms", d.complaints],
         );
-        sym_db.value.push({
-          label: d.complaints,
-          value: d.complaints,
-          description: d.complaint,
-        });
       });
     },
   });
@@ -66,7 +54,6 @@ export const useinteractionLibraryStore = defineStore("library", () => {
     pageLength: 2000,
     transform(data) {
       for (let d of data) {
-        //full_db.value.set(d.name.trim().toLowerCase(),["Dosage",d.name ]);
         dosage_form.value.set(
           d.name
             .trim()
@@ -93,7 +80,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
     pageLength: 1000,
     transform(data) {
       data.forEach((d) => {
-        full_db.value.set(
+        full_map.value.set(
           d.diagnosis
             .trim()
             .toLowerCase()
@@ -107,11 +94,6 @@ export const useinteractionLibraryStore = defineStore("library", () => {
             .replace(/[^a-zA-Z0-9]/g, ""),
           ["Diagnosis", d.diagnosis, d.lifestyle_advise,d.diagnosis],
         );
-        diag_db.value.push({
-          label: d.diagnosis,
-          value: d.diagnosis,
-          description: d.diagnosis,
-        });
       });
     },
   });
@@ -126,7 +108,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
     pageLength: 1000,
     transform(data) {
       data.forEach((d) => {
-        full_db.value.set(
+        full_map.value.set(
           d.lab_test_name
             .trim()
             .toLowerCase()
@@ -140,18 +122,6 @@ export const useinteractionLibraryStore = defineStore("library", () => {
             .replace(/[^a-zA-Z0-9]/g, ""),
           ["labs", d.name, d.lab_test_name],
         );
-        if (d.lab_test_template_type == "Single") {
-          lab_db.value.push({
-            label: d.lab_test_name,
-            value: d.name,
-            description: d.lab_test_uom,
-            type: d.lab_test_template_type,
-            min: d.min_normal_range,
-            max: d.max_normal_range,
-            uom: d.lab_test_uom,
-            result: "",
-          });
-        }
       });
     },
   });
@@ -166,7 +136,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
     pageLength: 50000,
     transform(data) {
       data.forEach((d, index, array) => {
-        full_db.value.set(
+        full_map.value.set(
           d.medicine_brand
             .trim()
             .toLowerCase()
@@ -213,42 +183,17 @@ export const useinteractionLibraryStore = defineStore("library", () => {
             d.default_dosage,
             d.special_instruction,
             d.medicine_brand,
-            d.manufacturer
+            
           ],
         );
-        //working to build a collection based on medicine form
-        temp_form_based_meds.value.push({
-          d_form: d.dosage_form.trim().toLowerCase(),
-          m_brand: d.medicine_brand
-            .trim()
-            .toLowerCase()
-            .replace(/[^a-zA-Z0-9]/g, ""),
-          f_string: [
-            "Meds",
-            d.name,
-            d.dosage_form,
-            d.generic_name,
-            d.default_duration,
-            d.default_dosage,
-            d.special_instruction,
-            d.medicine_brand,
-          ],
-        });
-        med_db.value.push({
-          label: d.dosage_form + " " + d.medicine_brand,
-          value: d.name,
-          description: d.generic_name,
-        });
+
         if (index === array.length - 1) {
-        //console.log("Last element count: "+index);
+        console.log("Last element count: "+index);
         loading_library.value=false;
     }
       });
-      console.log(meds_form_map.value);
-      console.log(temp_form_based_meds.value);
     },
   });
-  //console.log(temp_form_based_meds.value)
   const surg = createListResource({
     doctype: "Clinical Procedure Template",
     fields: ["*"],
@@ -260,7 +205,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
     pageLength: 500000,
     transform(data) {
       data.forEach((d) => {
-        full_db.value.set(
+        full_map.value.set(
           d.template
             .trim()
             .toLowerCase()
@@ -274,11 +219,6 @@ export const useinteractionLibraryStore = defineStore("library", () => {
             .replace(/[^a-zA-Z0-9]/g, ""),
           ["surg", d.name, d.template],
         );
-        surg_db.value.push({
-          label: d.template,
-          value: d.name,
-          description: d.template,
-        });
       });
     },
   });
@@ -289,7 +229,6 @@ export const useinteractionLibraryStore = defineStore("library", () => {
     pageLength: 2000,
     transform(data) {
       for (let d of data) {
-        // full_db.value.set(d.dosage.trim().toLowerCase(),["dosage",d.dosage ]);
         med_dosage.value.set(
           d.dosage
             .trim()
@@ -316,7 +255,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
     pageLength: 20000,
     transform(data) {
       for (let d of data) {
-        full_db.value.set(
+        full_map.value.set(
           d.name
             .trim()
             .toLowerCase()
@@ -331,7 +270,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
           ["Allergy", d.name],
         );
         if (d.name.toLowerCase().includes("allergy")) {
-          full_db.value.set(
+          full_map.value.set(
             d.name
               .trim()
               .toLowerCase()
@@ -350,11 +289,6 @@ export const useinteractionLibraryStore = defineStore("library", () => {
             ["Allergy", d.name],
           );
         }
-        allergy_db.value.push({
-          label: d.name,
-          value: d.name,
-          description: d.name,
-        });
       }
     },
   });
@@ -365,7 +299,6 @@ export const useinteractionLibraryStore = defineStore("library", () => {
     pageLength: 2000,
     transform(data) {
       for (let d of data) {
-        // full_db.value.set(d.name.trim().toLowerCase(),["Duration",d.name ]);
         med_duration.value.set(
           d.name
             .trim()
@@ -410,7 +343,7 @@ refreshing = false;
 
 function reset_library() {
   // Clear all Maps
-  full_db.value.clear();
+  full_map.value.clear();
   sym_map.value.clear();
   diag_map.value.clear();
   lab_map.value.clear();
@@ -423,40 +356,26 @@ function reset_library() {
   dosage_form.value.clear();
 
   // Reset all reactive arrays
-  sym_db.value = [];
-  diag_db.value = [];
-  lab_db.value = [];
-  med_db.value = [];
-  surg_db.value = [];
   dosage_db.value = [];
-  allergy_db.value = [];
   duration_db.value = [];
   form_db.value = [];
-  temp_form_based_meds.value =[];
 }
 
   return {
-    full_db,
+    full_map,
     sym_map,
-    sym_db,
     diag_map,
-    diag_db,
     lab_map,
-    lab_db,
     meds_map,
-    med_db,
     meds_form_map,
     surg_map,
-    surg_db,
     med_dosage,
     dosage_db,
     all_allergy,
-    allergy_db,
     med_duration,
     duration_db,
     dosage_form,
     form_db,
-    temp_form_based_meds,
     refresh_library,
     loading_library,
   };

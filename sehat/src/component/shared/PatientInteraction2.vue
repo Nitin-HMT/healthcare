@@ -1,8 +1,4 @@
 <template>
-  <!-- Release 1<br />
-   α 5- Schema Change & logout
-   allergy not getting added to history
-  -->
   <!--   
   β 1.Stop Submit if Medicine dosage isnt updated- and update the same if blanks - UPDATE FUNCTION NEEDS TO BE MADE<br/>
     a. i removed doctor pvt notes from patient panel, need to fix that, and fix the whole patient panel now
@@ -282,13 +278,14 @@
               <div class="align-baseline flex flex-wrap">
                 <div
                   v-if="item.new"
-                  class="bg-yellow-300 rounded-full cursor-pointer px-1.5 flex flex-wrap"
+                  class="bg-orange-400/50 rounded-full cursor-pointer px-1.5 flex flex-wrap"
                   @click="create_new_element(item)"
                 >
-                  {{ item.Functional }}
-                  <div v-if="item.Qualifier[0]" class="pr-0.5">
+                  {{ item.Functional }} 
+                  <div v-if="item.Qualifier[0]" class="pl-0.5">
                     {{ item.Qualifier[0].medicine_form }}
                   </div>
+                  
                 </div>
                 <div
                   v-else-if="
@@ -308,7 +305,7 @@
                   >
                    {{ item.Item[7] }} {{ item.Qualifier[0].medicine_form }}
                   </div>
-                  <i class="text-2xs">Please Add Qualifiers</i>
+                  <i class="text-2xs">Add Qualifiers</i>
                 </div>
                 <div v-else class="col-span-2 flex gap-x-2">
                   <div class="flex">
@@ -650,14 +647,14 @@
         class="text-sm text-red-700 capitalize flex flex-wrap items-center justify-center"
         v-if="submit_choice == false"
       >
-        Transcription error? A blank form with your Impressions will print for
-        manual entry.
+        
       </div>
       <FormControl
         :type="'textarea'"
         v-model="submit_comments"
         v-show="submit_choice == false"
-        placeholder="Please tell us about the transcription error"
+        placeholder="Please tell us about the transcription error.
+A blank form with your Impressions will print for manual entry."
       />
 
       <div class="flex flex-row items-center justify-center">
@@ -818,19 +815,7 @@
       </div>
     </template>
   </Dialog>
-  <Dialog v-model="library.loading_library" :options="{ size: 'md' }">
-    <template #body-title>
-      <div />
-    </template>
-    <template #body-content>
-      <div class="flex items-center justify-center flex-col">
-        <div class="text-sm text-gray-500">
-          Building Libraries, Please Wait...
-        </div>
-        <Spinner class="w-12 text-gray-500" v-if="library.loading_library" />
-      </div>
-    </template>
-  </Dialog>
+
   <Dialog
     v-model="final_submission_dialog"
     :options="{ size: '4xl' }"
@@ -1073,6 +1058,8 @@ watch(all_search, () => {
   resultRefs.value = [];
 });
 
+
+
 function create_new_element(phrase) {
   lexicon_flag.value = true;
   under_operation.Display = phrase.note;
@@ -1243,7 +1230,7 @@ watch(lexicon_flag, async (lexicon_flag) => {
       // refreshing after 2 secs of new lex creation
       chat_Append(interaction.history,true,true);
       chat_Append(interaction.notes,true,false);
-    }, 2000);
+    }, 200);
   }
 });
 
@@ -1253,7 +1240,7 @@ function chat_Append(chat, bulk_run=false,history=false) {
   let r=""
   if (chat?.length > 1) {
     chat=chat.trim()
-    submit_progress.value += 2
+    submit_progress.value += 1
     if(bulk_run){
       if(!history){
       result.value=[];
@@ -1351,7 +1338,7 @@ async function new_lexiconcheck() {
             submit_progress.value = 50;
             lexicon_stop_flag.value = false;
           },
-          1000 * (count + 1),
+          100 * (count + 1),
         );
       }
     }
@@ -1431,17 +1418,21 @@ else{
 }
 
 onMounted(()=>{
-  library.refresh_library();
-  first_history_passed.value=false;
+  if(library.loading_library==false){
+    patient_x.reload()}
 })
 
 watch(library, (newState, oldState) => {
-  if(newState.loading_library==false && first_history_passed.value==false){
-    patient_x.reload()
+   if(newState.loading_library==false){
+     patient_x.reload()
     interaction.history=patient_x.doc?.pat_hist;
     chat_Append(interaction.history,true,true);
-    first_history_passed.value=true;
-  }
+   }
+});
+
+watch(patient_x, (newState, oldState) => {
+    interaction.history=patient_x.doc?.pat_hist;
+    chat_Append(interaction.history,true,true);
 });
 
 

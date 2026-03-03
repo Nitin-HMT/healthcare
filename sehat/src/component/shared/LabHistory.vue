@@ -148,14 +148,14 @@
             v-model="lab_result_date"
           />
           <div class="col-span-3 font-mono">
-            <FormControl
+            <!-- <FormControl
               :type="'autocomplete'"
               :options="library.lab_db"
               v-model="lab_result_line"
               label="Search Labs"
               placeholder="Select All Lab Results"
               :multiple="true"
-            />
+            /> -->
           </div>
         </div>
         <div>

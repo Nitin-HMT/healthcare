@@ -1,0 +1,24 @@
+1. Cure data further- remove duplicates between complaint and Diagnosis
+2. Breakdown the library function:
+    a.normalise function pulled out
+    b.query function
+    c.update function
+    d.map manipulation  (oulled into single function)
+    e.re-fetch()
+    f.change from array function to a dictionary for med
+    g. Introduce child tables
+3. breakdown the OPD consult
+4. patient update and patient pvt note and patient Dashboard (how to accesss without an appointmnet)
+5. Library is refreshed Only once at the parent level or at the click of a button (manual refresh all libraries)
+6. Fuzzy Matching
+7.Alias Development
+8. Scoring System
+ 
+  β 1.Stop Submit if Medicine dosage isnt updated- and update the same if blanks - UPDATE FUNCTION NEEDS TO BE MADE<br/>
+    a. i removed doctor pvt notes from patient panel, need to fix that, and fix the whole patient panel now
+  γ 2. Develop *Fuzy Match* and Aliases or Near Matches, abbreviations, may be lookup using generic name as well<br/>
+  β 3. Develop Medical Templates/Treatment Plans/Energy Points<br/>
+  β 4. make the font smaller or better fitting for smaller screens and larger prescription<br/>
+  γ 5. edit db easily<br/>      
+  β 6. develop one master drug and several ways to order it by doctors??<br/>
+  γ 7. break the patient interaction code into smaller pieces.<br/>

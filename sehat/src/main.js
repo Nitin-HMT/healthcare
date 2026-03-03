@@ -26,14 +26,14 @@ const patient = reactive({
 app.provide("patient", patient);
 
 setConfig("resourceFetcher", frappeRequest);
-
+app.use(createPinia());
 app.use(router);
 app.use(resourcesPlugin);
 app.use(Chart);
 app.component("Button", Button);
 app.component("Card", Card);
 app.component("Input", Input);
-app.use(createPinia());
+
 app.mount("#app");
 fetchInitialData()
   .then(() => console.log("Initial data loaded"))

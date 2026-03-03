@@ -4,6 +4,8 @@ import { useCompanyStore } from "@/stores/companyStore";
 import { usePatientStore } from "@/stores/patientStore";
 import { sessionUser, userRole } from "@/data/session";
 import { ref } from "vue";
+// import { useinteractionLibraryStore } from "@/stores/interactionLibraryStore.js";
+// const library = useinteractionLibraryStore();
 
 export async function fetchInitialData() {
   const userStore = useUserStore();
@@ -19,6 +21,7 @@ export async function fetchInitialData() {
   const company = ref("");
   const appoints = ref([]);
   const patients = ref([]);
+
   // Fetch user details from Employee doctype
   const user = createListResource({
     doctype: "Employee",

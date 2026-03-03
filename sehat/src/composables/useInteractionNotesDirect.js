@@ -2,8 +2,8 @@ import { toValue, ref } from "vue";
 import { createListResource, createResource } from "frappe-ui";
 import { useinteractionLibraryStore } from "@/stores/interactionLibraryStore.js";
 const library = useinteractionLibraryStore();
+//const library = []
 
-//(library.temp_form_based_meds)
 //({Diplay:step_2[i],Functional:step_2[i],Category:"Unknown",Item:"",
 // Qualifier:[],Unused:[],Symbol:"",Original:step_2[i],start:0,end:0,tokenStart:0,tokenEnd:0})
 export function direct_out() {
@@ -29,13 +29,14 @@ export function direct_out() {
     // }, {}));
   }
   function new_med_qualifier(key, pos, operator) {
+
     let dosage = library.med_dosage.get(key);
     let check = key.replace(/[s]/g, "").replace(/[^a-zA-Z0-9]/g, "");
     let duration = library.med_duration.get(check);
-    if (result.value[pos].Qualifier.length) {
+    if (result.value[pos].Qualifier.length ) {
       if (dosage) {
         result.value[pos].Qualifier[0].dosage = dosage;
-        result.value[pos].Functional = result.value[pos].Functional.replace(
+        result.value[pos].Display = result.value[pos].Display.replace(
           operator,
           "",
         )
@@ -44,7 +45,7 @@ export function direct_out() {
       }
       if (duration) {
         result.value[pos].Qualifier[0].period = duration;
-        result.value[pos].Functional = result.value[pos].Functional.replace(
+        result.value[pos].Display = result.value[pos].Display.replace(
           operator,
           "",
         )
@@ -55,7 +56,7 @@ export function direct_out() {
       if (dosage) {
         result.value[pos].Qualifier = [];
         result.value[pos].Qualifier.push({ dosage: dosage });
-        result.value[pos].Functional = result.value[pos].Functional.replace(
+        result.value[pos].Display = result.value[pos].Display.replace(
           operator,
           "",
         )
@@ -65,7 +66,7 @@ export function direct_out() {
       if (duration) {
         result.value[pos].Qualifier = [];
         result.value[pos].Qualifier.push({ period: duration });
-        result.value[pos].Functional = result.value[pos].Functional.replace(
+        result.value[pos].Display = result.value[pos].Display.replace(
           operator,
           "",
         )
@@ -305,16 +306,46 @@ export function direct_out() {
               let d_sel = phrase.Qualifier[0].medicine_form
                 .trim()
                 .toLowerCase();
-              entries = group_meds(library.temp_form_based_meds, d_sel, key);
+//                 const activeUsers = new Map(
+//   [...library.meds_map].filter(([id, [name, arra,form]]) => form.trim().toLowerCase() === d_sel)
+// );
+//const activeUsers = new Map(
+//   [...users].filter(([id, user]) => user.active === true)
+// );
+
+// // Filter for active users AND use their name as the new key
+// const activeByNames = new Map(
+//   [...users]
+//     .filter(([id, [name, isActive]]) => isActive) // Keep only true
+//     .map(([id, [name, isActive]]) => [name, [name, isActive]]) // New key: 'Alice'
+// );
+                // let new_found_system=ref([])
+                // new_found_system.value= library.meds_map.get(key);
+                // if(Array.isArray(new_found_system.value) && new_found_system.value.length>1){
+                //   if(new_found_system.value[2]?.trim().toLowerCase() == d_sel){
+                   //let entries_X = activeUsers.get(key);
+                  //  const keys = activeUsers.keys();
+                  //  console.log(keys)
+                    //console.log(entries_X)
+                    //entries = activeUsers.get(key);
+                  // }
+              //}
+              entries = library.meds_form_map.get(key+d_sel);
             } else {
               entries = library.meds_map.get(key);
             }
             if (!entries) {
+              //if the slice has no entry, then the spliced entry goes for searching qualifiers like dosage and duration
               let operator = phrase.Display.slice(
                 Math.min(...start_token),
                 Math.max(...end_token),
               );
-              new_med_qualifier(key, pos, operator);
+              // console.log(phrase.Display);
+              // console.log(Math.min(...start_token))
+              // console.log(Math.max(...end_token),)
+              // console.log(operator)
+              //its is corrupting for some reason, closed temporary
+             new_med_qualifier(key, pos, operator);
             }
             break;
           case "labs":
@@ -330,7 +361,7 @@ export function direct_out() {
             entries = library.all_allergy.get(key);
             break;
           default:
-            entries = library.full_db.get(key);
+            entries = library.full_map.get(key);
         }
         if (entries && entries.length) {
           found = { key, entry: entries };
@@ -573,12 +604,13 @@ export function direct_out() {
     new_terms.value = false;
 
     const phrases = normalizeinput(input);
-
     const sp_phrases = sp_charcters_input(phrases);
     const med_phrases = check_med_form(sp_phrases);
     for (const p of med_phrases) { 
       if(p.Functional.length>1){  
-        greedyMatch(p);}
+        greedyMatch(p);
+      }
+        
       else{
         p.Category="Junk";
       }

@@ -3,7 +3,6 @@ import { createListResource, createResource } from "frappe-ui";
 import { useinteractionLibraryStore } from "@/stores/interactionLibraryStore.js";
 const library = useinteractionLibraryStore();
 
-//(library.temp_form_based_meds)
 //({Diplay:step_2[i],Functional:step_2[i],Category:"Unknown",Item:"",
 // Qualifier:[],Unused:[],Symbol:"",Original:step_2[i],start:0,end:0,tokenStart:0,tokenEnd:0})
 export function suggest() {
@@ -258,7 +257,7 @@ export function suggest() {
     //console.log(phrases);
     const sp_phrases = sp_charcters_input(phrases);
     const med_phrases = check_med_form(sp_phrases);
-    for (const p of sp_phrases) {
+    for (const p of med_phrases) {
       greedyMatch(p);
     }
     if (all_search.value?.length > 12) {

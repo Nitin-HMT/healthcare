@@ -15,7 +15,9 @@
       ]"
       v-model="props.Phrase.Category"
       class="col-span-3"
+      v-if="(props.Phrase.New)"
     />
+    <div v-else class="col-span-3 text-xs text-right">Category: {{ props.Phrase.Category }}</div>
     <div />
     <FormControl
       :type="'text'"
@@ -26,6 +28,7 @@
       placeholder="Name"
       v-model="props.Phrase.Name"
       class="col-span-3"
+      :disabled="!(props.Phrase.New)"
     />
     <!-- v-if="props.Phrase.Category=='Meds'" -->
 
@@ -124,9 +127,9 @@
       type="text"
       size="sm"
       variant="subtle"
-      v-if="props.Phrase.Category == 'Meds'"
+      v-if="props.Phrase.Category == 'Meds' && false"
       placeholder="Generic Name"
-      v-model="props.Phrase.med_panel[1]"
+      v-model="props.Phrase.med_panel[1]"`
     />
     <FormControl
       type="textarea"
