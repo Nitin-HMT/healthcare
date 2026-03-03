@@ -45,6 +45,7 @@ export const useAppointmentStore = defineStore("appointments", () => {
       payment_complete.value.splice(0);
       followup_pending.value.splice(0);
       collection.value = 0.0;
+      patient_count.value=0.0;
       for (let d of data) {
         if (
           d.status == "Open" ||

@@ -12,7 +12,8 @@ const ui = useUiStore();
 const user =useUserStore();
 
   //building medical lexicon
-library.refresh_library();
+  if(user.name){
+library.refresh_library();}
 </script>
 
 <template>
