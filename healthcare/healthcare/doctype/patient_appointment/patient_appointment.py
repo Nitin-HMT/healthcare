@@ -105,7 +105,7 @@ class PatientAppointment(Document):
 			return
 
 		end_time = datetime.datetime.combine(
-			getdate(self.appointment_date), get_time(self.appointment_time)
+			getdate(self.appointment_date), get_time(self.appointment_time or "00:00")
 		) + datetime.timedelta(minutes=flt(self.duration))
 
 		# all appointments for both patient and practitioner overlapping the duration of this appointment
@@ -269,7 +269,7 @@ class PatientAppointment(Document):
 			return
 
 		starts_on = datetime.datetime.combine(
-			getdate(self.appointment_date), get_time(self.appointment_time)
+			getdate(self.appointment_date), get_time(self.appointment_time or "00:00")
 		)
 		ends_on = starts_on + datetime.timedelta(minutes=flt(self.duration))
 		google_calendar = frappe.db.get_value(
@@ -339,7 +339,7 @@ class PatientAppointment(Document):
 		if self.event:
 			event_doc = frappe.get_doc("Event", self.event)
 			starts_on = datetime.datetime.combine(
-				getdate(self.appointment_date), get_time(self.appointment_time)
+				getdate(self.appointment_date), get_time(self.appointment_time or "00:00")
 			)
 			ends_on = starts_on + datetime.timedelta(minutes=flt(self.duration))
 			if (

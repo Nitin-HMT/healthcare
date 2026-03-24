@@ -28,6 +28,11 @@ const routes = [
     path: "/pd/:pat_id",
     component: () => import("@/pages/PatientDashboard.vue"),
   },
+  {
+    name: "billing",
+    path: "/billing",
+    component: () => import("@/pages/Billing.vue"),
+  },
   // {
   //   name: 'Labs',
   //   path: '/labs',

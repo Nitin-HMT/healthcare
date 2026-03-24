@@ -10,7 +10,7 @@
   γ 7. break the patient interaction code into smaller pieces.<br/>
  -->
   <div
-    class="flex-grow border pt-2 text-sm bg-white rounded-b-lg border-x-8 border-teal-50"
+    class="h-full flex flex-col overflow-hidden border pt-2 text-sm bg-white rounded-b-lg border-x-8 border-teal-50"
   >
     <!-- <Progress
       size="md"
@@ -22,7 +22,7 @@
       v-if="false"
     /> -->
     <!-- Custom Progress Bar -->
-    <div class="px-20 pb-1 rounded-full">
+    <div class="flex-none px-20 pb-1 rounded-full">
     <div class="h-1 w-full bg-gray-200 rounded-full overflow-hidden">
     <div
       :style="{ width: submit_progress+ '%' }"
@@ -30,7 +30,7 @@
     ></div>
   </div></div>
     <!--Structured Notes -->
-    <div class="px-2">
+    <div class="flex-1 min-h-0 overflow-y-auto px-2">
       <div class="text-base font-semibold pb-1">Interaction Notes</div>
       <div class="col-span-1 grid grid-cols-4 gap-2 gap-x-3 tracking-wide" :key="result_grouped">
         <!-- Unknown Terms Display -->
@@ -396,7 +396,7 @@
         </div>
       </div>
 
-      <div class="m-3 flex flex-grow items-end justify-end pr-8 gap-x-2">
+      <div class="m-3 flex items-end justify-end pr-8 gap-x-2">
         <!-- <div class="py-2 text-sm grid grid-cols-1">{{interaction.notes}}</div> 
               v-if="!stop_submit"
              -->
@@ -438,6 +438,7 @@
     </div>
     <!-- Chat Window & Submission -->
     <!-- Chat Window -->
+     <div class="flex-none max-h-[45vh] overflow-y-auto">
     <div v-if="!interaction_flag">
       <OPDButtons
         :Pat_id="pat_id"
@@ -569,7 +570,9 @@
               </Popover>
             </div>
             <div
-              class="flex flex-grow items-center justify-center rounded-md hover:bg-teal-800/70 bg-teal-800 text-white text-base"
+              class="flex flex-grow items-center justify-center rounded-md 
+  border border-teal-800 text-teal-800 bg-white 
+  hover:bg-teal-800 hover:text-white text-base cursor-pointer"
               @click="
                 chat_Append(interaction.chat);
                 review = true;
@@ -578,12 +581,12 @@
               Confirm
             </div>
           </div>
-          <div v-if="true"
+          <div v-if="false"
             class="text-xs text-gray-600 font-light font-mono mt-2 flex items-end justify-end"
           >
             {{ interaction.notes }}
           </div>
-          <div v-if="true"
+          <div v-if="false"
             class="text-xs text-gray-600 font-light font-mono mt-2 flex items-end justify-end"
           >
             Hx-> {{ interaction.history }}
@@ -594,9 +597,9 @@
     </div>
     <!-- Submission -->
     <div
-      v-else
-      class="grid grid-cols-3 gap-x-3 gap-y-2 p-2 border-b-8 border-teal-50 bg-blue-50/30"
-    >
+  v-else
+  class="grid grid-cols-3 gap-x-3 gap-y-2 p-2 border-b-8 border-teal-50 bg-blue-50/30 max-h-48 overflow-y-auto"
+>
       <div
         class="font-bold text-teal-700 text-lg col-span-3 flex items-center justify-center"
       >
@@ -707,6 +710,7 @@ A blank form with your Impressions will print for manual entry."
         message="Error: To Move Ahead- <br/>Please switch off the confirm transcription<br/> and complete submission, we will review it further"
         v-if="error_interaction"
       />
+    </div>
     </div>
   </div>
 

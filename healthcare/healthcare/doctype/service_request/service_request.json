@@ -528,6 +528,7 @@
    "read_only": 1
   }
  ],
+ "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [
@@ -544,7 +545,7 @@
    "link_fieldname": "service_request"
   }
  ],
- "modified": "2024-01-09 13:03:51.377653",
+ "modified": "2026-03-22 16:47:50.904805",
  "modified_by": "Administrator",
  "module": "Healthcare",
  "name": "Service Request",
@@ -597,10 +598,11 @@
   }
  ],
  "restrict_to_domain": "Healthcare",
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
  "search_fields": "patient, order_group",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "title",
- "track_changes": 1
+ "title_field": "title"
 }

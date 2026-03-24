@@ -33,12 +33,13 @@ export const useAppointmentStore = defineStore("appointments", () => {
     filters: {
       //status: ["in","Open,Confirmed,Scheduled"],
       status: ["in", "Open,Confirmed,Scheduled,Checked In,Checked Out,Closed"],
-      appointment_date: dayjs().format("L LT"),
+      appointment_date: dayjs().format('YYYY-MM-DD'),
     },
     orderBy: "creation asc",
     auto: false,
     realtime: true,
     transform(data) {
+      
       appointments.value.splice(0);
       vitals_pending.value.splice(0);
       payment_pending.value.splice(0);
@@ -155,8 +156,8 @@ export const useAppointmentStore = defineStore("appointments", () => {
           let value = d.patient;
           let full_string = d;
           let name = d.name;
-          let refer = d.referring_practitioner.split("-");
-          let refering_dr = refer[0];
+          // let refer = d.referring_practitioner?.split("-");
+          // let refering_dr = refer[0];
           let pt = { label: label, value: value, full_string: full_string };
           // if(d.fee_valid){
           //   followup_pending.value.push({"name":name,"pat_id": d.patient,"patient": d.patient_name,
@@ -177,7 +178,7 @@ export const useAppointmentStore = defineStore("appointments", () => {
               pay_mode: d.mode_of_payment,
               status: d.status,
               age: d.patient_age,
-              refer: refering_dr,
+              //refer: refering_dr,
             });
           } else {
             payment_complete.value.push({
@@ -192,7 +193,7 @@ export const useAppointmentStore = defineStore("appointments", () => {
               pay_mode: d.mode_of_payment,
               status: d.status,
               age: d.patient_age,
-              refer: refering_dr,
+              //refer: refering_dr,
             });
           }
         }

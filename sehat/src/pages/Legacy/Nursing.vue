@@ -103,7 +103,7 @@ let appointments_x=createListResource({
   filters:{
     status: ["in","Open,Scheduled"],
   patient: sel_pat.details.name,
-  appointment_date: dayjs().format('L LT'), 
+  appointment_date: dayjs().format('YYYY-MM-DD'), 
 },
 orderBy: 'modified asc',
   auto: true,

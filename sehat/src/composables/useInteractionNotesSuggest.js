@@ -203,8 +203,6 @@ export function suggest() {
             if (x[nt]) {
               let a_sym = library.sym_map.get(x[nt]);
               if (a_sym) all_search.value.push(a_sym);
-              let a_med = library.meds_form_map.get(x[nt]);
-              if (a_med) all_search.value.push(a_med);
               let a_lab = library.lab_map.get(x[nt]);
               if (a_lab) all_search.value.push(a_lab);
               let a_diag = library.diag_map.get(x[nt]);
@@ -213,6 +211,8 @@ export function suggest() {
               if (a_surg) all_search.value.push(a_surg);
               let a_aller = library.all_allergy.get(x[nt]);
               if (a_aller) all_search.value.push(a_aller);
+              let a_med = library.meds_form_map.get(x[nt]);
+              if (a_med) all_search.value.push(a_med);
             }
           }
         }

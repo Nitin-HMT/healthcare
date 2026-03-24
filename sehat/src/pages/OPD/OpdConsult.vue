@@ -1,15 +1,20 @@
 <template>
-  <!-- {{ route.name }} -->
-  <div class="hidden md:flex flex-grow" :key="app_id">
-    <div class="flex-grow m-1.5">
-      <div class="bg-white rounded-md drop-shadow-md">
-        <div class="bg-teal-50 rounded-t-md ">
+  <div class="hidden md:flex h-screen overflow-hidden flex-grow" :key="app_id">
+    <div class="flex-grow m-1.5 flex flex-col min-h-0 overflow-hidden">
+      
+      <!-- Patient Panel — fixed height, never moves -->
+      <div class="flex-none bg-white rounded-t-md drop-shadow-md">
+        <div class="bg-teal-50 rounded-t-md">
           <PatientPanel
             :Pat_id="pat_id"
             :Request_from="route.name"
             class="mx-3"
           />
         </div>
+      </div>
+
+      <!-- Interaction — takes remaining height, handles its own scroll -->
+      <div class="flex-1 min-h-0 overflow-hidden bg-white drop-shadow-md">
         <Interaction
           :Pat_id="pat_id"
           :App_id="app_id"
@@ -17,17 +22,19 @@
           :Request_from="route.name"
         />
       </div>
-      <MoreInformation
+
+      <!-- More Information — below, only shows if needed -->
+      <div class="flex-none" v-if="userStore.pay_settings">
+        <MoreInformation
           :Pat_id="pat_id"
           :App_id="app_id"
           Collapse="true"
           :Request_from="route.name"
-          v-if="userStore.pay_settings"
         />
+      </div>
+
     </div>
   </div>
-
-
 </template>
 <script setup>
 import { useRoute } from "vue-router";

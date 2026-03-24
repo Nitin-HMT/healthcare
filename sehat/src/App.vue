@@ -23,13 +23,13 @@ library.refresh_library();}
 </script>
 
 <template>
-  <div class="flex bg-gray-50">
+  <div class="flex h-screen overflow-hidden bg-gray-50">
     <Sidebar v-if="user.name"/>
     
     <div
-      class="flex-1 min-h-screen bg-gray-50 transition-all duration-300"
+      class="flex-1 h-screen overflow-hidden bg-gray-50 flex flex-col transition-all duration-300"
       :class="[
-        'ml-0', // default for mobile
+        'ml-0',
         {
           'md:ml-16': ui.isSidebarCollapsed,
           'md:ml-64': !ui.isSidebarCollapsed,
@@ -37,10 +37,10 @@ library.refresh_library();}
       ]"
     >
       <PageHeader v-if="user.name"/>
-      <div v-else class=" text-xs text-teal-700 pt-2">Welcome {{user.name}}!! </div>
-      <!-- <div class="pt-20">{{ user.avatar.length }}</div> -->
-      <RouterView class="mt-14" />
-
+      <div v-else class="text-xs text-teal-700 pt-2">Welcome {{user.name}}!!</div>
+      
+      <!-- RouterView takes remaining height after header -->
+      <RouterView class="mt-14 flex-1 min-h-0 overflow-hidden" />
     </div>
   </div>
   

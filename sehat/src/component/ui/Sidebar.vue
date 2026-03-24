@@ -52,9 +52,11 @@
       />
       <!-- v-if="userStore.role.includes('OPD Doctor')" -->
       <SidebarItem
-        v-if="false"
+        v-if="
+          userStore.role.includes('Sales Manager')
+        "
         :icon="Coins"
-        label="Plan"
+        label="Pharmacy"
         to="/billing"
         :collapsed="ui.isSidebarCollapsed"
       />
