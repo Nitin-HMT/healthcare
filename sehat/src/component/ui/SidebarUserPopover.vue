@@ -1,26 +1,7 @@
 <template>
   <div>
     <Dropdown
-      :options="[
-        // {
-        //   label: 'Switch to Desk',
-        //   onClick: () => {
-        //     reDirect();
-        //   },
-        // },
-        // {
-        //   label: 'Settings',
-        //   onClick: () => {
-        //     reDirect();
-        //   },
-        // },
-        {
-          label: 'Logout',
-          onClick: () => {
-            session.logout.submit();
-          },
-        },
-      ]"
+      :options
     >
       <Button class="bg-white rounded-full">
         <template #icon>
@@ -56,8 +37,41 @@ const props = defineProps({
 
 const router = useRouter();
 const user = useUserStore();
+const options = [
+        // {
+        //   label: 'Open Sales',
+        //   onClick: () => {
+        //     reDirect();
+        //   },
+        // },
+        // {
+        //   label: 'Settings',
+        //   onClick: () => {
+        //     reDirect();
+        //   },
+        // },
+        {
+          label: 'Logout',
+          onClick: () => {
+            session.logout.submit();
+          },
+        },
+      
+]
+if(user.role.includes('Sales Manager')){
+  options.unshift({
+          label: 'Open Sales',
+          onClick: () => {
+            reDirect();
+          },
+        })
+}
 
 function reDirect() {
-  window.location.href = "/app";
+ // window.location.href = "/app";
+ if(user.role.includes('Sales Manager')){
+  window.open("/app", '_blank', 'noreferrer');
+ }
+   
 }
 </script>

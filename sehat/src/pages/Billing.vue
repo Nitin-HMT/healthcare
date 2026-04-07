@@ -1,20 +1,20 @@
 <template>
-    <div class="hidden md:flex flex-col pt-15 text-xs text-red-600">
+    <div class="hidden md:flex flex-col text-xs text-red-600">
          Demo
         <!--{{posUrl}} -->
     </div>
     
-    <div class="h-full">
+    <!-- <div class="h-full">
         <iframe
         ref="posFrame"
         :src="posUrl"
         frameborder="0"
         allowfullscreen/>
-    </div>
+    </div> -->
 </template>
-<script setup>
+<!-- <script setup>
 const posUrl =`${window.location.origin}/desk/point-of-sale`
-</script>
+</script> -->
 <style scoped>
 .billing-wrapper {
     position: fixed;

@@ -53,7 +53,7 @@
       <!-- v-if="userStore.role.includes('OPD Doctor')" -->
       <SidebarItem
         v-if="
-          userStore.role.includes('Sales Manager')
+          userStore.role.includes('Sales Manager') && false
         "
         :icon="Coins"
         label="Pharmacy"

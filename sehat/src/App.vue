@@ -40,7 +40,7 @@ library.refresh_library();}
       <div v-else class="text-xs text-teal-700 pt-2">Welcome {{user.name}}!!</div>
       
       <!-- RouterView takes remaining height after header -->
-      <RouterView class="mt-14 flex-1 min-h-0 overflow-hidden" />
+      <RouterView class="mt-14 min-h-0 overflow-hidden" />
     </div>
   </div>
   
