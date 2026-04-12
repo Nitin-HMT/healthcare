@@ -7,20 +7,21 @@
       class="bg-teal-50 text-xs hover:bg-gradient-to-b from-teal-200 via-teal-50 to-teal-50 rounded-t-xl rounded-none"
       ><span>+ Vitals</span></Button
     >
-    <Button
-      @click="med_hist_dialog = true"
-      class="bg-teal-50 text-xs hover:bg-gradient-to-b from-teal-200 via-teal-50 to-teal-50 rounded-t-xl rounded-none"
-      ><span>Medical History</span></Button
-    >
-    <Button
+    
+    <!-- <Button
       @click="pay_hit_dialog = true"
       class="bg-teal-50 text-xs hover:bg-gradient-to-b from-teal-200 via-teal-50 to-teal-50 rounded-t-xl rounded-none"
       ><span>Payment History</span></Button
-    >
+    > -->
     <Button
       @click="vital_dialog = true"
       class="bg-teal-50 text-xs hover:bg-gradient-to-b from-teal-200 via-teal-50 to-teal-50 rounded-t-xl rounded-none"
       ><span>Vitals History</span></Button
+    >
+    <Button
+      @click="med_hist_dialog = true"
+      class="bg-teal-50 text-xs hover:bg-gradient-to-b from-teal-200 via-teal-50 to-teal-50 rounded-t-xl rounded-none"
+      ><span>Medical History</span></Button
     >
     <!-- <Button @click="lab_dialog=true;create_new=false" class="bg-teal-50 text-xs hover:bg-gradient-to-b from-teal-200 via-teal-50 to-teal-50  rounded-t-xl rounded-none"><span>Lab History</span></Button> -->
     <!-- <Button @click="lab_dialog=true;create_new=true" class="bg-teal-50 text-xs hover:bg-gradient-to-b from-teal-200 via-teal-50 to-teal-50  rounded-t-xl rounded-none"><span>+ Labs</span></Button> -->
