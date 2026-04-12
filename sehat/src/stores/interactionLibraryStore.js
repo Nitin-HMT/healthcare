@@ -32,14 +32,14 @@ export const useinteractionLibraryStore = defineStore("library", () => {
       data.forEach((d) => {
         full_map.value.set(
           d.complaints
-            .trim()
+            ?.trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
           ["Symptoms", d.complaints],
         );
         sym_map.value.set(
           d.complaints
-            .trim()
+            ?.trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
           ["Symptoms", d.complaints],
@@ -56,7 +56,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
       for (let d of data) {
         dosage_form.value.set(
           d.name
-            .trim()
+            ?.trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
           d.name,
@@ -82,14 +82,14 @@ export const useinteractionLibraryStore = defineStore("library", () => {
       data.forEach((d) => {
         full_map.value.set(
           d.diagnosis
-            .trim()
+            ?.trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
           ["Diagnosis", d.diagnosis, d.lifestyle_advise,d.diagnosis],
         );
         diag_map.value.set(
           d.diagnosis
-            .trim()
+            ?.trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
           ["Diagnosis", d.diagnosis, d.lifestyle_advise,d.diagnosis],
@@ -110,14 +110,14 @@ export const useinteractionLibraryStore = defineStore("library", () => {
       data.forEach((d) => {
         full_map.value.set(
           d.lab_test_name
-            .trim()
+            ?.trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
           ["labs", d.name, d.lab_test_name],
         );
         lab_map.value.set(
           d.lab_test_name
-            .trim()
+            ?.trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
           ["labs", d.name, d.lab_test_name],
@@ -138,7 +138,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
       data.forEach((d, index, array) => {
         full_map.value.set(
           d.medicine_brand
-            .trim()
+            ?.trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
           [
@@ -154,7 +154,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
         );
         meds_map.value.set(
           d.medicine_brand
-            .trim()
+            ?.trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
           [
@@ -170,10 +170,10 @@ export const useinteractionLibraryStore = defineStore("library", () => {
         );
         meds_form_map.value.set(
             d.medicine_brand
-              .trim()
+              ?.trim()
               .toLowerCase()
               .replace(/[^a-zA-Z0-9]/g, "")+
-              d.dosage_form.trim().toLowerCase(),
+              d.dosage_form?.trim().toLowerCase(),
           [
             "Meds",
             d.name,
@@ -207,14 +207,14 @@ export const useinteractionLibraryStore = defineStore("library", () => {
       data.forEach((d) => {
         full_map.value.set(
           d.template
-            .trim()
+            ?.trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
           ["surg", d.name, d.template],
         );
         surg_map.value.set(
           d.template
-            .trim()
+            ?.trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
           ["surg", d.name, d.template],
@@ -231,7 +231,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
       for (let d of data) {
         med_dosage.value.set(
           d.dosage
-            .trim()
+            ?.trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
           d.dosage,
@@ -257,14 +257,14 @@ export const useinteractionLibraryStore = defineStore("library", () => {
       for (let d of data) {
         full_map.value.set(
           d.name
-            .trim()
+            ?.trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
           ["Allergy", d.name],
         );
         all_allergy.value.set(
           d.name
-            .trim()
+            ?.trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
           ["Allergy", d.name],
@@ -272,20 +272,20 @@ export const useinteractionLibraryStore = defineStore("library", () => {
         if (d.name.toLowerCase().includes("allergy")) {
           full_map.value.set(
             d.name
-              .trim()
+              ?.trim()
               .toLowerCase()
               .replace("allergy", "")
               .replace(/[^a-zA-Z0-9]/g, "")
-              .trim(),
+              ?.trim(),
             ["Allergy", d.name],
           );
           all_allergy.value.set(
             d.name
-              .trim()
+              ?.trim()
               .toLowerCase()
               .replace("allergy", "")
               .replace(/[^a-zA-Z0-9]/g, "")
-              .trim(),
+              ?.trim(),
             ["Allergy", d.name],
           );
         }
@@ -301,7 +301,7 @@ export const useinteractionLibraryStore = defineStore("library", () => {
       for (let d of data) {
         med_duration.value.set(
           d.name
-            .trim()
+            ?.trim()
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]/g, ""),
           d.name,

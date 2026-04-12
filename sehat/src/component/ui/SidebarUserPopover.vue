@@ -58,7 +58,7 @@ const options = [
         },
       
 ]
-if(user.role.includes('Sales Manager')){
+if(user.role.includes('Purchase User')){
   options.unshift({
           label: 'Open Sales',
           onClick: () => {
@@ -69,7 +69,7 @@ if(user.role.includes('Sales Manager')){
 
 function reDirect() {
  // window.location.href = "/app";
- if(user.role.includes('Sales Manager')){
+ if(user.role.includes('Purchase User')){
   window.open("/app", '_blank', 'noreferrer');
  }
    
